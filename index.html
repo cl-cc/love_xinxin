@@ -358,6 +358,21 @@
         font-weight: 900;
         cursor: pointer;
       }
+      .resume-history-export {
+        border: 1px solid #86efac;
+        border-radius: 999px;
+        background: #f0fdf4;
+        color: #166534;
+        padding: 7px 10px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .resume-history-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
       .resume-history-list {
         padding: 8px;
       }
@@ -1215,7 +1230,10 @@
           <div class="resume-history">
             <div class="resume-history-head">
               <div class="resume-history-title">本地简历分析记录</div>
-              <button id="clearAllCacheBtn" class="resume-history-clear" type="button">一键清理缓存</button>
+              <div class="resume-history-actions">
+                <button id="exportExcelBtn" class="resume-history-export" type="button">一键导出 Excel</button>
+                <button id="clearAllCacheBtn" class="resume-history-clear" type="button">一键清理缓存</button>
+              </div>
             </div>
             <div id="resumeHistoryList" class="resume-history-list"></div>
           </div>
@@ -1959,6 +1977,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script>
       function highlightImportantTableColumns() {
         document.querySelectorAll('table').forEach(table => {
@@ -1987,6 +2006,7 @@
       const resumeFileInput = document.getElementById('resumeFile');
       const analyzeResumeBtn = document.getElementById('analyzeResumeBtn');
       const clearAllCacheBtn = document.getElementById('clearAllCacheBtn');
+      const exportExcelBtn = document.getElementById('exportExcelBtn');
       const resumeHistoryList = document.getElementById('resumeHistoryList');
       const resumeStatus = document.getElementById('resumeStatus');
       const analysisLoading = document.getElementById('analysisLoading');
@@ -2256,6 +2276,125 @@
         if (analysisModal) analysisModal.classList.remove('active');
         renderResumeHistory();
         setResumeStatus('本地缓存已清理。', 'success');
+      }
+
+      function fallback(value) {
+        if (value === undefined || value === null) return '/';
+        const text = String(value).trim();
+        return text || '/';
+      }
+
+      function findTextByPatterns(text, patterns) {
+        const source = text || '';
+        for (const pattern of patterns) {
+          const match = source.match(pattern);
+          if (match?.[1]) return match[1].trim();
+        }
+        return '';
+      }
+
+      function getAnalysisText(record) {
+        const analysis = record.analysis || {};
+        return [
+          JSON.stringify(analysis),
+          record.resumeText || '',
+          record.interviewSummary || '',
+          record.interviewReport || '',
+        ].join('\n');
+      }
+
+      function inferEducation(record) {
+        const text = getAnalysisText(record);
+        if (/硕士|研究生/.test(text)) return '硕士';
+        if (/本科/.test(text)) return '本科';
+        if (/大专|专科/.test(text)) return '专科';
+        if (/高中|中专/.test(text)) return '中专';
+        return '/';
+      }
+
+      function inferSchool(record) {
+        return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [
+          /([\u4e00-\u9fa5A-Za-z]{2,30}(?:大学|学院|职业技术学院|职业学院))/,
+        ]));
+      }
+
+      function inferMajor(record) {
+        return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [
+          /专业[:：\s]*([\u4e00-\u9fa5A-Za-z0-9（）()]{2,30})/,
+          /([\u4e00-\u9fa5A-Za-z0-9]{2,20}(?:专业))/,
+        ]));
+      }
+
+      function inferConclusion(record) {
+        const decision = record.analysis?.recommendation?.decision || '';
+        const report = record.interviewReport || '';
+        if (/不建议|暂不推进|结束流程|不通过/.test(`${decision}\n${report}`)) return '不通过';
+        if (/谨慎/.test(decision)) return '待定';
+        if (/建议|通过|推进/.test(`${decision}\n${report}`)) return '通过';
+        return '/';
+      }
+
+      function inferPosition(record) {
+        return fallback(getTopPositionName(record.analysis));
+      }
+
+      function buildInterviewSummaryForExcel(record) {
+        const analysis = record.analysis || {};
+        const strengths = asArray(analysis.strengths).map(item => item.item || item.evidence).filter(Boolean).slice(0, 3);
+        const weaknesses = asArray(analysis.weaknesses).map(item => item.item || item.evidence).filter(Boolean).slice(0, 3);
+        const questions = asArray(analysis.interviewQuestions).map(item => item.question).filter(Boolean).slice(0, 3);
+        const recommendation = analysis.recommendation?.reason || '';
+        const lines = [];
+        if (strengths.length) lines.push(`优势：${strengths.join('；')}`);
+        if (weaknesses.length) lines.push(`不足/风险：${weaknesses.join('；')}`);
+        if (recommendation) lines.push(`结论：${recommendation}`);
+        if (questions.length) lines.push(`建议追问：${questions.join('；')}`);
+        return fallback(lines.join('\n'));
+      }
+
+      function buildExcelRows(records) {
+        return records.map(record => ({
+          '姓名': fallback(record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : ''),
+          '学历': inferEducation(record),
+          '学校': inferSchool(record),
+          '专业': inferMajor(record),
+          '应聘部门': '/',
+          '应聘岗位': inferPosition(record),
+          '测试': '/',
+          '面试': '/',
+          '终审结果': inferConclusion(record),
+          '招聘渠道': '/',
+          '人事专员': '/',
+          '人才等级': fallback(record.analysis?.matchedPositions?.[0]?.matchLevel),
+          '意向程度': '/',
+          '可入职': '/',
+          '面试记录表格': buildInterviewSummaryForExcel(record),
+          '备注': fallback(record.interviewReport || record.analysis?.recommendation?.reason),
+          '面试类型': '线上一面',
+        }));
+      }
+
+      function exportHistoryToExcel() {
+        if (!window.XLSX) {
+          setResumeStatus('Excel 导出库加载失败，请刷新页面后重试。', 'error');
+          return;
+        }
+        const records = loadAnalysisHistory();
+        if (!records.length) {
+          setResumeStatus('暂无本地简历分析记录，无法导出 Excel。', 'error');
+          return;
+        }
+
+        const rows = buildExcelRows(records);
+        const ws = window.XLSX.utils.json_to_sheet(rows);
+        ws['!cols'] = Object.keys(rows[0]).map(key => ({
+          wch: key === '面试记录表格' || key === '备注' ? 42 : 12,
+        }));
+        const wb = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(wb, ws, '面试记录');
+        const dateText = new Date().toISOString().slice(0, 10);
+        window.XLSX.writeFile(wb, `面试记录-${dateText}.xlsx`);
+        setResumeStatus('Excel 已导出。', 'success');
       }
 
       function getDeepSeekKeyFromUrl() {
@@ -2830,6 +2969,10 @@ ${limitText(interviewSummary, 6000)}`;
 
       if (clearAllCacheBtn) {
         clearAllCacheBtn.addEventListener('click', clearAllLocalCache);
+      }
+
+      if (exportExcelBtn) {
+        exportExcelBtn.addEventListener('click', exportHistoryToExcel);
       }
 
       if (analysisModalClose) {
