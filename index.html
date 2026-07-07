@@ -71,9 +71,6 @@ a { color: inherit; text-decoration: none; }
 .search-result-title { font-weight: 800; color: #1f2937; margin-bottom: 3px; }
 .search-result-snippet { font-size: 13px; color: var(--muted); line-height: 1.45; }
 .search-empty { padding: 12px; color: var(--muted); }
-.side-search { position: relative; margin: 10px 0 14px; }
-.side-search input { width: 100%; border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 12px; padding: 10px 11px; font-size: 13px; outline: none; }
-.side-search .search-results { top: calc(100% + 6px); max-height: 300px; }
 .active-search-target { outline: 3px solid #f59e0b; background: #fffbeb !important; border-radius: 10px; scroll-margin-top: 90px; transition: background .2s ease, outline .2s ease; }
 mark.search-hit { background: #fde68a; color: #7c2d12; padding: 0 2px; border-radius: 4px; }
 
@@ -99,18 +96,49 @@ th:last-child, td:last-child { border-right: 0; }
 tr:last-child td { border-bottom: 0; }
 th { background: #eaf2ff; color: #17335f; font-weight: 800; }
 tr:nth-child(even) td { background: #fbfdff; }
+.important-head { background: #fff7ed; color: #9a3412; border-bottom: 2px solid #fdba74; }
+.risk-head { background: #fef2f2; color: #b91c1c; border-bottom: 2px solid #fca5a5; }
+.important-cell { background: #fffaf0 !important; color: #7c2d12; font-weight: 650; }
+.risk-cell { background: #fff5f5 !important; color: #7f1d1d; font-weight: 650; }
+.highlight-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-weight: 900;
+}
+.risk-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 900;
+}
 .red, span[style*="color:red"] { color: var(--red) !important; font-weight: 800; }
 code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px; }
-.flow-wrap { padding: 6px 0 4px; }
-.flow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
-.flow-card { position: relative; min-height: 118px; border: 1px solid #bfdbfe; border-radius: 18px; background: linear-gradient(180deg, #ffffff, #eff6ff); padding: 16px; box-shadow: 0 10px 22px rgba(37,99,235,.08); }
-.flow-card:not(:nth-child(4n))::after { content: '→'; position: absolute; right: -13px; top: 42%; transform: translateY(-50%); color: var(--blue); font-weight: 900; font-size: 20px; z-index: 2; }
-.flow-num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 999px; background: var(--blue); color: white; font-weight: 800; margin-bottom: 8px; }
-.flow-card strong { display: block; font-size: 15px; margin-bottom: 4px; }
+.flow-wrap { padding: 16px; border-radius: 24px; background: linear-gradient(135deg, #eef6ff, #ffffff 48%, #fff7ed); border: 1px solid #dbeafe; }
+.flow-intro { margin: 0 0 14px; color: #475569; font-size: 14px; }
+.flow-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.flow-card { position: relative; min-height: 132px; border: 1px solid #dbeafe; border-radius: 20px; background: rgba(255,255,255,.9); padding: 16px; box-shadow: 0 12px 28px rgba(15,23,42,.06); overflow: hidden; }
+.flow-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, #2563eb, #38bdf8); }
+.flow-card { grid-column: span 2; }
+.flow-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; background: #eff6ff; color: var(--blue); font-weight: 900; margin-bottom: 10px; box-shadow: inset 0 0 0 1px #bfdbfe; }
+.flow-card strong { display: block; font-size: 16px; margin-bottom: 6px; color: #172033; }
 .flow-card p { margin: 0; color: #475569; font-size: 13px; line-height: 1.55; }
-.flow-card.decision { border-color: #fbbf24; background: linear-gradient(180deg, #fff, #fffbeb); }
-.flow-card.good { border-color: #86efac; background: linear-gradient(180deg, #fff, #f0fdf4); }
-.flow-card.bad { border-color: #fecaca; background: linear-gradient(180deg, #fff, #fef2f2); }
+.flow-card.decision { grid-column: span 6; min-height: auto; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; border-color: #fbbf24; background: linear-gradient(90deg, #fff7ed, #ffffff); }
+.flow-card.decision::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.flow-card.decision .flow-num { margin-bottom: 0; background: #fffbeb; color: #b45309; box-shadow: inset 0 0 0 1px #fbbf24; }
+.flow-card.good, .flow-card.bad { grid-column: span 3; min-height: 116px; }
+.flow-card.good { border-color: #86efac; background: linear-gradient(180deg, #ffffff, #f0fdf4); }
+.flow-card.good::before { background: linear-gradient(90deg, #16a34a, #86efac); }
+.flow-card.good .flow-num { background: #dcfce7; color: #15803d; box-shadow: inset 0 0 0 1px #86efac; }
+.flow-card.bad { border-color: #fecaca; background: linear-gradient(180deg, #ffffff, #fef2f2); }
+.flow-card.bad::before { background: linear-gradient(90deg, #dc2626, #fca5a5); }
+.flow-card.bad .flow-num { background: #fee2e2; color: #b91c1c; box-shadow: inset 0 0 0 1px #fca5a5; }
 .tip-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
 .tip { border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 14px; }
 .tip b { color: var(--blue); }
@@ -125,7 +153,8 @@ code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px
   .hero h1 { font-size: 26px; }
   .section { padding: 18px 16px; border-radius: 18px; }
   .flow-grid { grid-template-columns: 1fr; }
-  .flow-card::after { display: none; }
+  .flow-card, .flow-card.decision, .flow-card.good, .flow-card.bad { grid-column: auto; }
+  .flow-card.decision { grid-template-columns: 1fr; }
   .tip-grid { grid-template-columns: 1fr; }
   table { font-size: 13px; }
 }
@@ -158,10 +187,6 @@ code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px
   <aside class="sidebar">
     <div class="nav-title">快捷导航</div>
     <div class="nav-sub">点击可跳转到对应章节</div>
-    <div class="side-search">
-      <input id="sideSearch" type="search" placeholder="搜索并跳转">
-      <div id="sideSearchResults" class="search-results"></div>
-    </div>
     <nav class="nav"><a class="h2" href="#1-HR-初面整体流程">1. HR 初面整体流程</a>
 <a class="h2" href="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</a>
 <a class="h2" href="#3-简历筛选重点">3. 简历筛选重点</a>
@@ -218,19 +243,31 @@ code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px
     </header>
     <section class="section" id="1-HR-初面整体流程">
 <h2>1. HR 初面整体流程</h2>
-<div class="flow-wrap"><div class="flow-grid"><div class="flow-card "><span class="flow-num">1</span><strong>开始面试</strong><p>确认在职状态、到岗时间、期望薪资</p></div><div class="flow-card "><span class="flow-num">2</span><strong>确认岗位方向</strong><p>平台、站点、品类</p></div><div class="flow-card "><span class="flow-num">3</span><strong>追问业务体量</strong><p>SKU、月销售额、广告预算、团队规模</p></div><div class="flow-card "><span class="flow-num">4</span><strong>追问实际权限</strong><p>广告、价格、活动、补货、复盘</p></div><div class="flow-card "><span class="flow-num">5</span><strong>追问真实案例</strong><p>增长、下滑、断货、广告亏损、账号风险</p></div><div class="flow-card decision"><span class="flow-num">6</span><strong>判断</strong><p>是否能说出数据和动作？</p></div><div class="flow-card good"><span class="flow-num">7</span><strong>能说清</strong><p>推荐业务复试，备注重点数据和待考察点</p></div><div class="flow-card bad"><span class="flow-num">8</span><strong>说不清</strong><p>谨慎推荐或淘汰，备注回答空泛/数据缺失</p></div></div></div>
+<div class="flow-wrap">
+  <p class="flow-intro">先拿基础匹配信息，再追真实业务动作，最后判断是否值得推荐业务复试。</p>
+  <div class="flow-grid">
+    <div class="flow-card"><span class="flow-num">1</span><strong>开始面试</strong><p>确认在职状态、到岗时间、期望薪资。</p></div>
+    <div class="flow-card"><span class="flow-num">2</span><strong>确认岗位方向</strong><p>问清平台、站点、品类，先判断岗位是否匹配。</p></div>
+    <div class="flow-card"><span class="flow-num">3</span><strong>追问业务体量</strong><p>拿到 SKU、月销售额、广告预算、团队规模。</p></div>
+    <div class="flow-card"><span class="flow-num">4</span><strong>追问实际权限</strong><p>确认广告、价格、活动、补货、复盘是不是本人负责。</p></div>
+    <div class="flow-card"><span class="flow-num">5</span><strong>追问真实案例</strong><p>重点听增长、下滑、断货、广告亏损、账号风险。</p></div>
+    <div class="flow-card decision"><span class="flow-num">6</span><div><strong>核心判断</strong><p>候选人是否能说出清楚的数据、动作、结果和复盘？</p></div></div>
+    <div class="flow-card good"><span class="flow-num">✓</span><strong>能说清</strong><p>推荐业务复试，并备注重点数据和待考察点。</p></div>
+    <div class="flow-card bad"><span class="flow-num">!</span><strong>说不清</strong><p>谨慎推荐或淘汰，备注回答空泛、数据缺失。</p></div>
+  </div>
+</div>
 </section><section class="section" id="2-面试前-10-分钟必须问清楚">
 <h2>2. 面试前 10 分钟必须问清楚</h2>
 <table>
-<tr><th>面试问题</th><th>HR 要拿到什么信息</th><th>靠谱回答长什么样</th><th>风险信号</th></tr>
-<tr><td>你上一份主要负责哪个平台？哪些站点？</td><td>亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚，独立站面向美国/欧洲等</td><td>“亚马逊美国站，家居类目，FBA 为主”</td><td>只说“跨境平台都做过”，但说不出最熟站点</td></tr>
-<tr><td>你负责什么品类？主要产品是什么？</td><td>家居、宠物、户外、3C、服饰、美妆、工具、母婴等</td><td>“宠物用品，主做宠物饮水机和猫砂垫，价格带 20-50 美金”</td><td>只说“杂货”“精品”，没有具体产品</td></tr>
-<tr><td>你负责多少 SKU？核心 SKU 有几个？</td><td>是铺货型，还是精品型</td><td>“负责 80 个 SKU，核心 SKU 8 个”</td><td>完全说不清 SKU 数量</td></tr>
-<tr><td>月销售额或 GMV 大概多少？</td><td>业务体量，便于部门判断匹配度</td><td>“月销售额 20-30 万美金”或“月 GMV 50 万人民币左右”</td><td>只说“还可以”“比较稳定”</td></tr>
-<tr><td>每月广告预算多少？主要看什么指标？</td><td>是否真的接触广告</td><td>“广告月花费 3-5 万美金，看 ACOS、CPC、CTR、CVR”</td><td>说做广告，但不知道基本指标</td></tr>
-<tr><td>你是独立负责还是协助？有哪些权限？</td><td>区分主运营、运营助理、执行岗</td><td>“我能调广告、报活动、提补货建议，价格要主管确认”</td><td>所有事情都是“团队做的”</td></tr>
-<tr><td>你做过最成功的案例是什么？</td><td>过程和结果</td><td>“通过关键词和图片优化，某 SKU 转化率从 8% 到 11%”</td><td>只有结论，没有动作和数据</td></tr>
-<tr><td>遇到过最棘手的问题是什么？</td><td>解决问题能力</td><td>能讲断货、差评、侵权、广告亏损、达人不发视频、网站转化低等</td><td>只说“加大推广”“优化一下”</td></tr>
+<tr><th>面试问题</th><th class="important-head"><span class="highlight-label">HR 要拿到什么信息</span></th><th>靠谱回答长什么样</th><th class="risk-head"><span class="risk-label">风险信号</span></th></tr>
+<tr><td>你上一份主要负责哪个平台？哪些站点？</td><td class="important-cell">亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚，独立站面向美国/欧洲等</td><td>“亚马逊美国站，家居类目，FBA 为主”</td><td class="risk-cell">只说“跨境平台都做过”，但说不出最熟站点</td></tr>
+<tr><td>你负责什么品类？主要产品是什么？</td><td class="important-cell">家居、宠物、户外、3C、服饰、美妆、工具、母婴等</td><td>“宠物用品，主做宠物饮水机和猫砂垫，价格带 20-50 美金”</td><td class="risk-cell">只说“杂货”“精品”，没有具体产品</td></tr>
+<tr><td>你负责多少 SKU？核心 SKU 有几个？</td><td class="important-cell">是铺货型，还是精品型</td><td>“负责 80 个 SKU，核心 SKU 8 个”</td><td class="risk-cell">完全说不清 SKU 数量</td></tr>
+<tr><td>月销售额或 GMV 大概多少？</td><td class="important-cell">业务体量，便于部门判断匹配度</td><td>“月销售额 20-30 万美金”或“月 GMV 50 万人民币左右”</td><td class="risk-cell">只说“还可以”“比较稳定”</td></tr>
+<tr><td>每月广告预算多少？主要看什么指标？</td><td class="important-cell">是否真的接触广告</td><td>“广告月花费 3-5 万美金，看 ACOS、CPC、CTR、CVR”</td><td class="risk-cell">说做广告，但不知道基本指标</td></tr>
+<tr><td>你是独立负责还是协助？有哪些权限？</td><td class="important-cell">区分主运营、运营助理、执行岗</td><td>“我能调广告、报活动、提补货建议，价格要主管确认”</td><td class="risk-cell">所有事情都是“团队做的”</td></tr>
+<tr><td>你做过最成功的案例是什么？</td><td class="important-cell">过程和结果</td><td>“通过关键词和图片优化，某 SKU 转化率从 8% 到 11%”</td><td class="risk-cell">只有结论，没有动作和数据</td></tr>
+<tr><td>遇到过最棘手的问题是什么？</td><td class="important-cell">解决问题能力</td><td>能讲断货、差评、侵权、广告亏损、达人不发视频、网站转化低等</td><td class="risk-cell">只说“加大推广”“优化一下”</td></tr>
 </table>
 </section><section class="section" id="3-简历筛选重点">
 <h2>3. 简历筛选重点</h2>
@@ -417,6 +454,33 @@ code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px
 </div>
 <button class="backtop" onclick="document.getElementById('top').scrollIntoView({ behavior: 'smooth' })" title="返回顶部">↑</button>
 <script>
+function highlightImportantTableColumns() {
+  document.querySelectorAll('table').forEach(table => {
+    const headers = Array.from(table.querySelectorAll('th'));
+    headers.forEach((header, index) => {
+      const text = header.textContent.trim();
+      const isRisk = text.includes('风险信号');
+      const isImportant = [
+        'HR 要拿到什么信息',
+        '参考答案/判断标准',
+        'HR 追问',
+        '推荐写法'
+      ].some(keyword => text.includes(keyword));
+
+      if (!isRisk && !isImportant) return;
+
+      header.classList.add(isRisk ? 'risk-head' : 'important-head');
+      table.querySelectorAll('tr').forEach(row => {
+        const cell = row.children[index];
+        if (cell && cell.tagName === 'TD') {
+          cell.classList.add(isRisk ? 'risk-cell' : 'important-cell');
+        }
+      });
+    });
+  });
+}
+highlightImportantTableColumns();
+
 const links = Array.from(document.querySelectorAll('.nav a'));
 const sections = links.map(a => document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)))).filter(Boolean);
 const obs = new IntersectionObserver(entries => {
