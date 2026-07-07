@@ -1,621 +1,2968 @@
 <!doctype html>
 <html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>鑫鑫的秘密面试手册</title>
-<style>
-:root {
-  --bg: #f5f7fb;
-  --panel: #ffffff;
-  --ink: #172033;
-  --muted: #64748b;
-  --blue: #2563eb;
-  --blue-soft: #eff6ff;
-  --line: #dbe3ef;
-  --red: #dc2626;
-  --green: #16a34a;
-  --orange: #f59e0b;
-  --shadow: 0 18px 45px rgba(15, 23, 42, .08);
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
-  color: var(--ink);
-  background: radial-gradient(circle at top left, #dbeafe 0, transparent 28rem), var(--bg);
-  line-height: 1.72;
-  font-size: 15px;
-}
-a { color: inherit; text-decoration: none; }
-.layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 24px; max-width: 1440px; margin: 0 auto; padding: 24px; }
-.sidebar {
-  position: sticky;
-  top: 20px;
-  height: calc(100vh - 40px);
-  overflow: auto;
-  background: rgba(255,255,255,.88);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(219,227,239,.9);
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: var(--shadow);
-}
-.nav-title { font-weight: 800; font-size: 18px; margin-bottom: 8px; }
-.nav-sub { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
-.nav a { display: block; padding: 8px 10px; border-radius: 10px; color: #334155; font-size: 13px; margin: 2px 0; }
-.nav a:hover { background: var(--blue-soft); color: var(--blue); }
-.nav a.h3 { padding-left: 22px; font-size: 12px; color: #64748b; }
-.content { min-width: 0; }
-.hero {
-  background: linear-gradient(135deg, #1e40af, #2563eb 48%, #38bdf8);
-  color: white;
-  border-radius: 28px;
-  padding: 34px 38px;
-  box-shadow: var(--shadow);
-  margin-bottom: 22px;
-}
-.hero h1 { margin: 0 0 14px; font-size: 34px; line-height: 1.25; letter-spacing: -.02em; }
-.hero .desc { max-width: 980px; color: rgba(255,255,255,.9); font-size: 16px; }
-.toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
-.btn { border: 1px solid rgba(255,255,255,.32); color: white; background: rgba(255,255,255,.14); padding: 8px 12px; border-radius: 999px; font-size: 13px; cursor: pointer; }
-.btn:hover { background: rgba(255,255,255,.24); }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>鑫鑫的秘密面试手册</title>
+    <style>
+      :root {
+        --bg: #f5f7fb;
+        --panel: #ffffff;
+        --ink: #172033;
+        --muted: #64748b;
+        --blue: #2563eb;
+        --blue-soft: #eff6ff;
+        --line: #dbe3ef;
+        --red: #dc2626;
+        --green: #16a34a;
+        --orange: #f59e0b;
+        --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', Arial, sans-serif;
+        color: var(--ink);
+        background: radial-gradient(circle at top left, #dbeafe 0, transparent 28rem), var(--bg);
+        line-height: 1.72;
+        font-size: 15px;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        gap: 24px;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .sidebar {
+        position: sticky;
+        top: 20px;
+        height: calc(100vh - 40px);
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(219, 227, 239, 0.9);
+        border-radius: 22px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+      }
+      .nav-title {
+        font-weight: 800;
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      .nav-sub {
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 14px;
+      }
+      .nav a {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 10px;
+        color: #334155;
+        font-size: 13px;
+        margin: 2px 0;
+      }
+      .nav a:hover {
+        background: var(--blue-soft);
+        color: var(--blue);
+      }
+      .nav a.h3 {
+        padding-left: 22px;
+        font-size: 12px;
+        color: #64748b;
+      }
+      .content {
+        min-width: 0;
+      }
+      .hero {
+        background: linear-gradient(135deg, #1e40af, #2563eb 48%, #38bdf8);
+        color: white;
+        border-radius: 28px;
+        padding: 34px 38px;
+        box-shadow: var(--shadow);
+        margin-bottom: 22px;
+      }
+      .hero h1 {
+        margin: 0 0 14px;
+        font-size: 34px;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+      }
+      .hero .desc {
+        max-width: 980px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 16px;
+      }
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .btn {
+        border: 1px solid rgba(255, 255, 255, 0.32);
+        color: white;
+        background: rgba(255, 255, 255, 0.14);
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.24);
+      }
 
-.search-box {
-  position: sticky;
-  top: 14px;
-  z-index: 45;
-  max-width: 860px;
-  margin: -8px 0 22px;
-  padding: 10px;
-  border: 1px solid rgba(219,227,239,.95);
-  border-radius: 22px;
-  background: rgba(255,255,255,.92);
-  backdrop-filter: blur(14px);
-  box-shadow: 0 16px 36px rgba(15,23,42,.12);
-}
-.search-input { width: 100%; border: 1px solid #cbd5e1; background: #fff; color: var(--ink); border-radius: 16px; padding: 13px 16px; font-size: 15px; outline: none; box-shadow: inset 0 1px 0 rgba(15,23,42,.04); }
-.search-input:focus { border-color: #60a5fa; box-shadow: 0 0 0 4px rgba(37,99,235,.12); }
-.search-input::placeholder { color: #94a3b8; }
-.search-results { display: none; position: absolute; left: 10px; right: 10px; top: calc(100% + 8px); z-index: 80; max-height: 360px; overflow: auto; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 8px; }
-.search-result { display: block; width: 100%; padding: 10px 12px; border: 0; background: transparent; text-align: left; border-radius: 12px; cursor: pointer; font: inherit; }
-.search-result:hover { background: var(--blue-soft); }
-.search-result-title { font-weight: 800; color: #1f2937; margin-bottom: 3px; }
-.search-result-snippet { font-size: 13px; color: var(--muted); line-height: 1.45; }
-.search-empty { padding: 12px; color: var(--muted); }
-.active-search-target { outline: 3px solid #f59e0b; background: #fffbeb !important; border-radius: 10px; scroll-margin-top: 90px; transition: background .2s ease, outline .2s ease; }
-mark.search-hit { background: #fde68a; color: #7c2d12; padding: 0 2px; border-radius: 4px; }
+      .search-box {
+        position: sticky;
+        top: 14px;
+        z-index: 45;
+        max-width: 860px;
+        margin: -8px 0 22px;
+        padding: 10px;
+        border: 1px solid rgba(219, 227, 239, 0.95);
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+      }
+      .search-input {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        background: #fff;
+        color: var(--ink);
+        border-radius: 16px;
+        padding: 13px 16px;
+        font-size: 15px;
+        outline: none;
+        box-shadow: inset 0 1px 0 rgba(15, 23, 42, 0.04);
+      }
+      .search-input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+      .search-input::placeholder {
+        color: #94a3b8;
+      }
+      .search-results {
+        display: none;
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        top: calc(100% + 8px);
+        z-index: 80;
+        max-height: 360px;
+        overflow: auto;
+        background: #fff;
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 8px;
+      }
+      .search-result {
+        display: block;
+        width: 100%;
+        padding: 10px 12px;
+        border: 0;
+        background: transparent;
+        text-align: left;
+        border-radius: 12px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .search-result:hover {
+        background: var(--blue-soft);
+      }
+      .search-result-title {
+        font-weight: 800;
+        color: #1f2937;
+        margin-bottom: 3px;
+      }
+      .search-result-snippet {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+      .search-empty {
+        padding: 12px;
+        color: var(--muted);
+      }
+      .active-search-target {
+        outline: 3px solid #f59e0b;
+        background: #fffbeb !important;
+        border-radius: 10px;
+        scroll-margin-top: 90px;
+        transition:
+          background 0.2s ease,
+          outline 0.2s ease;
+      }
+      mark.search-hit {
+        background: #fde68a;
+        color: #7c2d12;
+        padding: 0 2px;
+        border-radius: 4px;
+      }
 
-.section {
-  background: rgba(255,255,255,.94);
-  border: 1px solid rgba(219,227,239,.9);
-  border-radius: 22px;
-  padding: 24px 26px;
-  margin: 18px 0;
-  box-shadow: 0 10px 30px rgba(15,23,42,.045);
-}
-h2 { margin: 0 0 16px; font-size: 24px; line-height: 1.35; padding-left: 12px; border-left: 5px solid var(--blue); scroll-margin-top: 24px; }
-h3 { margin: 22px 0 10px; font-size: 18px; color: #1f2937; scroll-margin-top: 24px; }
-p { margin: 8px 0; }
-ul { margin: 8px 0 12px 0; padding: 0; list-style: none; }
-li { position: relative; margin: 7px 0; padding-left: 20px; }
-li::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); position: absolute; left: 1px; top: .75em; }
-blockquote { margin: 12px 0; padding: 14px 16px; border-left: 4px solid #60a5fa; background: #f8fbff; color: #334155; border-radius: 14px; }
-hr { display: none; }
-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 12px 0 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; table-layout: fixed; background: white; }
-th, td { padding: 11px 12px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); vertical-align: top; word-break: break-word; }
-th:last-child, td:last-child { border-right: 0; }
-tr:last-child td { border-bottom: 0; }
-th { background: #eaf2ff; color: #17335f; font-weight: 800; }
-tr:nth-child(even) td { background: #fbfdff; }
-.important-head { background: #fff7ed; color: #9a3412; border-bottom: 2px solid #fdba74; }
-.risk-head { background: #fef2f2; color: #b91c1c; border-bottom: 2px solid #fca5a5; }
-.important-cell { background: #fffaf0 !important; color: #7c2d12; font-weight: 650; }
-.risk-cell { background: #fff5f5 !important; color: #7f1d1d; font-weight: 650; }
-.highlight-label {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #fef3c7;
-  color: #92400e;
-  font-weight: 900;
-}
-.risk-label {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #991b1b;
-  font-weight: 900;
-}
-.red, span[style*="color:red"] { color: var(--red) !important; font-weight: 800; }
-code { background: #eef2ff; color: #3730a3; padding: 2px 6px; border-radius: 7px; }
-.flow-wrap { padding: 16px; border-radius: 24px; background: linear-gradient(135deg, #eef6ff, #ffffff 48%, #fff7ed); border: 1px solid #dbeafe; }
-.flow-intro { margin: 0 0 14px; color: #475569; font-size: 14px; }
-.flow-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
-.flow-card { position: relative; min-height: 132px; border: 1px solid #dbeafe; border-radius: 20px; background: rgba(255,255,255,.9); padding: 16px; box-shadow: 0 12px 28px rgba(15,23,42,.06); overflow: hidden; }
-.flow-card::before { content: ''; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, #2563eb, #38bdf8); }
-.flow-card { grid-column: span 2; }
-.flow-num { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 12px; background: #eff6ff; color: var(--blue); font-weight: 900; margin-bottom: 10px; box-shadow: inset 0 0 0 1px #bfdbfe; }
-.flow-card strong { display: block; font-size: 16px; margin-bottom: 6px; color: #172033; }
-.flow-card p { margin: 0; color: #475569; font-size: 13px; line-height: 1.55; }
-.flow-card.decision { grid-column: span 6; min-height: auto; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: center; border-color: #fbbf24; background: linear-gradient(90deg, #fff7ed, #ffffff); }
-.flow-card.decision::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
-.flow-card.decision .flow-num { margin-bottom: 0; background: #fffbeb; color: #b45309; box-shadow: inset 0 0 0 1px #fbbf24; }
-.flow-card.good, .flow-card.bad { grid-column: span 3; min-height: 116px; }
-.flow-card.good { border-color: #86efac; background: linear-gradient(180deg, #ffffff, #f0fdf4); }
-.flow-card.good::before { background: linear-gradient(90deg, #16a34a, #86efac); }
-.flow-card.good .flow-num { background: #dcfce7; color: #15803d; box-shadow: inset 0 0 0 1px #86efac; }
-.flow-card.bad { border-color: #fecaca; background: linear-gradient(180deg, #ffffff, #fef2f2); }
-.flow-card.bad::before { background: linear-gradient(90deg, #dc2626, #fca5a5); }
-.flow-card.bad .flow-num { background: #fee2e2; color: #b91c1c; box-shadow: inset 0 0 0 1px #fca5a5; }
-.tip-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
-.tip { border: 1px solid var(--line); background: #fff; border-radius: 16px; padding: 14px; }
-.tip b { color: var(--blue); }
-.backtop { position: fixed; right: 22px; bottom: 22px; z-index: 50; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--blue); color: white; box-shadow: var(--shadow); cursor: pointer; font-size: 18px; }
-.mobile-nav { display: none; position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); padding: 10px 12px; border-bottom: 1px solid var(--line); }
-.mobile-nav select { width: 100%; padding: 9px 10px; border: 1px solid var(--line); border-radius: 12px; }
-@media (max-width: 980px) {
-  .layout { display: block; padding: 14px; }
-  .sidebar { display: none; }
-  .mobile-nav { display: block; }
-  .hero { padding: 24px 20px; border-radius: 20px; }
-  .hero h1 { font-size: 26px; }
-  .search-box { top: 58px; margin: 12px 0 18px; border-radius: 18px; }
-  .section { padding: 18px 16px; border-radius: 18px; }
-  .flow-grid { grid-template-columns: 1fr; }
-  .flow-card, .flow-card.decision, .flow-card.good, .flow-card.bad { grid-column: auto; }
-  .flow-card.decision { grid-template-columns: 1fr; }
-  .tip-grid { grid-template-columns: 1fr; }
-  table { font-size: 13px; }
-}
-@media print {
-  body { background: white; font-size: 12px; }
-  .layout { display: block; padding: 0; max-width: none; }
-  .sidebar, .mobile-nav, .backtop, .toolbar, .search-box { display: none; }
-  .hero, .section { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
-  .hero { color: #111; background: white; }
-  h2, h3 { break-after: avoid; }
-  table, tr { break-inside: avoid; }
-}
-</style>
-</head>
-<body>
-<div class="mobile-nav"><select onchange="location.hash=this.value"><option>快捷导航</option><option value="#1-HR-初面整体流程">1. HR 初面整体流程</option>
-<option value="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</option>
-<option value="#3-简历筛选重点">3. 简历筛选重点</option>
-<option value="#4-推荐给部门时怎么写">4. 推荐给部门时怎么写</option>
-<option value="#5-亚马逊运营专员">5. 亚马逊运营专员</option>
-<option value="#6-亚马逊运营主管">6. 亚马逊运营主管</option>
-<option value="#7-沃尔玛运营专员">7. 沃尔玛运营专员</option>
-<option value="#8-沃尔玛运营主管">8. 沃尔玛运营主管</option>
-<option value="#9-TikTok-运营专员">9. TikTok 运营专员</option>
-<option value="#10-独立站运营专员">10. 独立站运营专员</option>
-<option value="#11-专业名词速查表">11. 专业名词速查表</option>
-<option value="#12-HR-追问专业词的通用话术">12. HR 追问专业词的通用话术</option>
-<option value="#13-常见红旗信号">13. 常见红旗信号</option></select></div>
-<div class="layout">
-  <aside class="sidebar">
-    <div class="nav-title">快捷导航</div>
-    <div class="nav-sub">点击可跳转到对应章节</div>
-    <nav class="nav"><a class="h2" href="#1-HR-初面整体流程">1. HR 初面整体流程</a>
-<a class="h2" href="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</a>
-<a class="h2" href="#3-简历筛选重点">3. 简历筛选重点</a>
-<a class="h3" href="#3-1-好简历一般这样写">3.1 好简历一般这样写</a>
-<a class="h3" href="#3-2-一般简历常见写法">3.2 一般简历常见写法</a>
-<a class="h3" href="#3-3-风险简历常见写法">3.3 风险简历常见写法</a>
-<a class="h2" href="#4-推荐给部门时怎么写">4. 推荐给部门时怎么写</a>
-<a class="h2" href="#5-亚马逊运营专员">5. 亚马逊运营专员</a>
-<a class="h3" href="#岗位职责">岗位职责</a>
-<a class="h3" href="#核心能力">核心能力</a>
-<a class="h3" href="#面试问题与参考答案">面试问题与参考答案</a>
-<a class="h2" href="#6-亚马逊运营主管">6. 亚马逊运营主管</a>
-<a class="h3" href="#岗位职责-2">岗位职责</a>
-<a class="h3" href="#核心能力-2">核心能力</a>
-<a class="h3" href="#面试问题与参考答案-2">面试问题与参考答案</a>
-<a class="h2" href="#7-沃尔玛运营专员">7. 沃尔玛运营专员</a>
-<a class="h3" href="#岗位职责-3">岗位职责</a>
-<a class="h3" href="#核心能力-3">核心能力</a>
-<a class="h3" href="#面试问题与参考答案-3">面试问题与参考答案</a>
-<a class="h2" href="#8-沃尔玛运营主管">8. 沃尔玛运营主管</a>
-<a class="h3" href="#岗位职责-4">岗位职责</a>
-<a class="h3" href="#面试问题与参考答案-4">面试问题与参考答案</a>
-<a class="h2" href="#9-TikTok-运营专员">9. TikTok 运营专员</a>
-<a class="h3" href="#岗位职责-5">岗位职责</a>
-<a class="h3" href="#核心能力-4">核心能力</a>
-<a class="h3" href="#面试问题与参考答案-5">面试问题与参考答案</a>
-<a class="h2" href="#10-独立站运营专员">10. 独立站运营专员</a>
-<a class="h3" href="#岗位职责-6">岗位职责</a>
-<a class="h3" href="#核心能力-5">核心能力</a>
-<a class="h3" href="#面试问题与参考答案-6">面试问题与参考答案</a>
-<a class="h2" href="#11-专业名词速查表">11. 专业名词速查表</a>
-<a class="h3" href="#11-1-亚马逊">11.1 亚马逊</a>
-<a class="h3" href="#11-2-沃尔玛">11.2 沃尔玛</a>
-<a class="h3" href="#11-3-TikTok">11.3 TikTok</a>
-<a class="h3" href="#11-4-独立站">11.4 独立站</a>
-<a class="h2" href="#12-HR-追问专业词的通用话术">12. HR 追问专业词的通用话术</a>
-<a class="h2" href="#13-常见红旗信号">13. 常见红旗信号</a></nav>
-  </aside>
-  <main class="content">
-    <header class="hero" id="top">
-      <h1>鑫鑫的秘密面试手册</h1>
-      <p style="margin: -4px 0 12px; color: rgba(255,255,255,.92); font-size: 18px;">跨境电商运营岗位 HR 面试题与参考答案</p>
-      <div class="desc">适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok 运营专员、独立站运营专员。<br>使用目标：帮助 HR 在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。</div>
-      <div class="toolbar">
-        <button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
-        <a class="btn" href="#1-HR-初面整体流程">查看面试流程</a>
-        <a class="btn" href="#11-专业名词速查表">查看专业名词</a>
-      </div>
-    </header>
-    <div class="search-box">
-      <input id="globalSearch" class="search-input" type="search" placeholder="全局搜索：输入岗位、平台、指标、问题，例如 ACOS / 亚马逊 / GMV / 断货">
-      <div id="searchResults" class="search-results"></div>
+      .resume-tool {
+        background: linear-gradient(135deg, #ffffff, #eff6ff);
+        border: 1px solid #bfdbfe;
+        border-radius: 24px;
+        padding: 22px;
+        margin: 18px 0;
+        box-shadow: 0 16px 36px rgba(37, 99, 235, 0.08);
+      }
+      .resume-tool-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+      }
+      .resume-tool h2 {
+        margin-bottom: 8px;
+      }
+      .resume-tool-desc {
+        color: var(--muted);
+        margin: 0;
+        max-width: 760px;
+      }
+      .resume-badge {
+        flex: 0 0 auto;
+        color: #1d4ed8;
+        background: #dbeafe;
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .resume-form {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 12px;
+        align-items: end;
+      }
+      .resume-field label {
+        display: block;
+        color: #334155;
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .resume-field input {
+        width: 100%;
+        border: 1px solid #cbd5e1;
+        border-radius: 14px;
+        background: #fff;
+        color: var(--ink);
+        padding: 12px 13px;
+        font: inherit;
+        outline: none;
+      }
+      .resume-field input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+      .resume-action {
+        border: 0;
+        border-radius: 14px;
+        background: var(--blue);
+        color: #fff;
+        padding: 13px 18px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+      }
+      .resume-action:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+      .resume-secondary-action {
+        border: 1px solid #bfdbfe;
+        border-radius: 14px;
+        background: #fff;
+        color: var(--blue);
+        padding: 13px 16px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .resume-secondary-action:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .resume-status {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid var(--line);
+        color: #475569;
+      }
+      .resume-status.error {
+        display: block;
+        background: #fef2f2;
+        border-color: #fecaca;
+        color: #991b1b;
+      }
+      .resume-status.info {
+        display: block;
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #1e40af;
+      }
+      .resume-status.success {
+        display: block;
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+        color: #166534;
+      }
+      .resume-history {
+        margin-top: 16px;
+        border: 1px solid #bfdbfe;
+        border-radius: 18px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .resume-history-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 14px;
+        background: #eff6ff;
+        border-bottom: 1px solid #bfdbfe;
+      }
+      .resume-history-title {
+        font-weight: 900;
+        color: #17335f;
+      }
+      .resume-history-clear {
+        border: 1px solid #fecaca;
+        border-radius: 999px;
+        background: #fff5f5;
+        color: #991b1b;
+        padding: 7px 10px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .resume-history-list {
+        padding: 8px;
+      }
+      .resume-history-empty {
+        padding: 10px 8px;
+        color: #64748b;
+      }
+      .resume-history-item {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 10px;
+        align-items: center;
+        padding: 11px 10px;
+        border-radius: 14px;
+      }
+      .resume-history-item:hover {
+        background: #f8fbff;
+      }
+      .resume-history-name {
+        font-weight: 900;
+        color: #172033;
+      }
+      .resume-history-meta {
+        color: #64748b;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .resume-history-open {
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        background: #fff;
+        color: var(--blue);
+        padding: 7px 12px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .analysis-loading {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        place-items: center;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(8px);
+      }
+      .analysis-loading.active {
+        display: grid;
+      }
+      .analysis-loading-card {
+        width: min(520px, calc(100vw - 32px));
+        border-radius: 24px;
+        background: #fff;
+        padding: 26px;
+        box-shadow: 0 26px 70px rgba(15, 23, 42, 0.28);
+        border: 1px solid rgba(219, 227, 239, 0.9);
+      }
+      .analysis-loading-title {
+        font-size: 22px;
+        font-weight: 900;
+        margin-bottom: 8px;
+        color: #172033;
+      }
+      .analysis-loading-text {
+        color: #64748b;
+        margin-bottom: 18px;
+      }
+      .analysis-progress {
+        height: 12px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        overflow: hidden;
+      }
+      .analysis-progress-bar {
+        width: 0%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #2563eb, #38bdf8);
+        transition: width 0.35s ease;
+      }
+      .analysis-progress-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        color: #475569;
+        font-size: 13px;
+      }
+      .analysis-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 990;
+        background: rgba(15, 23, 42, 0.52);
+        backdrop-filter: blur(7px);
+        padding: 24px;
+        overflow: auto;
+      }
+      .analysis-modal.active {
+        display: block;
+      }
+      .analysis-modal-panel {
+        max-width: 1180px;
+        margin: 0 auto;
+        border-radius: 26px;
+        background: #fff;
+        box-shadow: 0 26px 70px rgba(15, 23, 42, 0.28);
+        overflow: hidden;
+      }
+      .analysis-modal-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        align-items: flex-start;
+        padding: 22px 24px;
+        background: linear-gradient(135deg, #1e40af, #2563eb 55%, #38bdf8);
+        color: #fff;
+      }
+      .analysis-modal-title {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      .analysis-candidate {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 800;
+        font-size: 17px;
+      }
+      .analysis-close {
+        border: 1px solid rgba(255, 255, 255, 0.38);
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border-radius: 999px;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+      .analysis-modal-body {
+        padding: 22px 24px 26px;
+        font-size: 17px;
+        line-height: 1.78;
+      }
+      .analysis-summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+      .analysis-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 14px;
+        background: #fbfdff;
+        margin-top: 20px;
+      }
+      .analysis-card h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        color: #17335f;
+      }
+      .analysis-card ul {
+        margin-bottom: 0;
+      }
+      .analysis-card li {
+        padding-left: 18px;
+        font-size: 16px;
+      }
+      .analysis-highlight-card {
+        border-width: 2px;
+        box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+      }
+      .analysis-match-card {
+        background: #eff6ff;
+        border-color: #93c5fd;
+      }
+      .analysis-risk-card {
+        background: #fff5f5;
+        border-color: #fca5a5;
+        color: #7f1d1d;
+      }
+      .analysis-decision-card {
+        background: #f0fdf4;
+        border-color: #86efac;
+        color: #14532d;
+      }
+      .analysis-score-pill,
+      .analysis-decision-pill,
+      .analysis-risk-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .analysis-score-pill {
+        color: #1d4ed8;
+        background: #dbeafe;
+      }
+      .analysis-decision-pill {
+        color: #166534;
+        background: #dcfce7;
+      }
+      .analysis-risk-pill {
+        color: #991b1b;
+        background: #fee2e2;
+        margin: 3px 4px 3px 0;
+      }
+      .analysis-charts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin: 16px 0;
+      }
+      .analysis-chart-card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        padding: 12px;
+      }
+      .analysis-chart-title {
+        font-weight: 900;
+        color: #17335f;
+        margin-bottom: 8px;
+      }
+      .analysis-chart {
+        height: 280px;
+      }
+      .analysis-section {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 16px;
+        margin-top: 14px;
+        background: #fff;
+      }
+      .analysis-section h3 {
+        margin-top: 0;
+      }
+      .analysis-question {
+        margin: 10px 0;
+        padding: 12px;
+        border-radius: 14px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-size: 16px;
+      }
+      .analysis-question b {
+        color: #1e40af;
+      }
+      .analysis-collapse {
+        margin-top: 14px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .analysis-collapse summary {
+        cursor: pointer;
+        padding: 15px 16px;
+        color: #17335f;
+        font-weight: 900;
+        list-style: none;
+        background: #f8fbff;
+      }
+      .analysis-collapse summary::-webkit-details-marker {
+        display: none;
+      }
+      .analysis-collapse summary::after {
+        content: '点击展开';
+        float: right;
+        color: var(--blue);
+        font-size: 14px;
+      }
+      .analysis-collapse[open] summary::after {
+        content: '点击收起';
+      }
+      .analysis-collapse-body {
+        padding: 4px 16px 16px;
+      }
+      .interview-report-box {
+        border: 2px solid #bfdbfe;
+        border-radius: 20px;
+        padding: 16px;
+        margin-top: 18px;
+        background: linear-gradient(180deg, #ffffff, #eff6ff);
+      }
+      .interview-report-box textarea {
+        width: 100%;
+        min-height: 130px;
+        resize: vertical;
+        border: 1px solid #cbd5e1;
+        border-radius: 14px;
+        padding: 12px 14px;
+        font: inherit;
+        font-size: 16px;
+        line-height: 1.65;
+        outline: none;
+        background: #fff;
+        color: var(--ink);
+      }
+      .interview-report-box textarea:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+      .interview-report-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .interview-report-copy {
+        display: none;
+        border: 1px solid #86efac;
+        border-radius: 14px;
+        background: #f0fdf4;
+        color: #166534;
+        padding: 12px 16px;
+        font-weight: 900;
+        cursor: pointer;
+      }
+      .interview-report-copy.active {
+        display: inline-flex;
+      }
+      .interview-report-output {
+        display: none;
+        margin-top: 14px;
+        border: 1px solid #bfdbfe;
+        border-radius: 16px;
+        background: #fff;
+        padding: 16px;
+        white-space: pre-wrap;
+        font-size: 17px;
+        line-height: 1.8;
+        color: #172033;
+      }
+      .interview-report-output.active {
+        display: block;
+      }
+      .analysis-raw {
+        white-space: pre-wrap;
+        font: inherit;
+        line-height: 1.75;
+        color: #1f2937;
+      }
+
+      .section {
+        background: rgba(255, 255, 255, 0.94);
+        border: 1px solid rgba(219, 227, 239, 0.9);
+        border-radius: 22px;
+        padding: 24px 26px;
+        margin: 18px 0;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.045);
+      }
+      h2 {
+        margin: 0 0 16px;
+        font-size: 24px;
+        line-height: 1.35;
+        padding-left: 12px;
+        border-left: 5px solid var(--blue);
+        scroll-margin-top: 24px;
+      }
+      h3 {
+        margin: 22px 0 10px;
+        font-size: 18px;
+        color: #1f2937;
+        scroll-margin-top: 24px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      ul {
+        margin: 8px 0 12px 0;
+        padding: 0;
+        list-style: none;
+      }
+      li {
+        position: relative;
+        margin: 7px 0;
+        padding-left: 20px;
+      }
+      li::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--blue);
+        position: absolute;
+        left: 1px;
+        top: 0.75em;
+      }
+      blockquote {
+        margin: 12px 0;
+        padding: 14px 16px;
+        border-left: 4px solid #60a5fa;
+        background: #f8fbff;
+        color: #334155;
+        border-radius: 14px;
+      }
+      hr {
+        display: none;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin: 12px 0 20px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        table-layout: fixed;
+        background: white;
+      }
+      th,
+      td {
+        padding: 11px 12px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        word-break: break-word;
+      }
+      th:last-child,
+      td:last-child {
+        border-right: 0;
+      }
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      th {
+        background: #eaf2ff;
+        color: #17335f;
+        font-weight: 800;
+      }
+      tr:nth-child(even) td {
+        background: #fbfdff;
+      }
+      .important-head {
+        background: #fff7ed;
+        color: #9a3412;
+        border-bottom: 2px solid #fdba74;
+      }
+      .risk-head {
+        background: #fef2f2;
+        color: #b91c1c;
+        border-bottom: 2px solid #fca5a5;
+      }
+      .important-cell {
+        background: #fffaf0 !important;
+        color: #7c2d12;
+        font-weight: 650;
+      }
+      .risk-cell {
+        background: #fff5f5 !important;
+        color: #7f1d1d;
+        font-weight: 650;
+      }
+      .highlight-label {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #fef3c7;
+        color: #92400e;
+        font-weight: 900;
+      }
+      .risk-label {
+        display: inline-flex;
+        align-items: center;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #fee2e2;
+        color: #991b1b;
+        font-weight: 900;
+      }
+      .red,
+      span[style*='color:red'] {
+        color: var(--red) !important;
+        font-weight: 800;
+      }
+      code {
+        background: #eef2ff;
+        color: #3730a3;
+        padding: 2px 6px;
+        border-radius: 7px;
+      }
+      .flow-wrap {
+        padding: 16px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #eef6ff, #ffffff 48%, #fff7ed);
+        border: 1px solid #dbeafe;
+      }
+      .flow-intro {
+        margin: 0 0 14px;
+        color: #475569;
+        font-size: 14px;
+      }
+      .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 14px;
+        align-items: stretch;
+      }
+      .flow-card {
+        position: relative;
+        min-height: 132px;
+        border: 1px solid #dbeafe;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 16px;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        overflow: hidden;
+      }
+      .flow-card::before {
+        content: '';
+        position: absolute;
+        inset: 0 0 auto;
+        height: 4px;
+        background: linear-gradient(90deg, #2563eb, #38bdf8);
+      }
+      .flow-card {
+        grid-column: span 2;
+      }
+      .flow-num {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: #eff6ff;
+        color: var(--blue);
+        font-weight: 900;
+        margin-bottom: 10px;
+        box-shadow: inset 0 0 0 1px #bfdbfe;
+      }
+      .flow-card strong {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 6px;
+        color: #172033;
+      }
+      .flow-card p {
+        margin: 0;
+        color: #475569;
+        font-size: 13px;
+        line-height: 1.55;
+      }
+      .flow-card.decision {
+        grid-column: span 6;
+        min-height: auto;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        align-items: center;
+        border-color: #fbbf24;
+        background: linear-gradient(90deg, #fff7ed, #ffffff);
+      }
+      .flow-card.decision::before {
+        background: linear-gradient(90deg, #f59e0b, #fbbf24);
+      }
+      .flow-card.decision .flow-num {
+        margin-bottom: 0;
+        background: #fffbeb;
+        color: #b45309;
+        box-shadow: inset 0 0 0 1px #fbbf24;
+      }
+      .flow-card.good,
+      .flow-card.bad {
+        grid-column: span 3;
+        min-height: 116px;
+      }
+      .flow-card.good {
+        border-color: #86efac;
+        background: linear-gradient(180deg, #ffffff, #f0fdf4);
+      }
+      .flow-card.good::before {
+        background: linear-gradient(90deg, #16a34a, #86efac);
+      }
+      .flow-card.good .flow-num {
+        background: #dcfce7;
+        color: #15803d;
+        box-shadow: inset 0 0 0 1px #86efac;
+      }
+      .flow-card.bad {
+        border-color: #fecaca;
+        background: linear-gradient(180deg, #ffffff, #fef2f2);
+      }
+      .flow-card.bad::before {
+        background: linear-gradient(90deg, #dc2626, #fca5a5);
+      }
+      .flow-card.bad .flow-num {
+        background: #fee2e2;
+        color: #b91c1c;
+        box-shadow: inset 0 0 0 1px #fca5a5;
+      }
+      .tip-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 14px 0;
+      }
+      .tip {
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 16px;
+        padding: 14px;
+      }
+      .tip b {
+        color: var(--blue);
+      }
+      .backtop {
+        position: fixed;
+        right: 22px;
+        bottom: 22px;
+        z-index: 50;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        border: 0;
+        background: var(--blue);
+        color: white;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        font-size: 18px;
+      }
+      .mobile-nav {
+        display: none;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      .mobile-nav select {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+      }
+      @media (max-width: 980px) {
+        .layout {
+          display: block;
+          padding: 14px;
+        }
+        .sidebar {
+          display: none;
+        }
+        .mobile-nav {
+          display: block;
+        }
+        .hero {
+          padding: 24px 20px;
+          border-radius: 20px;
+        }
+        .hero h1 {
+          font-size: 26px;
+        }
+        .search-box {
+          top: 58px;
+          margin: 12px 0 18px;
+          border-radius: 18px;
+        }
+        .resume-tool {
+          padding: 18px 16px;
+          border-radius: 18px;
+        }
+        .resume-tool-head {
+          display: block;
+        }
+        .resume-badge {
+          display: inline-flex;
+          margin-top: 10px;
+        }
+        .resume-form {
+          grid-template-columns: 1fr;
+        }
+        .resume-action {
+          width: 100%;
+        }
+        .analysis-modal {
+          padding: 12px;
+        }
+        .analysis-modal-head {
+          display: block;
+          padding: 18px;
+        }
+        .analysis-close {
+          margin-top: 12px;
+        }
+        .analysis-modal-body {
+          padding: 16px;
+        }
+        .analysis-summary-grid,
+        .analysis-charts {
+          grid-template-columns: 1fr;
+        }
+        .analysis-chart {
+          height: 240px;
+        }
+        .section {
+          padding: 18px 16px;
+          border-radius: 18px;
+        }
+        .flow-grid {
+          grid-template-columns: 1fr;
+        }
+        .flow-card,
+        .flow-card.decision,
+        .flow-card.good,
+        .flow-card.bad {
+          grid-column: auto;
+        }
+        .flow-card.decision {
+          grid-template-columns: 1fr;
+        }
+        .tip-grid {
+          grid-template-columns: 1fr;
+        }
+        table {
+          font-size: 13px;
+        }
+      }
+      @media print {
+        body {
+          background: white;
+          font-size: 12px;
+        }
+        .layout {
+          display: block;
+          padding: 0;
+          max-width: none;
+        }
+        .sidebar,
+        .mobile-nav,
+        .backtop,
+        .toolbar,
+        .search-box,
+        .resume-tool {
+          display: none;
+        }
+        .hero,
+        .section {
+          box-shadow: none;
+          border: 1px solid #ddd;
+          break-inside: avoid;
+        }
+        .hero {
+          color: #111;
+          background: white;
+        }
+        h2,
+        h3 {
+          break-after: avoid;
+        }
+        table,
+        tr {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-nav">
+      <select onchange="location.hash = this.value">
+        <option>快捷导航</option>
+        <option value="#1-HR-初面整体流程">1. HR 初面整体流程</option>
+        <option value="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</option>
+        <option value="#3-简历筛选重点">3. 简历筛选重点</option>
+        <option value="#4-推荐给部门时怎么写">4. 推荐给部门时怎么写</option>
+        <option value="#5-亚马逊运营专员">5. 亚马逊运营专员</option>
+        <option value="#6-亚马逊运营主管">6. 亚马逊运营主管</option>
+        <option value="#7-沃尔玛运营专员">7. 沃尔玛运营专员</option>
+        <option value="#8-沃尔玛运营主管">8. 沃尔玛运营主管</option>
+        <option value="#9-TikTok-运营专员">9. TikTok 运营专员</option>
+        <option value="#10-独立站运营专员">10. 独立站运营专员</option>
+        <option value="#11-专业名词速查表">11. 专业名词速查表</option>
+        <option value="#12-HR-追问专业词的通用话术">12. HR 追问专业词的通用话术</option>
+        <option value="#13-常见红旗信号">13. 常见红旗信号</option>
+      </select>
     </div>
-    <section class="section" id="1-HR-初面整体流程">
-<h2>1. HR 初面整体流程</h2>
-<div class="flow-wrap">
-  <p class="flow-intro">先拿基础匹配信息，再追真实业务动作，最后判断是否值得推荐业务复试。</p>
-  <div class="flow-grid">
-    <div class="flow-card"><span class="flow-num">1</span><strong>开始面试</strong><p>确认在职状态、到岗时间、期望薪资。</p></div>
-    <div class="flow-card"><span class="flow-num">2</span><strong>确认岗位方向</strong><p>问清平台、站点、品类，先判断岗位是否匹配。</p></div>
-    <div class="flow-card"><span class="flow-num">3</span><strong>追问业务体量</strong><p>拿到 SKU、月销售额、广告预算、团队规模。</p></div>
-    <div class="flow-card"><span class="flow-num">4</span><strong>追问实际权限</strong><p>确认广告、价格、活动、补货、复盘是不是本人负责。</p></div>
-    <div class="flow-card"><span class="flow-num">5</span><strong>追问真实案例</strong><p>重点听增长、下滑、断货、广告亏损、账号风险。</p></div>
-    <div class="flow-card decision"><span class="flow-num">6</span><div><strong>核心判断</strong><p>候选人是否能说出清楚的数据、动作、结果和复盘？</p></div></div>
-    <div class="flow-card good"><span class="flow-num">✓</span><strong>能说清</strong><p>推荐业务复试，并备注重点数据和待考察点。</p></div>
-    <div class="flow-card bad"><span class="flow-num">!</span><strong>说不清</strong><p>谨慎推荐或淘汰，备注回答空泛、数据缺失。</p></div>
-  </div>
-</div>
-</section><section class="section" id="2-面试前-10-分钟必须问清楚">
-<h2>2. 面试前 10 分钟必须问清楚</h2>
-<table>
-<tr><th>面试问题</th><th class="important-head"><span class="highlight-label">HR 要拿到什么信息</span></th><th>靠谱回答长什么样</th><th class="risk-head"><span class="risk-label">风险信号</span></th></tr>
-<tr><td>你上一份主要负责哪个平台？哪些站点？</td><td class="important-cell">亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚，独立站面向美国/欧洲等</td><td>“亚马逊美国站，家居类目，FBA 为主”</td><td class="risk-cell">只说“跨境平台都做过”，但说不出最熟站点</td></tr>
-<tr><td>你负责什么品类？主要产品是什么？</td><td class="important-cell">家居、宠物、户外、3C、服饰、美妆、工具、母婴等</td><td>“宠物用品，主做宠物饮水机和猫砂垫，价格带 20-50 美金”</td><td class="risk-cell">只说“杂货”“精品”，没有具体产品</td></tr>
-<tr><td>你负责多少 SKU？核心 SKU 有几个？</td><td class="important-cell">是铺货型，还是精品型</td><td>“负责 80 个 SKU，核心 SKU 8 个”</td><td class="risk-cell">完全说不清 SKU 数量</td></tr>
-<tr><td>月销售额或 GMV 大概多少？</td><td class="important-cell">业务体量，便于部门判断匹配度</td><td>“月销售额 20-30 万美金”或“月 GMV 50 万人民币左右”</td><td class="risk-cell">只说“还可以”“比较稳定”</td></tr>
-<tr><td>每月广告预算多少？主要看什么指标？</td><td class="important-cell">是否真的接触广告</td><td>“广告月花费 3-5 万美金，看 ACOS、CPC、CTR、CVR”</td><td class="risk-cell">说做广告，但不知道基本指标</td></tr>
-<tr><td>你是独立负责还是协助？有哪些权限？</td><td class="important-cell">区分主运营、运营助理、执行岗</td><td>“我能调广告、报活动、提补货建议，价格要主管确认”</td><td class="risk-cell">所有事情都是“团队做的”</td></tr>
-<tr><td>你做过最成功的案例是什么？</td><td class="important-cell">过程和结果</td><td>“通过关键词和图片优化，某 SKU 转化率从 8% 到 11%”</td><td class="risk-cell">只有结论，没有动作和数据</td></tr>
-<tr><td>遇到过最棘手的问题是什么？</td><td class="important-cell">解决问题能力</td><td>能讲断货、差评、侵权、广告亏损、达人不发视频、网站转化低等</td><td class="risk-cell">只说“加大推广”“优化一下”</td></tr>
-</table>
-</section><section class="section" id="3-简历筛选重点">
-<h2>3. 简历筛选重点</h2>
-<h3 id="3-1-好简历一般这样写">3.1 好简历一般这样写</h3>
-<blockquote>负责亚马逊美国站家居类目，管理约 80 个 <span class="red">SKU（商品最小库存单位）</span>，月销售额约 20-30 万美金。负责 Listing 优化、SP 广告投放、活动报名、库存补货和竞品分析，曾将核心产品 <span class="red">ACOS（广告花费 ÷ 广告销售额）</span> 从 35% 降到 25%。</blockquote>
-<h3 id="3-2-一般简历常见写法">3.2 一般简历常见写法</h3>
-<blockquote>负责店铺日常运营、产品上架、广告优化、数据分析。</blockquote>
-<p>这种简历不能直接判断好坏，需要电话里重点追问：站点、品类、SKU、销售额、广告预算、具体案例。</p>
-<h3 id="3-3-风险简历常见写法">3.3 风险简历常见写法</h3>
-<blockquote>熟悉各大跨境平台，执行力强，抗压能力强，沟通能力好。</blockquote>
-<p>如果没有平台、站点、品类、数据、结果，建议谨慎。</p>
-</section><section class="section" id="4-推荐给部门时怎么写">
-<h2>4. 推荐给部门时怎么写</h2>
-<table>
-<tr><th>模块</th><th>推荐写法</th></tr>
-<tr><td>候选人/岗位</td><td>张三，应聘亚马逊运营专员</td></tr>
-<tr><td>平台和站点</td><td>亚马逊美国站，FBA 为主</td></tr>
-<tr><td>品类和产品</td><td>家居收纳类目，核心产品为收纳盒、置物架</td></tr>
-<tr><td>业务体量</td><td>负责约 80 个 SKU，核心 SKU 10 个，月销售额约 20-30 万美金</td></tr>
-<tr><td>主要工作</td><td>Listing 优化、SP 广告投放、活动报名、库存补货建议、竞品分析</td></tr>
-<tr><td>关键数据</td><td>广告月花费约 3 万美金，ACOS 约 25%-30%，某 SKU 转化率从 8% 提升到 11%</td></tr>
-<tr><td>HR 判断</td><td>平台匹配，数据表达清楚，有实际案例，建议业务复试重点考察广告深度和利润意识</td></tr>
-</table>
-</section><section class="section" id="5-亚马逊运营专员">
-<h2>5. 亚马逊运营专员</h2>
-<h3 id="岗位职责">岗位职责</h3>
-<ul><li>负责亚马逊店铺日常运营：上架产品、优化 Listing、投放广告、报名活动、跟进库存和订单问题。</li><li>负责指定站点或产品线的数据监控，比如美国站家居类目、欧洲站宠物类目等。</li><li>根据曝光、点击、转化、广告 ACOS、库存、评价和竞品情况调整运营动作。</li><li>和设计、采购、物流、客服配合，推进图片、文案、补货、售后问题。</li></ul>
-<h3 id="核心能力">核心能力</h3>
-<ul><li>能说清自己负责什么站点、什么品类、多少 SKU、月销售额和广告预算。</li><li>会做 <span class="red">Listing（产品详情页，影响点击和转化）</span> 优化。</li><li>懂广告基础：<span class="red">SP（亚马逊商品推广广告）</span>、关键词、搜索词、<span class="red">CPC（广告花费 ÷ 点击次数）</span>、<span class="red">CTR（点击次数 ÷ 曝光次数）</span>、<span class="red">CVR（订单数 ÷ 点击次数）</span>、<span class="red">ACOS（广告花费 ÷ 广告销售额）</span>。</li><li>有数据排查能力：销量掉了能从流量、转化、价格、广告、库存、评价、竞品查原因。</li><li>有库存和规则意识：知道 <span class="red">FBA（亚马逊仓储配送）</span> 断货影响排名，知道不能违规刷单、索评、侵权。</li></ul>
-<h3 id="面试问题与参考答案">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你上一份亚马逊主要负责哪个站点和品类？</td><td>能具体说出站点和品类，比如“美国站，家居收纳类目，FBA 为主，负责约 60 个 SKU，核心 SKU 8 个”。</td></tr>
-<tr><td>你负责的月销售额和广告预算大概多少？</td><td>可以说范围，比如“月销售额 20-30 万美金，广告月花费 3-5 万美金，整体 ACOS 25%左右”。重点看他是否知道业务数据。</td></tr>
-<tr><td>你平时怎么优化 Listing？</td><td>先做竞品和关键词分析，再改标题、五点、Search Terms、主图、副图、A+。专业回答会提到看 CTR 和 CVR。</td></tr>
-<tr><td>曝光很多但订单少，你怎么处理？</td><td>曝光多订单少通常是转化问题。查价格、评价、Review 数量、主图、五点、A+、Coupon、配送时效、竞品活动。</td></tr>
-<tr><td>广告 ACOS 突然升高，你怎么排查？</td><td>看 CPC 是否涨了、CVR 是否降了、关键词是否跑偏、竞品是否降价、Listing 是否被改、库存或评价是否异常。</td></tr>
-<tr><td>新品前两周关注什么？</td><td>关注关键词收录、曝光、点击率、转化率、广告搜索词、评价积累、库存、价格和竞品反应。</td></tr>
-<tr><td>FBA 快断货了怎么办？</td><td>算可售天数，联系补货，短期控制广告和促销，必要时提价控速或走空派/海外仓。</td></tr>
-</table>
-</section><section class="section" id="6-亚马逊运营主管">
-<h2>6. 亚马逊运营主管</h2>
-<h3 id="岗位职责-2">岗位职责</h3>
-<ul><li>负责亚马逊店铺或业务线的销售额、利润、广告效率、库存周转和账号安全。</li><li>制定月度、季度、年度目标，并拆到站点、品类、产品、人员和时间节点。</li><li>管理团队，检查广告、Listing、库存、活动、复盘等执行质量。</li><li>处理链接下架、侵权、差评、跟卖、库存积压、广告亏损等复杂问题。</li></ul>
-<h3 id="核心能力-2">核心能力</h3>
-<ul><li>能讲清自己管过几个站点、几个人、多少 SKU、月销售额、利润率和广告费率。</li><li>有经营意识：不只冲销售额，还关注毛利、广告费、仓储费、退货损耗和现金流。</li><li>有团队管理能力：会分工、培训、复盘、定目标、处理低绩效。</li><li>有风险处理能力：账号健康、侵权、断货、滞销、链接异常都要有处理经验。</li><li>能跨部门推动：采购、供应链、设计、客服、财务都要协同。</li></ul>
-<h3 id="面试问题与参考答案-2">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你上一份管理几个亚马逊站点？团队几个人？</td><td>能说清“美国站+加拿大站，团队 4 人，2 个运营、1 个助理、1 个广告专员”等管理范围。</td></tr>
-<tr><td>你管理的业务体量和利润情况怎样？</td><td>除销售额，还能说毛利率、广告费率、库存周转。例如“月销售额约 80 万美金，毛利率 30%左右”。</td></tr>
-<tr><td>接手一个新团队，前 30 天会做什么？</td><td>先看账号健康、销售利润报表、广告结构、库存风险、核心链接排名、产品生命周期和人员分工。</td></tr>
-<tr><td>你怎么给团队拆目标？</td><td>根据历史销量、库存、季节性、大促节点、广告预算、毛利要求拆到产品和人员。</td></tr>
-<tr><td>团队广告 ACOS 降不下来，你怎么带他们解决？</td><td>从产品转化、广告结构、关键词质量、预算分配、竞品价格、Listing 质量查起，并带团队做周复盘。</td></tr>
-<tr><td>遇到侵权投诉或链接下架，你怎么处理？</td><td>先确认原因和风险范围，准备发票、授权、图片来源、品牌资料申诉；同时评估库存和销售损失。</td></tr>
-<tr><td>你怎么判断一个运营人员是否合格？</td><td>看销售和利润，也看广告效率、库存健康、数据复盘、执行稳定性、问题响应。</td></tr>
-</table>
-</section><section class="section" id="7-沃尔玛运营专员">
-<h2>7. 沃尔玛运营专员</h2>
-<h3 id="岗位职责-3">岗位职责</h3>
-<ul><li>负责 Walmart Marketplace 产品上架、内容优化、价格维护、库存同步、订单和退货跟进。</li><li>关注产品是否通过审核、是否正常展示、是否有 <span class="red">Buy Box（购物车/购买按钮归属）</span>、价格和配送是否有竞争力。</li><li>维护 <span class="red">Seller Scorecard（卖家绩效评分）</span>，减少取消订单、延迟发货、追踪异常和差评。</li><li>配合广告和促销，提高产品曝光、点击和转化。</li></ul>
-<h3 id="核心能力-3">核心能力</h3>
-<ul><li>能说清负责沃尔玛美国站什么品类、多少 SKU、月销售额、<span class="red">WFS（沃尔玛仓储配送）</span> 还是自发货。</li><li>懂沃尔玛内容要求：标题、类目、属性、Key Features、图片、库存要准确。</li><li>懂平台核心指标：Buy Box、价格竞争力、配送时效、Seller Scorecard、取消率、延迟发货率。</li><li>会基础广告：<span class="red">Sponsored Search（沃尔玛站内搜索广告）</span>、曝光、点击、ROAS。</li></ul>
-<h3 id="面试问题与参考答案-3">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你做沃尔玛主要负责什么站点、品类和履约方式？</td><td>通常是沃尔玛美国站，要能说出品类、SKU 数量、月销售额、WFS 还是海外仓。</td></tr>
-<tr><td>沃尔玛和亚马逊最大的不同是什么？</td><td>沃尔玛更看重价格竞争力、配送时效、内容完整度和 Seller Scorecard。</td></tr>
-<tr><td>产品上架后没有曝光，你怎么查？</td><td>查审核状态、类目属性、标题关键词、图片、库存、价格、配送方式、广告是否开启。</td></tr>
-<tr><td>什么是 Seller Scorecard？</td><td>平台对卖家表现的评分，会看取消率、延迟发货、有效追踪、退货、客户体验等。</td></tr>
-<tr><td>订单延迟发货变多，你怎么处理？</td><td>查库存同步、仓库发货、物流商追踪号、系统对接；长期建立库存和发货时效预警。</td></tr>
-</table>
-</section><section class="section" id="8-沃尔玛运营主管">
-<h2>8. 沃尔玛运营主管</h2>
-<h3 id="岗位职责-4">岗位职责</h3>
-<ul><li>负责沃尔玛平台销售增长、利润、账号健康、团队分工和运营流程。</li><li>搭建选品、上架、内容优化、WFS 备货、广告促销、复盘的完整流程。</li><li>管理价格、库存、履约、退货和账号指标，降低平台风险。</li><li>协调采购、仓储、物流、客服、财务，推动沃尔玛业务稳定增长。</li></ul>
-<h3 id="面试问题与参考答案-4">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你之前负责的沃尔玛业务体量有多大？</td><td>能说出团队人数、SKU 数量、月销售额、WFS 比例、主要品类。</td></tr>
-<tr><td>如果公司从 0 做沃尔玛，你怎么开始？</td><td>先筛产品，看价格带、竞品、利润、库存和履约能力；再搭上架模板、内容标准、WFS/海外仓方案。</td></tr>
-<tr><td>沃尔玛账号健康出问题，你会怎么处理？</td><td>先定位是取消率、延迟发货、追踪率、退货率还是客服问题。短期止损，长期建立预警。</td></tr>
-<tr><td>怎么判断一个 SKU 是否继续投入？</td><td>看销量趋势、毛利、广告 ROAS、库存周转、退货率、价格竞争、评价。</td></tr>
-<tr><td>怎么管理沃尔玛价格竞争？</td><td>监控竞品价和 Buy Box，同时设置最低毛利底线，不能长期亏损抢订单。</td></tr>
-</table>
-</section><section class="section" id="9-TikTok-运营专员">
-<h2>9. TikTok 运营专员</h2>
-<h3 id="岗位职责-5">岗位职责</h3>
-<ul><li>负责 TikTok 短视频、直播、达人合作或 TikTok Shop 商品运营。</li><li>跟进内容选题、脚本、拍摄、剪辑、发布、评论互动和数据复盘。</li><li>筛选达人，沟通寄样、合作方式、发布时间和带货效果。</li><li>关注播放量、完播率、互动率、商品点击率、转化率、<span class="red">GMV（成交总额）</span> 和 <span class="red">ROI（GMV ÷ 投入成本）</span>。</li></ul>
-<h3 id="核心能力-4">核心能力</h3>
-<ul><li>能说清做的是哪个国家站点：美区、英国、东南亚，还是只做内容账号。</li><li>能说清负责品类、视频数量、达人数量、直播场次、GMV 或转化数据。</li><li>懂内容：前 3 秒钩子、卖点表达、场景化展示、评论区互动。</li><li>懂转化：视频火不等于能卖货，要看商品点击、加购、成交和商品页承接。</li></ul>
-<h3 id="面试问题与参考答案-5">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你做 TikTok 主要是哪个国家站点？做内容、达人、直播还是店铺？</td><td>要说清楚，比如“美区 TikTok Shop，做家居类目，负责达人建联和短视频复盘”。</td></tr>
-<tr><td>你负责的品类、达人数量、视频数量、GMV 大概多少？</td><td>比如“每月联系 200 个达人，寄样 50 个，产出视频 30 条，月 GMV 10 万美金”。</td></tr>
-<tr><td>一条带货短视频最重要的是什么？</td><td>前 3 秒抓住人，卖点简单，场景真实，让用户马上知道解决什么问题。</td></tr>
-<tr><td>视频播放量高但不出单怎么办？</td><td>查人群是否精准、卖点是否清楚、价格是否有优势、商品页是否能承接、评论区疑虑。</td></tr>
-<tr><td>你怎么筛选达人？</td><td>不只看粉丝数，要看粉丝画像、内容风格、互动质量、历史带货能力、报价和产品匹配度。</td></tr>
-<tr><td>直播前你会准备什么？</td><td>货盘、库存、优惠、脚本、主播话术、样品、场控流程、评论答疑、直播节奏、数据目标。</td></tr>
-</table>
-</section><section class="section" id="10-独立站运营专员">
-<h2>10. 独立站运营专员</h2>
-<h3 id="岗位职责-6">岗位职责</h3>
-<ul><li>负责 Shopify 或品牌独立站产品上架、页面维护、活动配置、优惠码、内容更新和数据复盘。</li><li>和广告、设计、客服配合，优化落地页、产品页、购买流程和用户体验。</li><li>关注访问量、加购率、结账率、支付成功率、转化率、客单价、复购率。</li><li>配合节日、上新、清仓、邮件营销和会员活动，提高销售和复购。</li></ul>
-<h3 id="核心能力-5">核心能力</h3>
-<ul><li>能说清独立站面向哪个市场、什么品类、月销售额、订单量、主要流量来源。</li><li>懂转化链路：用户从广告进站，到浏览、加购、结账、付款，每一步都可能流失。</li><li>会看数据：<span class="red">Shopify（常见独立站建站后台）</span>、<span class="red">GA4（Google Analytics 4）</span>、<span class="red">Pixel（广告追踪代码）</span>、ROAS、转化率。</li><li>懂页面优化：图片、卖点、评价、FAQ、物流说明、支付方式、信任背书。</li></ul>
-<h3 id="面试问题与参考答案-6">面试问题与参考答案</h3>
-<table>
-<tr><th>面试问题</th><th>参考答案/判断标准</th></tr>
-<tr><td>你负责的独立站面向哪个市场？什么品类？</td><td>要具体，比如“美国市场，宠物用品，Shopify 站，月订单 3000 单左右”。</td></tr>
-<tr><td>网站月销售额、订单量、主要流量来源是多少？</td><td>能说出月销售额、订单数、客单价，流量来自 Meta、Google、TikTok、SEO、邮件等。</td></tr>
-<tr><td>独立站和平台店铺最大的区别是什么？</td><td>独立站更自由，可沉淀品牌和用户数据，但流量要自己获取；平台有自然流量但规则限制多。</td></tr>
-<tr><td>网站有流量但转化低，你会怎么查？</td><td>看广告和落地页是否一致、产品页卖点、价格、图片、评价、FAQ、物流、支付方式、页面速度。</td></tr>
-<tr><td>独立站核心数据你会看哪些？</td><td>访问量、加购率、结账率、支付成功率、转化率、客单价、复购率、弃购率、广告 ROAS 和毛利。</td></tr>
-<tr><td>用户加购很多但不付款，可能是什么原因？</td><td>运费高、支付方式不方便、结账步骤多、信任感不足、物流时间长、折扣不明显。</td></tr>
-</table>
-</section><section class="section" id="11-专业名词速查表">
-<h2>11. 专业名词速查表</h2>
-<h3 id="11-1-亚马逊">11.1 亚马逊</h3>
-<table>
-<tr><th>名词</th><th>大白话解释</th><th>计算方式/判断方式</th><th>使用节点</th></tr>
-<tr><td><span class="red">CPC</span></td><td>单次点击成本</td><td><span class="red">CPC = 广告花费 ÷ 点击次数</span></td><td>广告每天/每周优化</td></tr>
-<tr><td><span class="red">CTR</span></td><td>点击率，看到后有多少人点</td><td><span class="red">CTR = 点击次数 ÷ 曝光次数 × 100%</span></td><td>看主图、标题、价格吸引力</td></tr>
-<tr><td><span class="red">CVR</span></td><td>转化率，点击后有多少人买</td><td><span class="red">CVR = 订单数 ÷ 点击次数 × 100%</span></td><td>看 Listing、价格、评价</td></tr>
-<tr><td><span class="red">ACOS</span></td><td>广告销售成本</td><td><span class="red">ACOS = 广告花费 ÷ 广告销售额 × 100%</span></td><td>广告控成本、看利润</td></tr>
-<tr><td><span class="red">ROAS</span></td><td>广告投入产出比</td><td><span class="red">ROAS = 广告销售额 ÷ 广告花费</span></td><td>看广告产出</td></tr>
-<tr><td><span class="red">TACOS</span></td><td>总广告成本占比</td><td><span class="red">TACOS = 广告花费 ÷ 总销售额 × 100%</span></td><td>主管看整体经营健康度</td></tr>
-<tr><td><span class="red">SP</span></td><td>商品推广广告</td><td>看曝光、点击、CPC、CVR、ACOS</td><td>新品冷启动、核心词推广</td></tr>
-<tr><td><span class="red">SB</span></td><td>品牌推广广告</td><td>看品牌曝光、CTR、ROAS</td><td>品牌备案后使用</td></tr>
-<tr><td><span class="red">SD</span></td><td>展示型推广广告</td><td>看展示位置、点击、转化</td><td>再营销、竞品拦截</td></tr>
-<tr><td><span class="red">FBA</span></td><td>亚马逊仓储配送</td><td>看可售天数、库存周转、仓储费</td><td>补货、旺季备货</td></tr>
-</table>
-<h3 id="11-2-沃尔玛">11.2 沃尔玛</h3>
-<table>
-<tr><th>名词</th><th>大白话解释</th><th>计算方式/判断方式</th><th>使用节点</th></tr>
-<tr><td><span class="red">WFS</span></td><td>沃尔玛仓储配送</td><td>看库存、配送时效、成本</td><td>提升配送体验和转化</td></tr>
-<tr><td><span class="red">Buy Box</span></td><td>购买按钮归属</td><td>受价格、库存、配送、卖家表现影响</td><td>价格和履约优化</td></tr>
-<tr><td><span class="red">Seller Scorecard</span></td><td>卖家绩效评分</td><td>看取消率、延迟发货率、追踪率、退货率</td><td>账号健康监控</td></tr>
-<tr><td><span class="red">Sponsored Search</span></td><td>沃尔玛站内广告</td><td>看曝光、点击、CPC、转化、ROAS</td><td>新品推流、促销放量</td></tr>
-<tr><td><span class="red">Cancellation Rate</span></td><td>取消率</td><td>取消订单数 ÷ 总订单数</td><td>库存同步和缺货排查</td></tr>
-<tr><td><span class="red">Late Shipment Rate</span></td><td>延迟发货率</td><td>延迟发货订单数 ÷ 总订单数</td><td>履约监控</td></tr>
-</table>
-<h3 id="11-3-TikTok">11.3 TikTok</h3>
-<table>
-<tr><th>名词</th><th>大白话解释</th><th>计算方式/判断方式</th><th>使用节点</th></tr>
-<tr><td><span class="red">GMV</span></td><td>成交总额</td><td>订单金额合计</td><td>达人、直播、短视频复盘</td></tr>
-<tr><td><span class="red">ROI</span></td><td>投入产出比</td><td>GMV ÷ 投入成本</td><td>投流和达人复盘</td></tr>
-<tr><td><span class="red">GPM</span></td><td>千次曝光成交金额</td><td>GMV ÷ 曝光量 × 1000</td><td>判断流量质量</td></tr>
-<tr><td><span class="red">CPM</span></td><td>千次曝光成本</td><td>广告花费 ÷ 曝光量 × 1000</td><td>判断投流成本</td></tr>
-<tr><td><span class="red">CPC</span></td><td>单次点击成本</td><td>广告花费 ÷ 点击次数</td><td>判断点击成本</td></tr>
-<tr><td><span class="red">CVR</span></td><td>转化率</td><td>成交订单数 ÷ 商品点击次数</td><td>商品页承接判断</td></tr>
-<tr><td><span class="red">GMV Max</span></td><td>自动化放量工具</td><td>看 GMV、ROI、花费</td><td>商品有数据后放量</td></tr>
-</table>
-<h3 id="11-4-独立站">11.4 独立站</h3>
-<table>
-<tr><th>名词</th><th>大白话解释</th><th>计算方式/判断方式</th><th>使用节点</th></tr>
-<tr><td><span class="red">Shopify</span></td><td>常见独立站后台</td><td>看是否实际操作过商品、订单、页面、折扣</td><td>日常站点运营</td></tr>
-<tr><td><span class="red">GA4</span></td><td>网站数据分析工具</td><td>看流量来源、加购、结账、购买</td><td>数据复盘</td></tr>
-<tr><td><span class="red">Pixel</span></td><td>广告追踪代码</td><td>记录浏览、加购、结账、购买</td><td>广告投放前后</td></tr>
-<tr><td><span class="red">ROAS</span></td><td>广告投入产出比</td><td>销售额 ÷ 广告花费</td><td>广告复盘</td></tr>
-<tr><td><span class="red">CPA</span></td><td>单次转化成本</td><td>广告花费 ÷ 转化次数</td><td>控制获客成本</td></tr>
-<tr><td><span class="red">AOV</span></td><td>客单价</td><td>销售额 ÷ 订单数</td><td>满减、组合购、免邮门槛</td></tr>
-<tr><td><span class="red">Purchase CVR</span></td><td>购买转化率</td><td>订单数 ÷ 访问人数 × 100%</td><td>网站整体转化</td></tr>
-<tr><td><span class="red">LTV</span></td><td>用户生命周期价值</td><td>平均客单价 × 购买频次 × 留存周期</td><td>复购和长期利润</td></tr>
-<tr><td><span class="red">CAC</span></td><td>获客成本</td><td>获客总成本 ÷ 新客户数</td><td>判断投放是否值得</td></tr>
-</table>
-</section><section class="section" id="12-HR-追问专业词的通用话术">
-<h2>12. HR 追问专业词的通用话术</h2>
-<table>
-<tr><th>候选人说法</th><th>HR 追问</th></tr>
-<tr><td>我做过广告</td><td>你主要看 CPC、CTR、CVR、ACOS 还是 ROAS？上份工作大概是多少？</td></tr>
-<tr><td>我优化过 Listing</td><td>你改了标题、图片、五点、A+ 还是关键词？改完 CTR 或 CVR 有变化吗？</td></tr>
-<tr><td>我做过爆款</td><td>这个 SKU 属于什么品类？从多少销量做到多少？用了多久？广告花费多少？</td></tr>
-<tr><td>我负责达人</td><td>每月联系多少达人？寄样多少？出视频多少？GMV 和 ROI 怎样？</td></tr>
-<tr><td>我做独立站转化</td><td>你看加购率、结账率、支付成功率还是整体 CVR？问题出在哪一步？</td></tr>
-<tr><td>我带过团队</td><td>团队几个人？怎么分工？目标怎么拆？低绩效怎么处理？</td></tr>
-</table>
-</section><section class="section" id="13-常见红旗信号">
-<h2>13. 常见红旗信号</h2>
-<ul><li>一直说“我们团队做的”，但说不清自己负责什么。</li><li>说负责广告，但不知道 ACOS、ROAS、CTR、CVR、CPC 基本指标。</li><li>说负责店铺，但不知道 SKU 数量、月销售额、广告预算、核心产品。</li><li>说做过主管，但说不清团队人数、分工、目标拆解和复盘机制。</li><li>只说销售额增长，不知道利润、广告费、库存和退货。</li><li>遇到问题只说“加大推广”“优化 Listing”，没有排查步骤和数据依据。</li><li>对平台规则没有敬畏，比如把刷单、违规索评、侵权素材说得很随意。</li></ul>
-</section>
-  </main>
-</div>
-<button class="backtop" onclick="document.getElementById('top').scrollIntoView({ behavior: 'smooth' })" title="返回顶部">↑</button>
-<script>
-function highlightImportantTableColumns() {
-  document.querySelectorAll('table').forEach(table => {
-    const headers = Array.from(table.querySelectorAll('th'));
-    headers.forEach((header, index) => {
-      const text = header.textContent.trim();
-      const isRisk = text.includes('风险信号');
-      const isImportant = [
-        'HR 要拿到什么信息',
-        '参考答案/判断标准',
-        'HR 追问',
-        '推荐写法'
-      ].some(keyword => text.includes(keyword));
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav-title">快捷导航</div>
+        <div class="nav-sub">点击可跳转到对应章节</div>
+        <nav class="nav">
+          <a class="h2" href="#1-HR-初面整体流程">1. HR 初面整体流程</a>
+          <a class="h2" href="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</a>
+          <a class="h2" href="#3-简历筛选重点">3. 简历筛选重点</a>
+          <a class="h3" href="#3-1-好简历一般这样写">3.1 好简历一般这样写</a>
+          <a class="h3" href="#3-2-一般简历常见写法">3.2 一般简历常见写法</a>
+          <a class="h3" href="#3-3-风险简历常见写法">3.3 风险简历常见写法</a>
+          <a class="h2" href="#4-推荐给部门时怎么写">4. 推荐给部门时怎么写</a>
+          <a class="h2" href="#5-亚马逊运营专员">5. 亚马逊运营专员</a>
+          <a class="h3" href="#岗位职责">岗位职责</a>
+          <a class="h3" href="#核心能力">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案">面试问题与参考答案</a>
+          <a class="h2" href="#6-亚马逊运营主管">6. 亚马逊运营主管</a>
+          <a class="h3" href="#岗位职责-2">岗位职责</a>
+          <a class="h3" href="#核心能力-2">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-2">面试问题与参考答案</a>
+          <a class="h2" href="#7-沃尔玛运营专员">7. 沃尔玛运营专员</a>
+          <a class="h3" href="#岗位职责-3">岗位职责</a>
+          <a class="h3" href="#核心能力-3">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-3">面试问题与参考答案</a>
+          <a class="h2" href="#8-沃尔玛运营主管">8. 沃尔玛运营主管</a>
+          <a class="h3" href="#岗位职责-4">岗位职责</a>
+          <a class="h3" href="#面试问题与参考答案-4">面试问题与参考答案</a>
+          <a class="h2" href="#9-TikTok-运营专员">9. TikTok 运营专员</a>
+          <a class="h3" href="#岗位职责-5">岗位职责</a>
+          <a class="h3" href="#核心能力-4">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-5">面试问题与参考答案</a>
+          <a class="h2" href="#10-独立站运营专员">10. 独立站运营专员</a>
+          <a class="h3" href="#岗位职责-6">岗位职责</a>
+          <a class="h3" href="#核心能力-5">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-6">面试问题与参考答案</a>
+          <a class="h2" href="#11-专业名词速查表">11. 专业名词速查表</a>
+          <a class="h3" href="#11-1-亚马逊">11.1 亚马逊</a>
+          <a class="h3" href="#11-2-沃尔玛">11.2 沃尔玛</a>
+          <a class="h3" href="#11-3-TikTok">11.3 TikTok</a>
+          <a class="h3" href="#11-4-独立站">11.4 独立站</a>
+          <a class="h2" href="#12-HR-追问专业词的通用话术">12. HR 追问专业词的通用话术</a>
+          <a class="h2" href="#13-常见红旗信号">13. 常见红旗信号</a>
+        </nav>
+      </aside>
+      <main class="content">
+        <header class="hero" id="top">
+          <h1>鑫鑫的秘密面试手册</h1>
+          <p style="margin: -4px 0 12px; color: rgba(255, 255, 255, 0.92); font-size: 18px">跨境电商运营岗位 HR 面试题与参考答案</p>
+          <div class="desc">适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok 运营专员、独立站运营专员。<br />使用目标：帮助 HR 在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。</div>
+          <div class="toolbar">
+            <button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
+            <a class="btn" href="#1-HR-初面整体流程">查看面试流程</a>
+            <a class="btn" href="#11-专业名词速查表">查看专业名词</a>
+          </div>
+        </header>
+        <div class="search-box">
+          <input id="globalSearch" class="search-input" type="search" placeholder="全局搜索：输入岗位、平台、指标、问题，例如 ACOS / 亚马逊 / GMV / 断货" />
+          <div id="searchResults" class="search-results"></div>
+        </div>
+        <section class="resume-tool" id="AI-简历分析">
+          <div class="resume-tool-head">
+            <div>
+              <h2>AI 简历分析</h2>
+              <p class="resume-tool-desc">上传候选人简历，结合本页面试手册内容，自动分析匹配岗位、擅长点、薄弱点，并生成 HR 初面建议追问。</p>
+            </div>
+            <span class="resume-badge">PDF / DOCX</span>
+          </div>
+          <div class="resume-form">
+            <div class="resume-field">
+              <label for="resumeFile">候选人简历</label>
+              <input id="resumeFile" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+            </div>
+            <button id="analyzeResumeBtn" class="resume-action" type="button">开始分析</button>
+          </div>
+          <div id="resumeStatus" class="resume-status"></div>
+          <div class="resume-history">
+            <div class="resume-history-head">
+              <div class="resume-history-title">本地简历分析记录</div>
+              <button id="clearAllCacheBtn" class="resume-history-clear" type="button">一键清理缓存</button>
+            </div>
+            <div id="resumeHistoryList" class="resume-history-list"></div>
+          </div>
+        </section>
+        <section class="section" id="1-HR-初面整体流程">
+          <h2>1. HR 初面整体流程</h2>
+          <div class="flow-wrap">
+            <p class="flow-intro">先拿基础匹配信息，再追真实业务动作，最后判断是否值得推荐业务复试。</p>
+            <div class="flow-grid">
+              <div class="flow-card">
+                <span class="flow-num">1</span><strong>开始面试</strong>
+                <p>确认在职状态、到岗时间、期望薪资。</p>
+              </div>
+              <div class="flow-card">
+                <span class="flow-num">2</span><strong>确认岗位方向</strong>
+                <p>问清平台、站点、品类，先判断岗位是否匹配。</p>
+              </div>
+              <div class="flow-card">
+                <span class="flow-num">3</span><strong>追问业务体量</strong>
+                <p>拿到 SKU、月销售额、广告预算、团队规模。</p>
+              </div>
+              <div class="flow-card">
+                <span class="flow-num">4</span><strong>追问实际权限</strong>
+                <p>确认广告、价格、活动、补货、复盘是不是本人负责。</p>
+              </div>
+              <div class="flow-card">
+                <span class="flow-num">5</span><strong>追问真实案例</strong>
+                <p>重点听增长、下滑、断货、广告亏损、账号风险。</p>
+              </div>
+              <div class="flow-card decision">
+                <span class="flow-num">6</span>
+                <div>
+                  <strong>核心判断</strong>
+                  <p>候选人是否能说出清楚的数据、动作、结果和复盘？</p>
+                </div>
+              </div>
+              <div class="flow-card good">
+                <span class="flow-num">✓</span><strong>能说清</strong>
+                <p>推荐业务复试，并备注重点数据和待考察点。</p>
+              </div>
+              <div class="flow-card bad">
+                <span class="flow-num">!</span><strong>说不清</strong>
+                <p>谨慎推荐或淘汰，备注回答空泛、数据缺失。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section" id="2-面试前-10-分钟必须问清楚">
+          <h2>2. 面试前 10 分钟必须问清楚</h2>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th class="important-head"><span class="highlight-label">HR 要拿到什么信息</span></th>
+              <th>靠谱回答长什么样</th>
+              <th class="risk-head"><span class="risk-label">风险信号</span></th>
+            </tr>
+            <tr>
+              <td>你上一份主要负责哪个平台？哪些站点？</td>
+              <td class="important-cell">亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚，独立站面向美国/欧洲等</td>
+              <td>“亚马逊美国站，家居类目，FBA 为主”</td>
+              <td class="risk-cell">只说“跨境平台都做过”，但说不出最熟站点</td>
+            </tr>
+            <tr>
+              <td>你负责什么品类？主要产品是什么？</td>
+              <td class="important-cell">家居、宠物、户外、3C、服饰、美妆、工具、母婴等</td>
+              <td>“宠物用品，主做宠物饮水机和猫砂垫，价格带 20-50 美金”</td>
+              <td class="risk-cell">只说“杂货”“精品”，没有具体产品</td>
+            </tr>
+            <tr>
+              <td>你负责多少 SKU？核心 SKU 有几个？</td>
+              <td class="important-cell">是铺货型，还是精品型</td>
+              <td>“负责 80 个 SKU，核心 SKU 8 个”</td>
+              <td class="risk-cell">完全说不清 SKU 数量</td>
+            </tr>
+            <tr>
+              <td>月销售额或 GMV 大概多少？</td>
+              <td class="important-cell">业务体量，便于部门判断匹配度</td>
+              <td>“月销售额 20-30 万美金”或“月 GMV 50 万人民币左右”</td>
+              <td class="risk-cell">只说“还可以”“比较稳定”</td>
+            </tr>
+            <tr>
+              <td>每月广告预算多少？主要看什么指标？</td>
+              <td class="important-cell">是否真的接触广告</td>
+              <td>“广告月花费 3-5 万美金，看 ACOS、CPC、CTR、CVR”</td>
+              <td class="risk-cell">说做广告，但不知道基本指标</td>
+            </tr>
+            <tr>
+              <td>你是独立负责还是协助？有哪些权限？</td>
+              <td class="important-cell">区分主运营、运营助理、执行岗</td>
+              <td>“我能调广告、报活动、提补货建议，价格要主管确认”</td>
+              <td class="risk-cell">所有事情都是“团队做的”</td>
+            </tr>
+            <tr>
+              <td>你做过最成功的案例是什么？</td>
+              <td class="important-cell">过程和结果</td>
+              <td>“通过关键词和图片优化，某 SKU 转化率从 8% 到 11%”</td>
+              <td class="risk-cell">只有结论，没有动作和数据</td>
+            </tr>
+            <tr>
+              <td>遇到过最棘手的问题是什么？</td>
+              <td class="important-cell">解决问题能力</td>
+              <td>能讲断货、差评、侵权、广告亏损、达人不发视频、网站转化低等</td>
+              <td class="risk-cell">只说“加大推广”“优化一下”</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="3-简历筛选重点">
+          <h2>3. 简历筛选重点</h2>
+          <h3 id="3-1-好简历一般这样写">3.1 好简历一般这样写</h3>
+          <blockquote>负责亚马逊美国站家居类目，管理约 80 个 <span class="red">SKU（商品最小库存单位）</span>，月销售额约 20-30 万美金。负责 Listing 优化、SP 广告投放、活动报名、库存补货和竞品分析，曾将核心产品 <span class="red">ACOS（广告花费 ÷ 广告销售额）</span> 从 35% 降到 25%。</blockquote>
+          <h3 id="3-2-一般简历常见写法">3.2 一般简历常见写法</h3>
+          <blockquote>负责店铺日常运营、产品上架、广告优化、数据分析。</blockquote>
+          <p>这种简历不能直接判断好坏，需要电话里重点追问：站点、品类、SKU、销售额、广告预算、具体案例。</p>
+          <h3 id="3-3-风险简历常见写法">3.3 风险简历常见写法</h3>
+          <blockquote>熟悉各大跨境平台，执行力强，抗压能力强，沟通能力好。</blockquote>
+          <p>如果没有平台、站点、品类、数据、结果，建议谨慎。</p>
+        </section>
+        <section class="section" id="4-推荐给部门时怎么写">
+          <h2>4. 推荐给部门时怎么写</h2>
+          <table>
+            <tr>
+              <th>模块</th>
+              <th>推荐写法</th>
+            </tr>
+            <tr>
+              <td>候选人/岗位</td>
+              <td>张三，应聘亚马逊运营专员</td>
+            </tr>
+            <tr>
+              <td>平台和站点</td>
+              <td>亚马逊美国站，FBA 为主</td>
+            </tr>
+            <tr>
+              <td>品类和产品</td>
+              <td>家居收纳类目，核心产品为收纳盒、置物架</td>
+            </tr>
+            <tr>
+              <td>业务体量</td>
+              <td>负责约 80 个 SKU，核心 SKU 10 个，月销售额约 20-30 万美金</td>
+            </tr>
+            <tr>
+              <td>主要工作</td>
+              <td>Listing 优化、SP 广告投放、活动报名、库存补货建议、竞品分析</td>
+            </tr>
+            <tr>
+              <td>关键数据</td>
+              <td>广告月花费约 3 万美金，ACOS 约 25%-30%，某 SKU 转化率从 8% 提升到 11%</td>
+            </tr>
+            <tr>
+              <td>HR 判断</td>
+              <td>平台匹配，数据表达清楚，有实际案例，建议业务复试重点考察广告深度和利润意识</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="5-亚马逊运营专员">
+          <h2>5. 亚马逊运营专员</h2>
+          <h3 id="岗位职责">岗位职责</h3>
+          <ul>
+            <li>负责亚马逊店铺日常运营：上架产品、优化 Listing、投放广告、报名活动、跟进库存和订单问题。</li>
+            <li>负责指定站点或产品线的数据监控，比如美国站家居类目、欧洲站宠物类目等。</li>
+            <li>根据曝光、点击、转化、广告 ACOS、库存、评价和竞品情况调整运营动作。</li>
+            <li>和设计、采购、物流、客服配合，推进图片、文案、补货、售后问题。</li>
+          </ul>
+          <h3 id="核心能力">核心能力</h3>
+          <ul>
+            <li>能说清自己负责什么站点、什么品类、多少 SKU、月销售额和广告预算。</li>
+            <li>会做 <span class="red">Listing（产品详情页，影响点击和转化）</span> 优化。</li>
+            <li>
+              懂广告基础：<span class="red">SP（亚马逊商品推广广告）</span>、关键词、搜索词、<span class="red">CPC（广告花费 ÷ 点击次数）</span>、<span class="red">CTR（点击次数 ÷ 曝光次数）</span>、<span class="red">CVR（订单数 ÷ 点击次数）</span>、<span class="red"
+                >ACOS（广告花费 ÷ 广告销售额）</span
+              >。
+            </li>
+            <li>有数据排查能力：销量掉了能从流量、转化、价格、广告、库存、评价、竞品查原因。</li>
+            <li>有库存和规则意识：知道 <span class="red">FBA（亚马逊仓储配送）</span> 断货影响排名，知道不能违规刷单、索评、侵权。</li>
+          </ul>
+          <h3 id="面试问题与参考答案">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你上一份亚马逊主要负责哪个站点和品类？</td>
+              <td>能具体说出站点和品类，比如“美国站，家居收纳类目，FBA 为主，负责约 60 个 SKU，核心 SKU 8 个”。</td>
+            </tr>
+            <tr>
+              <td>你负责的月销售额和广告预算大概多少？</td>
+              <td>可以说范围，比如“月销售额 20-30 万美金，广告月花费 3-5 万美金，整体 ACOS 25%左右”。重点看他是否知道业务数据。</td>
+            </tr>
+            <tr>
+              <td>你平时怎么优化 Listing？</td>
+              <td>先做竞品和关键词分析，再改标题、五点、Search Terms、主图、副图、A+。专业回答会提到看 CTR 和 CVR。</td>
+            </tr>
+            <tr>
+              <td>曝光很多但订单少，你怎么处理？</td>
+              <td>曝光多订单少通常是转化问题。查价格、评价、Review 数量、主图、五点、A+、Coupon、配送时效、竞品活动。</td>
+            </tr>
+            <tr>
+              <td>广告 ACOS 突然升高，你怎么排查？</td>
+              <td>看 CPC 是否涨了、CVR 是否降了、关键词是否跑偏、竞品是否降价、Listing 是否被改、库存或评价是否异常。</td>
+            </tr>
+            <tr>
+              <td>新品前两周关注什么？</td>
+              <td>关注关键词收录、曝光、点击率、转化率、广告搜索词、评价积累、库存、价格和竞品反应。</td>
+            </tr>
+            <tr>
+              <td>FBA 快断货了怎么办？</td>
+              <td>算可售天数，联系补货，短期控制广告和促销，必要时提价控速或走空派/海外仓。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="6-亚马逊运营主管">
+          <h2>6. 亚马逊运营主管</h2>
+          <h3 id="岗位职责-2">岗位职责</h3>
+          <ul>
+            <li>负责亚马逊店铺或业务线的销售额、利润、广告效率、库存周转和账号安全。</li>
+            <li>制定月度、季度、年度目标，并拆到站点、品类、产品、人员和时间节点。</li>
+            <li>管理团队，检查广告、Listing、库存、活动、复盘等执行质量。</li>
+            <li>处理链接下架、侵权、差评、跟卖、库存积压、广告亏损等复杂问题。</li>
+          </ul>
+          <h3 id="核心能力-2">核心能力</h3>
+          <ul>
+            <li>能讲清自己管过几个站点、几个人、多少 SKU、月销售额、利润率和广告费率。</li>
+            <li>有经营意识：不只冲销售额，还关注毛利、广告费、仓储费、退货损耗和现金流。</li>
+            <li>有团队管理能力：会分工、培训、复盘、定目标、处理低绩效。</li>
+            <li>有风险处理能力：账号健康、侵权、断货、滞销、链接异常都要有处理经验。</li>
+            <li>能跨部门推动：采购、供应链、设计、客服、财务都要协同。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-2">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你上一份管理几个亚马逊站点？团队几个人？</td>
+              <td>能说清“美国站+加拿大站，团队 4 人，2 个运营、1 个助理、1 个广告专员”等管理范围。</td>
+            </tr>
+            <tr>
+              <td>你管理的业务体量和利润情况怎样？</td>
+              <td>除销售额，还能说毛利率、广告费率、库存周转。例如“月销售额约 80 万美金，毛利率 30%左右”。</td>
+            </tr>
+            <tr>
+              <td>接手一个新团队，前 30 天会做什么？</td>
+              <td>先看账号健康、销售利润报表、广告结构、库存风险、核心链接排名、产品生命周期和人员分工。</td>
+            </tr>
+            <tr>
+              <td>你怎么给团队拆目标？</td>
+              <td>根据历史销量、库存、季节性、大促节点、广告预算、毛利要求拆到产品和人员。</td>
+            </tr>
+            <tr>
+              <td>团队广告 ACOS 降不下来，你怎么带他们解决？</td>
+              <td>从产品转化、广告结构、关键词质量、预算分配、竞品价格、Listing 质量查起，并带团队做周复盘。</td>
+            </tr>
+            <tr>
+              <td>遇到侵权投诉或链接下架，你怎么处理？</td>
+              <td>先确认原因和风险范围，准备发票、授权、图片来源、品牌资料申诉；同时评估库存和销售损失。</td>
+            </tr>
+            <tr>
+              <td>你怎么判断一个运营人员是否合格？</td>
+              <td>看销售和利润，也看广告效率、库存健康、数据复盘、执行稳定性、问题响应。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="7-沃尔玛运营专员">
+          <h2>7. 沃尔玛运营专员</h2>
+          <h3 id="岗位职责-3">岗位职责</h3>
+          <ul>
+            <li>负责 Walmart Marketplace 产品上架、内容优化、价格维护、库存同步、订单和退货跟进。</li>
+            <li>关注产品是否通过审核、是否正常展示、是否有 <span class="red">Buy Box（购物车/购买按钮归属）</span>、价格和配送是否有竞争力。</li>
+            <li>维护 <span class="red">Seller Scorecard（卖家绩效评分）</span>，减少取消订单、延迟发货、追踪异常和差评。</li>
+            <li>配合广告和促销，提高产品曝光、点击和转化。</li>
+          </ul>
+          <h3 id="核心能力-3">核心能力</h3>
+          <ul>
+            <li>能说清负责沃尔玛美国站什么品类、多少 SKU、月销售额、<span class="red">WFS（沃尔玛仓储配送）</span> 还是自发货。</li>
+            <li>懂沃尔玛内容要求：标题、类目、属性、Key Features、图片、库存要准确。</li>
+            <li>懂平台核心指标：Buy Box、价格竞争力、配送时效、Seller Scorecard、取消率、延迟发货率。</li>
+            <li>会基础广告：<span class="red">Sponsored Search（沃尔玛站内搜索广告）</span>、曝光、点击、ROAS。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-3">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你做沃尔玛主要负责什么站点、品类和履约方式？</td>
+              <td>通常是沃尔玛美国站，要能说出品类、SKU 数量、月销售额、WFS 还是海外仓。</td>
+            </tr>
+            <tr>
+              <td>沃尔玛和亚马逊最大的不同是什么？</td>
+              <td>沃尔玛更看重价格竞争力、配送时效、内容完整度和 Seller Scorecard。</td>
+            </tr>
+            <tr>
+              <td>产品上架后没有曝光，你怎么查？</td>
+              <td>查审核状态、类目属性、标题关键词、图片、库存、价格、配送方式、广告是否开启。</td>
+            </tr>
+            <tr>
+              <td>什么是 Seller Scorecard？</td>
+              <td>平台对卖家表现的评分，会看取消率、延迟发货、有效追踪、退货、客户体验等。</td>
+            </tr>
+            <tr>
+              <td>订单延迟发货变多，你怎么处理？</td>
+              <td>查库存同步、仓库发货、物流商追踪号、系统对接；长期建立库存和发货时效预警。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="8-沃尔玛运营主管">
+          <h2>8. 沃尔玛运营主管</h2>
+          <h3 id="岗位职责-4">岗位职责</h3>
+          <ul>
+            <li>负责沃尔玛平台销售增长、利润、账号健康、团队分工和运营流程。</li>
+            <li>搭建选品、上架、内容优化、WFS 备货、广告促销、复盘的完整流程。</li>
+            <li>管理价格、库存、履约、退货和账号指标，降低平台风险。</li>
+            <li>协调采购、仓储、物流、客服、财务，推动沃尔玛业务稳定增长。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-4">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你之前负责的沃尔玛业务体量有多大？</td>
+              <td>能说出团队人数、SKU 数量、月销售额、WFS 比例、主要品类。</td>
+            </tr>
+            <tr>
+              <td>如果公司从 0 做沃尔玛，你怎么开始？</td>
+              <td>先筛产品，看价格带、竞品、利润、库存和履约能力；再搭上架模板、内容标准、WFS/海外仓方案。</td>
+            </tr>
+            <tr>
+              <td>沃尔玛账号健康出问题，你会怎么处理？</td>
+              <td>先定位是取消率、延迟发货、追踪率、退货率还是客服问题。短期止损，长期建立预警。</td>
+            </tr>
+            <tr>
+              <td>怎么判断一个 SKU 是否继续投入？</td>
+              <td>看销量趋势、毛利、广告 ROAS、库存周转、退货率、价格竞争、评价。</td>
+            </tr>
+            <tr>
+              <td>怎么管理沃尔玛价格竞争？</td>
+              <td>监控竞品价和 Buy Box，同时设置最低毛利底线，不能长期亏损抢订单。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="9-TikTok-运营专员">
+          <h2>9. TikTok 运营专员</h2>
+          <h3 id="岗位职责-5">岗位职责</h3>
+          <ul>
+            <li>负责 TikTok 短视频、直播、达人合作或 TikTok Shop 商品运营。</li>
+            <li>跟进内容选题、脚本、拍摄、剪辑、发布、评论互动和数据复盘。</li>
+            <li>筛选达人，沟通寄样、合作方式、发布时间和带货效果。</li>
+            <li>关注播放量、完播率、互动率、商品点击率、转化率、<span class="red">GMV（成交总额）</span> 和 <span class="red">ROI（GMV ÷ 投入成本）</span>。</li>
+          </ul>
+          <h3 id="核心能力-4">核心能力</h3>
+          <ul>
+            <li>能说清做的是哪个国家站点：美区、英国、东南亚，还是只做内容账号。</li>
+            <li>能说清负责品类、视频数量、达人数量、直播场次、GMV 或转化数据。</li>
+            <li>懂内容：前 3 秒钩子、卖点表达、场景化展示、评论区互动。</li>
+            <li>懂转化：视频火不等于能卖货，要看商品点击、加购、成交和商品页承接。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-5">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你做 TikTok 主要是哪个国家站点？做内容、达人、直播还是店铺？</td>
+              <td>要说清楚，比如“美区 TikTok Shop，做家居类目，负责达人建联和短视频复盘”。</td>
+            </tr>
+            <tr>
+              <td>你负责的品类、达人数量、视频数量、GMV 大概多少？</td>
+              <td>比如“每月联系 200 个达人，寄样 50 个，产出视频 30 条，月 GMV 10 万美金”。</td>
+            </tr>
+            <tr>
+              <td>一条带货短视频最重要的是什么？</td>
+              <td>前 3 秒抓住人，卖点简单，场景真实，让用户马上知道解决什么问题。</td>
+            </tr>
+            <tr>
+              <td>视频播放量高但不出单怎么办？</td>
+              <td>查人群是否精准、卖点是否清楚、价格是否有优势、商品页是否能承接、评论区疑虑。</td>
+            </tr>
+            <tr>
+              <td>你怎么筛选达人？</td>
+              <td>不只看粉丝数，要看粉丝画像、内容风格、互动质量、历史带货能力、报价和产品匹配度。</td>
+            </tr>
+            <tr>
+              <td>直播前你会准备什么？</td>
+              <td>货盘、库存、优惠、脚本、主播话术、样品、场控流程、评论答疑、直播节奏、数据目标。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="10-独立站运营专员">
+          <h2>10. 独立站运营专员</h2>
+          <h3 id="岗位职责-6">岗位职责</h3>
+          <ul>
+            <li>负责 Shopify 或品牌独立站产品上架、页面维护、活动配置、优惠码、内容更新和数据复盘。</li>
+            <li>和广告、设计、客服配合，优化落地页、产品页、购买流程和用户体验。</li>
+            <li>关注访问量、加购率、结账率、支付成功率、转化率、客单价、复购率。</li>
+            <li>配合节日、上新、清仓、邮件营销和会员活动，提高销售和复购。</li>
+          </ul>
+          <h3 id="核心能力-5">核心能力</h3>
+          <ul>
+            <li>能说清独立站面向哪个市场、什么品类、月销售额、订单量、主要流量来源。</li>
+            <li>懂转化链路：用户从广告进站，到浏览、加购、结账、付款，每一步都可能流失。</li>
+            <li>会看数据：<span class="red">Shopify（常见独立站建站后台）</span>、<span class="red">GA4（Google Analytics 4）</span>、<span class="red">Pixel（广告追踪代码）</span>、ROAS、转化率。</li>
+            <li>懂页面优化：图片、卖点、评价、FAQ、物流说明、支付方式、信任背书。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-6">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你负责的独立站面向哪个市场？什么品类？</td>
+              <td>要具体，比如“美国市场，宠物用品，Shopify 站，月订单 3000 单左右”。</td>
+            </tr>
+            <tr>
+              <td>网站月销售额、订单量、主要流量来源是多少？</td>
+              <td>能说出月销售额、订单数、客单价，流量来自 Meta、Google、TikTok、SEO、邮件等。</td>
+            </tr>
+            <tr>
+              <td>独立站和平台店铺最大的区别是什么？</td>
+              <td>独立站更自由，可沉淀品牌和用户数据，但流量要自己获取；平台有自然流量但规则限制多。</td>
+            </tr>
+            <tr>
+              <td>网站有流量但转化低，你会怎么查？</td>
+              <td>看广告和落地页是否一致、产品页卖点、价格、图片、评价、FAQ、物流、支付方式、页面速度。</td>
+            </tr>
+            <tr>
+              <td>独立站核心数据你会看哪些？</td>
+              <td>访问量、加购率、结账率、支付成功率、转化率、客单价、复购率、弃购率、广告 ROAS 和毛利。</td>
+            </tr>
+            <tr>
+              <td>用户加购很多但不付款，可能是什么原因？</td>
+              <td>运费高、支付方式不方便、结账步骤多、信任感不足、物流时间长、折扣不明显。</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="11-专业名词速查表">
+          <h2>11. 专业名词速查表</h2>
+          <h3 id="11-1-亚马逊">11.1 亚马逊</h3>
+          <table>
+            <tr>
+              <th>名词</th>
+              <th>大白话解释</th>
+              <th>计算方式/判断方式</th>
+              <th>使用节点</th>
+            </tr>
+            <tr>
+              <td><span class="red">CPC</span></td>
+              <td>单次点击成本</td>
+              <td><span class="red">CPC = 广告花费 ÷ 点击次数</span></td>
+              <td>广告每天/每周优化</td>
+            </tr>
+            <tr>
+              <td><span class="red">CTR</span></td>
+              <td>点击率，看到后有多少人点</td>
+              <td><span class="red">CTR = 点击次数 ÷ 曝光次数 × 100%</span></td>
+              <td>看主图、标题、价格吸引力</td>
+            </tr>
+            <tr>
+              <td><span class="red">CVR</span></td>
+              <td>转化率，点击后有多少人买</td>
+              <td><span class="red">CVR = 订单数 ÷ 点击次数 × 100%</span></td>
+              <td>看 Listing、价格、评价</td>
+            </tr>
+            <tr>
+              <td><span class="red">ACOS</span></td>
+              <td>广告销售成本</td>
+              <td><span class="red">ACOS = 广告花费 ÷ 广告销售额 × 100%</span></td>
+              <td>广告控成本、看利润</td>
+            </tr>
+            <tr>
+              <td><span class="red">ROAS</span></td>
+              <td>广告投入产出比</td>
+              <td><span class="red">ROAS = 广告销售额 ÷ 广告花费</span></td>
+              <td>看广告产出</td>
+            </tr>
+            <tr>
+              <td><span class="red">TACOS</span></td>
+              <td>总广告成本占比</td>
+              <td><span class="red">TACOS = 广告花费 ÷ 总销售额 × 100%</span></td>
+              <td>主管看整体经营健康度</td>
+            </tr>
+            <tr>
+              <td><span class="red">SP</span></td>
+              <td>商品推广广告</td>
+              <td>看曝光、点击、CPC、CVR、ACOS</td>
+              <td>新品冷启动、核心词推广</td>
+            </tr>
+            <tr>
+              <td><span class="red">SB</span></td>
+              <td>品牌推广广告</td>
+              <td>看品牌曝光、CTR、ROAS</td>
+              <td>品牌备案后使用</td>
+            </tr>
+            <tr>
+              <td><span class="red">SD</span></td>
+              <td>展示型推广广告</td>
+              <td>看展示位置、点击、转化</td>
+              <td>再营销、竞品拦截</td>
+            </tr>
+            <tr>
+              <td><span class="red">FBA</span></td>
+              <td>亚马逊仓储配送</td>
+              <td>看可售天数、库存周转、仓储费</td>
+              <td>补货、旺季备货</td>
+            </tr>
+          </table>
+          <h3 id="11-2-沃尔玛">11.2 沃尔玛</h3>
+          <table>
+            <tr>
+              <th>名词</th>
+              <th>大白话解释</th>
+              <th>计算方式/判断方式</th>
+              <th>使用节点</th>
+            </tr>
+            <tr>
+              <td><span class="red">WFS</span></td>
+              <td>沃尔玛仓储配送</td>
+              <td>看库存、配送时效、成本</td>
+              <td>提升配送体验和转化</td>
+            </tr>
+            <tr>
+              <td><span class="red">Buy Box</span></td>
+              <td>购买按钮归属</td>
+              <td>受价格、库存、配送、卖家表现影响</td>
+              <td>价格和履约优化</td>
+            </tr>
+            <tr>
+              <td><span class="red">Seller Scorecard</span></td>
+              <td>卖家绩效评分</td>
+              <td>看取消率、延迟发货率、追踪率、退货率</td>
+              <td>账号健康监控</td>
+            </tr>
+            <tr>
+              <td><span class="red">Sponsored Search</span></td>
+              <td>沃尔玛站内广告</td>
+              <td>看曝光、点击、CPC、转化、ROAS</td>
+              <td>新品推流、促销放量</td>
+            </tr>
+            <tr>
+              <td><span class="red">Cancellation Rate</span></td>
+              <td>取消率</td>
+              <td>取消订单数 ÷ 总订单数</td>
+              <td>库存同步和缺货排查</td>
+            </tr>
+            <tr>
+              <td><span class="red">Late Shipment Rate</span></td>
+              <td>延迟发货率</td>
+              <td>延迟发货订单数 ÷ 总订单数</td>
+              <td>履约监控</td>
+            </tr>
+          </table>
+          <h3 id="11-3-TikTok">11.3 TikTok</h3>
+          <table>
+            <tr>
+              <th>名词</th>
+              <th>大白话解释</th>
+              <th>计算方式/判断方式</th>
+              <th>使用节点</th>
+            </tr>
+            <tr>
+              <td><span class="red">GMV</span></td>
+              <td>成交总额</td>
+              <td>订单金额合计</td>
+              <td>达人、直播、短视频复盘</td>
+            </tr>
+            <tr>
+              <td><span class="red">ROI</span></td>
+              <td>投入产出比</td>
+              <td>GMV ÷ 投入成本</td>
+              <td>投流和达人复盘</td>
+            </tr>
+            <tr>
+              <td><span class="red">GPM</span></td>
+              <td>千次曝光成交金额</td>
+              <td>GMV ÷ 曝光量 × 1000</td>
+              <td>判断流量质量</td>
+            </tr>
+            <tr>
+              <td><span class="red">CPM</span></td>
+              <td>千次曝光成本</td>
+              <td>广告花费 ÷ 曝光量 × 1000</td>
+              <td>判断投流成本</td>
+            </tr>
+            <tr>
+              <td><span class="red">CPC</span></td>
+              <td>单次点击成本</td>
+              <td>广告花费 ÷ 点击次数</td>
+              <td>判断点击成本</td>
+            </tr>
+            <tr>
+              <td><span class="red">CVR</span></td>
+              <td>转化率</td>
+              <td>成交订单数 ÷ 商品点击次数</td>
+              <td>商品页承接判断</td>
+            </tr>
+            <tr>
+              <td><span class="red">GMV Max</span></td>
+              <td>自动化放量工具</td>
+              <td>看 GMV、ROI、花费</td>
+              <td>商品有数据后放量</td>
+            </tr>
+          </table>
+          <h3 id="11-4-独立站">11.4 独立站</h3>
+          <table>
+            <tr>
+              <th>名词</th>
+              <th>大白话解释</th>
+              <th>计算方式/判断方式</th>
+              <th>使用节点</th>
+            </tr>
+            <tr>
+              <td><span class="red">Shopify</span></td>
+              <td>常见独立站后台</td>
+              <td>看是否实际操作过商品、订单、页面、折扣</td>
+              <td>日常站点运营</td>
+            </tr>
+            <tr>
+              <td><span class="red">GA4</span></td>
+              <td>网站数据分析工具</td>
+              <td>看流量来源、加购、结账、购买</td>
+              <td>数据复盘</td>
+            </tr>
+            <tr>
+              <td><span class="red">Pixel</span></td>
+              <td>广告追踪代码</td>
+              <td>记录浏览、加购、结账、购买</td>
+              <td>广告投放前后</td>
+            </tr>
+            <tr>
+              <td><span class="red">ROAS</span></td>
+              <td>广告投入产出比</td>
+              <td>销售额 ÷ 广告花费</td>
+              <td>广告复盘</td>
+            </tr>
+            <tr>
+              <td><span class="red">CPA</span></td>
+              <td>单次转化成本</td>
+              <td>广告花费 ÷ 转化次数</td>
+              <td>控制获客成本</td>
+            </tr>
+            <tr>
+              <td><span class="red">AOV</span></td>
+              <td>客单价</td>
+              <td>销售额 ÷ 订单数</td>
+              <td>满减、组合购、免邮门槛</td>
+            </tr>
+            <tr>
+              <td><span class="red">Purchase CVR</span></td>
+              <td>购买转化率</td>
+              <td>订单数 ÷ 访问人数 × 100%</td>
+              <td>网站整体转化</td>
+            </tr>
+            <tr>
+              <td><span class="red">LTV</span></td>
+              <td>用户生命周期价值</td>
+              <td>平均客单价 × 购买频次 × 留存周期</td>
+              <td>复购和长期利润</td>
+            </tr>
+            <tr>
+              <td><span class="red">CAC</span></td>
+              <td>获客成本</td>
+              <td>获客总成本 ÷ 新客户数</td>
+              <td>判断投放是否值得</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="12-HR-追问专业词的通用话术">
+          <h2>12. HR 追问专业词的通用话术</h2>
+          <table>
+            <tr>
+              <th>候选人说法</th>
+              <th>HR 追问</th>
+            </tr>
+            <tr>
+              <td>我做过广告</td>
+              <td>你主要看 CPC、CTR、CVR、ACOS 还是 ROAS？上份工作大概是多少？</td>
+            </tr>
+            <tr>
+              <td>我优化过 Listing</td>
+              <td>你改了标题、图片、五点、A+ 还是关键词？改完 CTR 或 CVR 有变化吗？</td>
+            </tr>
+            <tr>
+              <td>我做过爆款</td>
+              <td>这个 SKU 属于什么品类？从多少销量做到多少？用了多久？广告花费多少？</td>
+            </tr>
+            <tr>
+              <td>我负责达人</td>
+              <td>每月联系多少达人？寄样多少？出视频多少？GMV 和 ROI 怎样？</td>
+            </tr>
+            <tr>
+              <td>我做独立站转化</td>
+              <td>你看加购率、结账率、支付成功率还是整体 CVR？问题出在哪一步？</td>
+            </tr>
+            <tr>
+              <td>我带过团队</td>
+              <td>团队几个人？怎么分工？目标怎么拆？低绩效怎么处理？</td>
+            </tr>
+          </table>
+        </section>
+        <section class="section" id="13-常见红旗信号">
+          <h2>13. 常见红旗信号</h2>
+          <ul>
+            <li>一直说“我们团队做的”，但说不清自己负责什么。</li>
+            <li>说负责广告，但不知道 ACOS、ROAS、CTR、CVR、CPC 基本指标。</li>
+            <li>说负责店铺，但不知道 SKU 数量、月销售额、广告预算、核心产品。</li>
+            <li>说做过主管，但说不清团队人数、分工、目标拆解和复盘机制。</li>
+            <li>只说销售额增长，不知道利润、广告费、库存和退货。</li>
+            <li>遇到问题只说“加大推广”“优化 Listing”，没有排查步骤和数据依据。</li>
+            <li>对平台规则没有敬畏，比如把刷单、违规索评、侵权素材说得很随意。</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+    <button class="backtop" onclick="document.getElementById('top').scrollIntoView({ behavior: 'smooth' })" title="返回顶部">↑</button>
+    <div id="analysisLoading" class="analysis-loading" aria-live="polite">
+      <div class="analysis-loading-card">
+        <div class="analysis-loading-title">AI 正在分析简历</div>
+        <div id="analysisLoadingText" class="analysis-loading-text">正在读取简历内容...</div>
+        <div class="analysis-progress"><div id="analysisProgressBar" class="analysis-progress-bar"></div></div>
+        <div class="analysis-progress-meta"><span>分析进度</span><span id="analysisProgressText">0%</span></div>
+      </div>
+    </div>
+    <div id="analysisModal" class="analysis-modal" role="dialog" aria-modal="true" aria-labelledby="analysisModalTitle">
+      <div class="analysis-modal-panel">
+        <div class="analysis-modal-head">
+          <div>
+            <h2 id="analysisModalTitle" class="analysis-modal-title">AI 简历分析结果</h2>
+            <div id="analysisCandidate" class="analysis-candidate">候选人：待识别</div>
+          </div>
+          <button id="analysisModalClose" class="analysis-close" type="button">关闭</button>
+        </div>
+        <div id="analysisModalBody" class="analysis-modal-body"></div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+    <script>
+      function highlightImportantTableColumns() {
+        document.querySelectorAll('table').forEach(table => {
+          const headers = Array.from(table.querySelectorAll('th'));
+          headers.forEach((header, index) => {
+            const text = header.textContent.trim();
+            const isRisk = text.includes('风险信号');
+            const isImportant = ['HR 要拿到什么信息', '参考答案/判断标准', 'HR 追问', '推荐写法'].some(keyword => text.includes(keyword));
 
-      if (!isRisk && !isImportant) return;
+            if (!isRisk && !isImportant) return;
 
-      header.classList.add(isRisk ? 'risk-head' : 'important-head');
-      table.querySelectorAll('tr').forEach(row => {
-        const cell = row.children[index];
-        if (cell && cell.tagName === 'TD') {
-          cell.classList.add(isRisk ? 'risk-cell' : 'important-cell');
+            header.classList.add(isRisk ? 'risk-head' : 'important-head');
+            table.querySelectorAll('tr').forEach(row => {
+              const cell = row.children[index];
+              if (cell && cell.tagName === 'TD') {
+                cell.classList.add(isRisk ? 'risk-cell' : 'important-cell');
+              }
+            });
+          });
+        });
+      }
+      highlightImportantTableColumns();
+
+      const DEEPSEEK_API_BASE = 'https://api.deepseek.com';
+      const DEEPSEEK_MODEL = 'deepseek-chat';
+      const resumeFileInput = document.getElementById('resumeFile');
+      const analyzeResumeBtn = document.getElementById('analyzeResumeBtn');
+      const clearAllCacheBtn = document.getElementById('clearAllCacheBtn');
+      const resumeHistoryList = document.getElementById('resumeHistoryList');
+      const resumeStatus = document.getElementById('resumeStatus');
+      const analysisLoading = document.getElementById('analysisLoading');
+      const analysisLoadingText = document.getElementById('analysisLoadingText');
+      const analysisProgressBar = document.getElementById('analysisProgressBar');
+      const analysisProgressText = document.getElementById('analysisProgressText');
+      const analysisModal = document.getElementById('analysisModal');
+      const analysisModalClose = document.getElementById('analysisModalClose');
+      const analysisCandidate = document.getElementById('analysisCandidate');
+      const analysisModalBody = document.getElementById('analysisModalBody');
+      let analysisProgressTimer = null;
+      let currentAnalysisId = null;
+      const RESUME_ANALYSIS_CACHE_KEY = 'love_xinxin_resume_analysis_cache_v1';
+      const INTERVIEW_REPORT_CACHE_KEY = 'love_xinxin_interview_report_cache_v1';
+      const RESUME_ANALYSIS_HISTORY_KEY = 'love_xinxin_resume_analysis_history_v1';
+
+      if (window.pdfjsLib) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+
+      function setResumeStatus(message, type = 'info') {
+        if (!resumeStatus) return;
+        resumeStatus.textContent = message;
+        resumeStatus.className = `resume-status ${type}`;
+      }
+
+      function clearResumeStatus() {
+        if (!resumeStatus) return;
+        resumeStatus.textContent = '';
+        resumeStatus.className = 'resume-status';
+      }
+
+      function normalizeText(text) {
+        return text.replace(/\s+/g, ' ').trim();
+      }
+
+      function limitText(text, maxLength) {
+        if (text.length <= maxLength) return text;
+        return `${text.slice(0, maxLength)}\n\n[内容过长，已截断前 ${maxLength} 字用于分析]`;
+      }
+
+      function setAnalysisProgress(percent, message) {
+        const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+        if (analysisProgressBar) analysisProgressBar.style.width = `${safePercent}%`;
+        if (analysisProgressText) analysisProgressText.textContent = `${safePercent}%`;
+        if (message && analysisLoadingText) analysisLoadingText.textContent = message;
+      }
+
+      function startAnalysisLoading(message) {
+        if (analysisLoading) analysisLoading.classList.add('active');
+        setAnalysisProgress(8, message || '正在准备分析...');
+        clearInterval(analysisProgressTimer);
+        analysisProgressTimer = setInterval(() => {
+          const current = Number((analysisProgressText?.textContent || '0').replace('%', '')) || 0;
+          if (current < 88) setAnalysisProgress(current + Math.max(1, Math.round((90 - current) / 10)));
+        }, 900);
+      }
+
+      function finishAnalysisLoading() {
+        clearInterval(analysisProgressTimer);
+        setAnalysisProgress(100, '分析完成，正在生成结果弹窗...');
+        setTimeout(() => {
+          if (analysisLoading) analysisLoading.classList.remove('active');
+          setAnalysisProgress(0, '正在读取简历内容...');
+        }, 450);
+      }
+
+      function stopAnalysisLoading() {
+        clearInterval(analysisProgressTimer);
+        if (analysisLoading) analysisLoading.classList.remove('active');
+        setAnalysisProgress(0, '正在读取简历内容...');
+      }
+
+      function parseAnalysisJson(text) {
+        try {
+          return JSON.parse(text);
+        } catch (error) {
+          const match = text.match(/\{[\s\S]*\}/);
+          if (!match) throw new Error('AI 返回内容不是可解析的 JSON。');
+          return JSON.parse(match[0]);
+        }
+      }
+
+      function asArray(value) {
+        return Array.isArray(value) ? value : [];
+      }
+
+      function renderList(items, formatter) {
+        const list = asArray(items).filter(Boolean);
+        if (!list.length) return '<p>暂无明确结论。</p>';
+        return `<ul>${list.map(item => `<li>${formatter ? formatter(item) : escapeHTML(String(item))}</li>`).join('')}</ul>`;
+      }
+
+      function updateCandidateName(name) {
+        const displayName = name && name !== '未知' ? name : '未能从简历中明确识别';
+        if (analysisCandidate) analysisCandidate.textContent = `候选人：${displayName}`;
+      }
+
+      function createAnalysisRecord(analysis, resumeText = '', fileName = '') {
+        return {
+          id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+          savedAt: new Date().toISOString(),
+          fileName,
+          analysis,
+          resumeText: limitText(resumeText, 50000),
+        };
+      }
+
+      function saveAnalysisCache(analysis, resumeText = '', fileName = '') {
+        const record = createAnalysisRecord(analysis, resumeText, fileName);
+        try {
+          localStorage.setItem(
+            RESUME_ANALYSIS_CACHE_KEY,
+            JSON.stringify(record),
+          );
+          addAnalysisHistoryRecord(record);
+          currentAnalysisId = record.id;
+          renderResumeHistory();
+        } catch (error) {
+          console.warn('保存简历分析缓存失败', error);
+        }
+        return record;
+      }
+
+      function loadAnalysisCache() {
+        try {
+          const raw = localStorage.getItem(RESUME_ANALYSIS_CACHE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+          console.warn('读取简历分析缓存失败', error);
+          return null;
+        }
+      }
+
+      function loadAnalysisHistory() {
+        try {
+          const raw = localStorage.getItem(RESUME_ANALYSIS_HISTORY_KEY);
+          const records = raw ? JSON.parse(raw) : [];
+          return Array.isArray(records) ? records : [];
+        } catch (error) {
+          console.warn('读取简历分析历史失败', error);
+          return [];
+        }
+      }
+
+      function saveAnalysisHistory(records) {
+        try {
+          localStorage.setItem(RESUME_ANALYSIS_HISTORY_KEY, JSON.stringify(records.slice(0, 30)));
+        } catch (error) {
+          console.warn('保存简历分析历史失败', error);
+        }
+      }
+
+      function addAnalysisHistoryRecord(record) {
+        const records = loadAnalysisHistory().filter(item => item.id !== record.id);
+        records.unshift(record);
+        saveAnalysisHistory(records);
+      }
+
+      function saveInterviewReportCache(summary, report) {
+        try {
+          localStorage.setItem(
+            INTERVIEW_REPORT_CACHE_KEY,
+            JSON.stringify({
+              savedAt: new Date().toISOString(),
+              analysisId: currentAnalysisId,
+              summary,
+              report,
+            }),
+          );
+          updateHistoryReport(currentAnalysisId, summary, report);
+        } catch (error) {
+          console.warn('保存面试纪要缓存失败', error);
+        }
+      }
+
+      function updateHistoryReport(analysisId, summary, report) {
+        if (!analysisId) return;
+        const records = loadAnalysisHistory();
+        const nextRecords = records.map(item => item.id === analysisId ? { ...item, interviewSummary: summary, interviewReport: report } : item);
+        saveAnalysisHistory(nextRecords);
+        renderResumeHistory();
+      }
+
+      function loadInterviewReportCache() {
+        try {
+          const raw = localStorage.getItem(INTERVIEW_REPORT_CACHE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+          console.warn('读取面试纪要缓存失败', error);
+          return null;
+        }
+      }
+
+      function clearInterviewReportCache() {
+        try {
+          localStorage.removeItem(INTERVIEW_REPORT_CACHE_KEY);
+        } catch (error) {
+          console.warn('清空面试纪要缓存失败', error);
+        }
+      }
+
+      function formatHistoryTime(value) {
+        if (!value) return '';
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return '';
+        return date.toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+      }
+
+      function getTopPositionName(analysis) {
+        return asArray(analysis?.matchedPositions)[0]?.position || '岗位待判断';
+      }
+
+      function renderResumeHistory() {
+        if (!resumeHistoryList) return;
+        const records = loadAnalysisHistory();
+        if (!records.length) {
+          resumeHistoryList.innerHTML = '<div class="resume-history-empty">暂无本地分析记录。每次完成 AI 简历分析后会自动保存到这里。</div>';
+          return;
+        }
+        resumeHistoryList.innerHTML = records.map(record => {
+          const name = record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : '候选人';
+          const position = getTopPositionName(record.analysis);
+          const reportText = record.interviewReport ? '｜已生成纪要' : '';
+          return `
+            <div class="resume-history-item">
+              <div>
+                <div class="resume-history-name">${escapeHTML(name)}｜${escapeHTML(position)}</div>
+                <div class="resume-history-meta">${escapeHTML(record.fileName || '未记录文件名')}｜${escapeHTML(formatHistoryTime(record.savedAt))}${reportText}</div>
+              </div>
+              <button class="resume-history-open" type="button" data-history-id="${escapeHTML(record.id)}">查看</button>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function openAnalysisRecord(record) {
+        if (!record?.analysis) return;
+        currentAnalysisId = record.id || null;
+        localStorage.setItem(RESUME_ANALYSIS_CACHE_KEY, JSON.stringify(record));
+        if (record.interviewReport) {
+          localStorage.setItem(
+            INTERVIEW_REPORT_CACHE_KEY,
+            JSON.stringify({
+              savedAt: record.savedAt || new Date().toISOString(),
+              analysisId: record.id,
+              summary: record.interviewSummary || '',
+              report: record.interviewReport,
+            }),
+          );
+        } else {
+          clearInterviewReportCache();
+        }
+        renderAnalysisModal(record.analysis, record);
+        setResumeStatus('已打开本地缓存的简历分析记录。', 'success');
+      }
+
+      function clearAllLocalCache() {
+        try {
+          localStorage.removeItem(RESUME_ANALYSIS_CACHE_KEY);
+          localStorage.removeItem(INTERVIEW_REPORT_CACHE_KEY);
+          localStorage.removeItem(RESUME_ANALYSIS_HISTORY_KEY);
+        } catch (error) {
+          console.warn('清理本地缓存失败', error);
+        }
+        currentAnalysisId = null;
+        if (analysisModal) analysisModal.classList.remove('active');
+        renderResumeHistory();
+        setResumeStatus('本地缓存已清理。', 'success');
+      }
+
+      function getDeepSeekKeyFromUrl() {
+        return new URLSearchParams(window.location.search).get('key')?.trim() || '';
+      }
+
+      async function extractPdfText(file) {
+        if (!window.pdfjsLib) {
+          throw new Error('PDF 解析库加载失败，请刷新页面后重试。');
+        }
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const pages = [];
+
+        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+          const page = await pdf.getPage(pageNumber);
+          const content = await page.getTextContent();
+          const pageText = content.items.map(item => item.str).join(' ');
+          pages.push(pageText);
+        }
+
+        return normalizeText(pages.join('\n'));
+      }
+
+      async function extractDocxText(file) {
+        if (!window.mammoth) {
+          throw new Error('Word 解析库加载失败，请刷新页面后重试。');
+        }
+        const arrayBuffer = await file.arrayBuffer();
+        const result = await window.mammoth.extractRawText({ arrayBuffer });
+        return normalizeText(result.value || '');
+      }
+
+      async function extractResumeText(file) {
+        const fileName = file.name.toLowerCase();
+        if (file.type === 'application/pdf' || fileName.endsWith('.pdf')) {
+          return extractPdfText(file);
+        }
+        if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileName.endsWith('.docx')) {
+          return extractDocxText(file);
+        }
+        throw new Error('暂时只支持 PDF 和 Word .docx 简历。');
+      }
+
+      function getHandbookText() {
+        return Array.from(document.querySelectorAll('.section'))
+          .map(section => normalizeText(section.textContent))
+          .filter(Boolean)
+          .join('\n\n');
+      }
+
+      function buildResumeAnalysisPrompt(resumeText, handbookText) {
+        return `你是跨境电商招聘面试顾问。请只根据“面试手册”和“候选人简历”分析，不要编造简历里没有的信息。
+
+请只输出一个合法 JSON，不要输出 Markdown，不要用代码块包裹。
+
+JSON 结构必须如下：
+{
+  "candidateName": "候选人姓名，无法识别则写未知",
+  "matchedPositions": [
+    {
+      "position": "匹配岗位名称，必须来自面试手册里的岗位",
+      "matchLevel": "高/中/低",
+      "score": 0-100,
+      "reasons": ["匹配理由，引用简历具体经历、平台、品类、数据或职责"]
+    }
+  ],
+  "strengths": [
+    { "item": "擅长点", "evidence": "简历证据" }
+  ],
+  "weaknesses": [
+    { "item": "薄弱点或风险信号", "evidence": "为什么需要追问" }
+  ],
+  "interviewQuestions": [
+    { "question": "HR 应该问的问题", "confirm": "想确认什么" }
+  ],
+  "recommendation": {
+    "decision": "建议/谨慎建议/不建议",
+    "reason": "2-4 句话说明是否进入业务复试"
+  },
+  "charts": {
+    "positionScores": [
+      { "name": "岗位名", "score": 0-100 }
+    ],
+    "abilityScores": [
+      { "name": "平台经验/广告能力/数据复盘/库存意识/团队管理/风险意识/内容营销/独立站转化", "score": 0-100 }
+    ],
+    "riskSignals": [
+      { "name": "风险名", "level": 0-100 }
+    ]
+  }
+}
+
+要求：
+- matchedPositions 给 1-3 个。
+- strengths 给 3-6 个。
+- weaknesses 给 3-6 个。
+- interviewQuestions 给 8-12 个，必须结合简历具体经历。
+- charts.positionScores、charts.abilityScores、charts.riskSignals 必须适合直接画图。
+- 如果简历缺少关键数据，请在 weaknesses 里指出缺少平台、站点、品类、SKU、销售额/GMV、广告预算、权限、案例等哪一类。
+
+【面试手册】
+${limitText(handbookText, 28000)}
+
+【候选人简历】
+${limitText(resumeText, 18000)}`;
+      }
+
+      async function callDeepSeek(apiKey, prompt, options = {}) {
+        const body = {
+          model: DEEPSEEK_MODEL,
+          temperature: options.temperature ?? 0.2,
+          messages: [
+            {
+              role: 'system',
+              content: options.system || '你是严谨的 HR 初面助手，擅长根据跨境电商岗位要求分析候选人简历。回答要具体、可追问、不要编造。',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+        };
+        if (options.json !== false) {
+          body.response_format = { type: 'json_object' };
+        }
+
+        const response = await fetch(`${DEEPSEEK_API_BASE}/chat/completions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch (error) {
+          throw new Error('DeepSeek 返回内容无法解析，请稍后重试。');
+        }
+
+        if (!response.ok) {
+          const message = data?.error?.message || `请求失败，状态码 ${response.status}`;
+          throw new Error(message);
+        }
+
+        const content = data?.choices?.[0]?.message?.content;
+        if (!content) {
+          throw new Error('DeepSeek 没有返回分析内容，请稍后重试。');
+        }
+        return content.trim();
+      }
+
+      function renderAnalysisModal(analysis, record = null) {
+        if (!analysisModal || !analysisModalBody) return;
+
+        currentAnalysisId = record?.id || currentAnalysisId;
+        updateCandidateName(analysis.candidateName);
+        const recommendation = analysis.recommendation || {};
+        const matchedPositions = asArray(analysis.matchedPositions);
+        const strengths = asArray(analysis.strengths);
+        const weaknesses = asArray(analysis.weaknesses);
+        const questions = asArray(analysis.interviewQuestions);
+
+        const topPosition = matchedPositions[0];
+        const riskTags = weaknesses
+          .slice(0, 5)
+          .map(item => `<span class="analysis-risk-pill">${escapeHTML(item.item || '待追问风险')}</span>`)
+          .join('');
+        analysisModalBody.innerHTML = `
+    <div class="analysis-summary-grid">
+      <div class="analysis-card analysis-highlight-card analysis-match-card">
+        <h3>最匹配岗位</h3>
+        <p><b>${escapeHTML(topPosition?.position || '暂无明确岗位')}</b></p>
+        <p><span class="analysis-score-pill">匹配度：${escapeHTML(topPosition?.matchLevel || '待判断')} ${Number.isFinite(Number(topPosition?.score)) ? ` / ${Number(topPosition.score)} 分` : ''}</span></p>
+      </div>
+      <div class="analysis-card analysis-highlight-card analysis-decision-card">
+        <h3>复试建议</h3>
+        <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
+        <p>${escapeHTML(recommendation.reason || 'AI 未返回明确建议。')}</p>
+      </div>
+      <div class="analysis-card analysis-highlight-card analysis-risk-card">
+        <h3>薄弱点 / 风险</h3>
+        <div>${riskTags || '<span class="analysis-risk-pill">暂无明确风险</span>'}</div>
+        <p>建议围绕数据真实性、实际权限、广告/运营动作、复盘能力继续确认。</p>
+      </div>
+    </div>
+
+    <div class="analysis-charts">
+      <div class="analysis-chart-card">
+        <div class="analysis-chart-title">岗位匹配度</div>
+        <div id="positionScoreChart" class="analysis-chart"></div>
+      </div>
+      <div class="analysis-chart-card">
+        <div class="analysis-chart-title">能力画像</div>
+        <div id="abilityScoreChart" class="analysis-chart"></div>
+      </div>
+      <div class="analysis-chart-card">
+        <div class="analysis-chart-title">风险信号</div>
+        <div id="riskSignalChart" class="analysis-chart"></div>
+      </div>
+    </div>
+
+    <div class="analysis-section">
+      <h3>匹配岗位</h3>
+      ${renderList(matchedPositions, item => `<b>${escapeHTML(item.position || '未知岗位')}</b>（${escapeHTML(item.matchLevel || '待判断')}，${Number(item.score || 0)} 分）${renderList(item.reasons, reason => escapeHTML(reason))}`)}
+    </div>
+
+    <div class="analysis-summary-grid">
+      <div class="analysis-card">
+        <h3>擅长点</h3>
+        ${renderList(strengths, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
+      </div>
+      <div class="analysis-card analysis-risk-card">
+        <h3>薄弱点 / 风险</h3>
+        ${renderList(weaknesses, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
+      </div>
+      <div class="analysis-card analysis-decision-card">
+        <h3>结论</h3>
+        <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
+        <p>${escapeHTML(recommendation.reason || '暂无明确理由。')}</p>
+      </div>
+    </div>
+
+    <details class="analysis-collapse">
+      <summary>HR 初面建议追问（${questions.length || 0} 个问题）</summary>
+      <div class="analysis-collapse-body">
+      ${
+        questions.length
+          ? questions
+              .map(
+                (item, index) => `
+        <div class="analysis-question">
+          <b>${index + 1}. ${escapeHTML(item.question || '')}</b>
+          <div>想确认：${escapeHTML(item.confirm || '')}</div>
+        </div>
+      `,
+              )
+              .join('')
+          : '<p>暂无建议问题。</p>'
+      }
+      </div>
+    </details>
+    <div class="interview-report-box">
+      <h3>生成部门面试纪要</h3>
+      <p>把你对这个人的面试总结、通过情况、意向、离职原因、待确认点写在下面，AI 会结合简历分析生成固定格式纪要。</p>
+      <textarea id="interviewSummaryInput" placeholder="例如：部门一面通过，建议按沃尔玛运营专员推进；候选人在成都，需要确认来杭州意向；离职原因是公司业务调整..."></textarea>
+      <div class="interview-report-actions">
+        <button id="generateInterviewReportBtn" class="resume-action" type="button">生成面试纪要</button>
+        <button id="copyInterviewReportBtn" class="interview-report-copy" type="button">一键复制</button>
+        <span id="interviewReportStatus" class="resume-note"></span>
+      </div>
+      <div id="interviewReportOutput" class="interview-report-output"></div>
+    </div>
+  `;
+
+        analysisModal.classList.add('active');
+        requestAnimationFrame(() => renderAnalysisCharts(analysis.charts || {}));
+        bindInterviewReportGenerator();
+        restoreInterviewReportCache(record);
+      }
+
+      function renderAnalysisCharts(charts) {
+        if (!window.echarts) return;
+
+        const positionScores = asArray(charts.positionScores).slice(0, 5);
+        const abilityScores = asArray(charts.abilityScores).slice(0, 8);
+        const riskSignals = asArray(charts.riskSignals).slice(0, 6);
+
+        const positionEl = document.getElementById('positionScoreChart');
+        if (positionEl && positionScores.length) {
+          const chart = window.echarts.init(positionEl);
+          chart.setOption({
+            grid: { left: 48, right: 18, top: 20, bottom: 48 },
+            xAxis: { type: 'category', data: positionScores.map(item => item.name), axisLabel: { interval: 0, rotate: 25 } },
+            yAxis: { type: 'value', min: 0, max: 100 },
+            series: [{ type: 'bar', data: positionScores.map(item => Number(item.score) || 0), itemStyle: { borderRadius: [8, 8, 0, 0] } }],
+            tooltip: { trigger: 'axis' },
+          });
+        }
+
+        const abilityEl = document.getElementById('abilityScoreChart');
+        if (abilityEl && abilityScores.length) {
+          const chart = window.echarts.init(abilityEl);
+          chart.setOption({
+            radar: {
+              indicator: abilityScores.map(item => ({ name: item.name, max: 100 })),
+              radius: '62%',
+            },
+            series: [{ type: 'radar', areaStyle: {}, data: [{ value: abilityScores.map(item => Number(item.score) || 0), name: '能力分' }] }],
+            tooltip: {},
+          });
+        }
+
+        const riskEl = document.getElementById('riskSignalChart');
+        if (riskEl && riskSignals.length) {
+          const chart = window.echarts.init(riskEl);
+          chart.setOption({
+            tooltip: { trigger: 'item' },
+            series: [
+              {
+                type: 'pie',
+                radius: ['42%', '70%'],
+                data: riskSignals.map(item => ({ name: item.name, value: Number(item.level) || 0 })),
+                label: { formatter: '{b}\n{d}%' },
+              },
+            ],
+          });
+        }
+      }
+
+      function buildInterviewReportPrompt(analysis, resumeText, interviewSummary) {
+        return `你是 HR 面试纪要助手。请结合候选人简历信息、AI 简历分析结果、以及面试官输入的面试总结，生成一份部门一面纪要。
+
+要求：
+- 只输出纪要正文，不要输出解释、不要 Markdown 代码块。
+- 语言风格参考下面模板，简洁、自然、偏大白话，适合 HR 发给业务部门。
+- 不要写得像 AI 生成，不要空泛，不要拔高，不要使用“赋能、沉淀、抓手、闭环、优秀、卓越、较强综合能力、具备较大发展潜力”等套话。
+- 多用短句。每条信息尽量一句话，不要写长段。
+- 只写事实和判断，优先采用面试官输入的原话和简历里的具体数据。
+- 面试官输入的内容只能作为判断依据，不能直接照抄到纪要里。
+- 特别是“此人不合适”“不行”“一般”“pass 掉”等口语或负面原话，必须改写成正式表述。
+- 综合评价要写成业务可接受的话术，例如“候选人与当前岗位方向匹配度不足，建议暂不推进后续流程。”不要写“面试官反馈xxx”。
+- 优势和不足每条控制在 20-35 个字左右。
+- 如果信息不确定，就写“需进一步确认”，不要替候选人美化。
+- 标题格式：姓名——岗位名称部门一面。
+- 如果姓名未知，用“候选人”。
+- 如果岗位无法确定，用 AI 分析里最匹配岗位。
+- 不要编造没有依据的数据；缺失信息可以不写。
+- 必须包含这些部分：
+面试结论：
+一、候选人情况
+二、优势
+三、不足
+四、离职原因
+五、综合评价
+
+参考格式：
+柳敏——沃尔玛运营岗位部门一面
+
+面试结论：部门一面通过，建议作为运营专员岗位推进，待安排部门二面。
+一、候选人情况
+2024年电子商务本科毕业。
+具备2年沃尔玛美国站服饰类目运营经验。
+2024年3月至2025年6月担任运营专员，独立负责约20条链接，小组3人。
+个人负责产品客单价约13.54美金，订单占店铺总订单约42%，GMV占店铺约40%，ROI约1:3.66。
+2025年6月晋升管理岗，负责整个店铺运营工作，团队GMV约510万美元，运营模式为精品+精铺。
+二、优势
+具备沃尔玛美国站服饰运营经验，运营基础扎实。
+个人业绩表现较好，数据贡献度较高。
+具备一定店铺管理经验，沟通表达较好。
+三、不足
+管理经验时间较短，仍需进一步积累。
+目前人在成都，仍处于了解机会阶段，入职意向需进一步确认。
+四、离职原因
+公司业务调整，团队进行了较大规模人员优化，岗位职责持续增加，个人希望寻找更加稳定的发展平台，并计划长期来杭州发展。
+
+五、综合评价
+
+候选人与岗位整体匹配度较高，部门一面建议作为运营专员岗位推进。目前候选人在成都，表示需要再考虑一下，待其确定来杭州后安排部门二面及后续流程。
+
+【AI 简历分析结果】
+${limitText(JSON.stringify(analysis, null, 2), 12000)}
+
+【候选人简历文本】
+${limitText(resumeText || '无缓存简历文本，请主要依据 AI 简历分析结果。', 14000)}
+
+【面试官输入的面试总结】
+${limitText(interviewSummary, 6000)}`;
+      }
+
+      async function handleGenerateInterviewReport() {
+        const summaryInput = document.getElementById('interviewSummaryInput');
+        const reportBtn = document.getElementById('generateInterviewReportBtn');
+        const copyBtn = document.getElementById('copyInterviewReportBtn');
+        const reportStatus = document.getElementById('interviewReportStatus');
+        const reportOutput = document.getElementById('interviewReportOutput');
+        if (!summaryInput || !reportBtn || !reportStatus || !reportOutput) return;
+
+        const interviewSummary = summaryInput.value.trim();
+        const apiKey = getDeepSeekKeyFromUrl();
+        const cached = loadAnalysisCache();
+
+        reportOutput.classList.remove('active');
+        reportOutput.textContent = '';
+        if (copyBtn) copyBtn.classList.remove('active');
+
+        if (!interviewSummary) {
+          reportStatus.textContent = '请先输入你对这个人的面试总结。';
+          return;
+        }
+        if (!apiKey) {
+          reportStatus.textContent = '网址里没有检测到 DeepSeek Key，无法生成纪要。';
+          return;
+        }
+        if (!cached?.analysis) {
+          reportStatus.textContent = '没有找到简历分析结果，请先完成一次 AI 简历分析。';
+          return;
+        }
+
+        reportBtn.disabled = true;
+        reportBtn.textContent = '生成中...';
+        reportStatus.textContent = '正在结合简历和面试总结生成纪要...';
+
+        try {
+          const prompt = buildInterviewReportPrompt(cached.analysis, cached.resumeText || '', interviewSummary);
+          const report = await callDeepSeek(apiKey, prompt, {
+            json: false,
+            temperature: 0.15,
+            system: '你是公司内部 HR，写面试纪要要像真人手写记录。用大白话、短句、事实和判断，不要 AI 味，不要套话，不要夸大。面试官原话只能转成正式结论，不能照抄。',
+          });
+          reportOutput.textContent = report;
+          reportOutput.classList.add('active');
+          if (copyBtn) copyBtn.classList.add('active');
+          saveInterviewReportCache(interviewSummary, report);
+          reportStatus.textContent = '纪要已生成。';
+        } catch (error) {
+          reportStatus.textContent = formatResumeError(error);
+        } finally {
+          reportBtn.disabled = false;
+          reportBtn.textContent = '生成面试纪要';
+        }
+      }
+
+      function bindInterviewReportGenerator() {
+        const reportBtn = document.getElementById('generateInterviewReportBtn');
+        const copyBtn = document.getElementById('copyInterviewReportBtn');
+        if (reportBtn) reportBtn.addEventListener('click', handleGenerateInterviewReport);
+        if (copyBtn) copyBtn.addEventListener('click', copyInterviewReport);
+      }
+
+      function restoreInterviewReportCache(record = null) {
+        const summaryInput = document.getElementById('interviewSummaryInput');
+        const copyBtn = document.getElementById('copyInterviewReportBtn');
+        const reportStatus = document.getElementById('interviewReportStatus');
+        const reportOutput = document.getElementById('interviewReportOutput');
+        const cached = record?.interviewReport
+          ? { summary: record.interviewSummary || '', report: record.interviewReport }
+          : loadInterviewReportCache();
+        if (cached?.analysisId && currentAnalysisId && cached.analysisId !== currentAnalysisId) return;
+        if (!cached?.report || !reportOutput) return;
+
+        if (summaryInput && cached.summary) summaryInput.value = cached.summary;
+        reportOutput.textContent = cached.report;
+        reportOutput.classList.add('active');
+        if (copyBtn) copyBtn.classList.add('active');
+        if (reportStatus) reportStatus.textContent = '已恢复上次生成的面试纪要。';
+      }
+
+      async function copyInterviewReport() {
+        const copyBtn = document.getElementById('copyInterviewReportBtn');
+        const reportStatus = document.getElementById('interviewReportStatus');
+        const reportOutput = document.getElementById('interviewReportOutput');
+        const text = reportOutput?.textContent?.trim();
+        if (!text) {
+          if (reportStatus) reportStatus.textContent = '还没有可复制的面试纪要。';
+          return;
+        }
+
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+          }
+          if (copyBtn) copyBtn.textContent = '已复制';
+          if (reportStatus) reportStatus.textContent = '面试纪要已复制到剪贴板。';
+          setTimeout(() => {
+            if (copyBtn) copyBtn.textContent = '一键复制';
+          }, 1600);
+        } catch (error) {
+          if (reportStatus) reportStatus.textContent = '复制失败，请手动选中文本复制。';
+        }
+      }
+
+      function formatResumeError(error) {
+        const message = error?.message || String(error);
+        if (message === 'Failed to fetch' || message.includes('NetworkError')) {
+          return '请求 DeepSeek 失败。可能是网络问题，或者 DeepSeek API 不允许浏览器直接跨域调用；如果一直失败，需要改成后端代理版。';
+        }
+        if (message.includes('401') || message.toLowerCase().includes('unauthorized')) {
+          return 'DeepSeek API Key 无效或没有权限，请检查后重新输入。';
+        }
+        if (message.includes('429')) {
+          return 'DeepSeek 请求过于频繁或额度不足，请稍后再试。';
+        }
+        return message;
+      }
+
+      async function handleResumeAnalysis() {
+        if (!resumeFileInput || !analyzeResumeBtn) return;
+
+        const file = resumeFileInput.files?.[0];
+        const apiKey = getDeepSeekKeyFromUrl();
+        clearResumeStatus();
+        clearInterviewReportCache();
+        if (analysisModal) analysisModal.classList.remove('active');
+
+        if (!file) {
+          setResumeStatus('请先上传候选人的 PDF 或 DOCX 简历。', 'error');
+          return;
+        }
+        if (!apiKey) {
+          setResumeStatus('网址里没有检测到 DeepSeek API Key。请用 ?key=你的DeepSeekKey 打开页面后再分析。', 'error');
+          return;
+        }
+        if (file.size > 12 * 1024 * 1024) {
+          setResumeStatus('简历文件超过 12MB，建议压缩或导出为更小的 PDF/DOCX 后再上传。', 'error');
+          return;
+        }
+
+        analyzeResumeBtn.disabled = true;
+        analyzeResumeBtn.textContent = '分析中...';
+        startAnalysisLoading('正在读取简历内容...');
+
+        try {
+          setResumeStatus('正在读取简历内容...', 'info');
+          setAnalysisProgress(18, '正在解析 PDF / Word 简历...');
+          const resumeText = await extractResumeText(file);
+          if (resumeText.length < 50) {
+            throw new Error('没有从简历中读取到足够文字。如果是扫描版 PDF，请先用 OCR 转成可复制文字的 PDF。');
+          }
+
+          setResumeStatus('正在结合面试手册调用 DeepSeek 分析...', 'info');
+          setAnalysisProgress(45, '正在整理页面面试手册内容...');
+          const prompt = buildResumeAnalysisPrompt(resumeText, getHandbookText());
+          setAnalysisProgress(62, '正在调用 DeepSeek 分析匹配岗位...');
+          const result = await callDeepSeek(apiKey, prompt);
+          setAnalysisProgress(90, '正在生成弹窗和图表...');
+          const analysis = parseAnalysisJson(result);
+          const record = saveAnalysisCache(analysis, resumeText, file.name);
+          renderAnalysisModal(analysis, record);
+          finishAnalysisLoading();
+          setResumeStatus('分析完成。建议 HR 面试前再结合候选人口头回答确认关键数据。', 'success');
+        } catch (error) {
+          stopAnalysisLoading();
+          setResumeStatus(formatResumeError(error), 'error');
+        } finally {
+          analyzeResumeBtn.disabled = false;
+          analyzeResumeBtn.textContent = '开始分析';
+        }
+      }
+
+      if (analyzeResumeBtn) {
+        analyzeResumeBtn.addEventListener('click', handleResumeAnalysis);
+      }
+
+      if (resumeFileInput) {
+        resumeFileInput.addEventListener('change', () => {
+          clearInterviewReportCache();
+          clearResumeStatus();
+        });
+      }
+
+      if (resumeHistoryList) {
+        resumeHistoryList.addEventListener('click', event => {
+          const button = event.target.closest('.resume-history-open');
+          if (!button) return;
+          const record = loadAnalysisHistory().find(item => item.id === button.dataset.historyId);
+          if (record) openAnalysisRecord(record);
+        });
+      }
+
+      if (clearAllCacheBtn) {
+        clearAllCacheBtn.addEventListener('click', clearAllLocalCache);
+      }
+
+      if (analysisModalClose) {
+        analysisModalClose.addEventListener('click', () => analysisModal?.classList.remove('active'));
+      }
+
+      if (analysisModal) {
+        analysisModal.addEventListener('click', event => {
+          if (event.target === analysisModal) analysisModal.classList.remove('active');
+        });
+      }
+
+      renderResumeHistory();
+
+      const links = Array.from(document.querySelectorAll('.nav a'));
+      const sections = links.map(a => document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)))).filter(Boolean);
+      const obs = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              links.forEach(a => (a.style.background = ''));
+              const active = links.find(a => a.getAttribute('href') === '#' + entry.target.id);
+              if (active) active.style.background = '#eff6ff';
+            }
+          });
+        },
+        { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
+      );
+      sections.forEach(s => obs.observe(s));
+
+      const searchInputs = [document.getElementById('globalSearch'), document.getElementById('sideSearch')].filter(Boolean);
+      const resultPanels = [document.getElementById('searchResults'), document.getElementById('sideSearchResults')].filter(Boolean);
+      const searchableBlocks = Array.from(document.querySelectorAll('.section h2, .section h3, .section p, .section li, .section td, .section th'));
+      let lastMatches = [];
+
+      function escapeHTML(text) {
+        return text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+      }
+      function escapeRegExp(text) {
+        return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+      function nearestTitle(el) {
+        const section = el.closest('.section');
+        if (!section) return '正文';
+        const h2 = section.querySelector('h2');
+        return h2 ? h2.textContent.trim() : '正文';
+      }
+      function ensureAnchor(el, index) {
+        if (!el.id) el.id = `search-hit-${index}`;
+        return el.id;
+      }
+      function clearActiveTarget() {
+        document.querySelectorAll('.active-search-target').forEach(el => el.classList.remove('active-search-target'));
+      }
+      function jumpToResult(index) {
+        const item = lastMatches[index];
+        if (!item) return;
+        clearActiveTarget();
+        item.el.classList.add('active-search-target');
+        item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        resultPanels.forEach(panel => (panel.style.display = 'none'));
+      }
+      function renderResults(q) {
+        if (!q) {
+          resultPanels.forEach(panel => {
+            panel.innerHTML = '';
+            panel.style.display = 'none';
+          });
+          clearActiveTarget();
+          return;
+        }
+        const lower = q.toLowerCase();
+        lastMatches = searchableBlocks.map(el => ({ el, text: el.textContent.replace(/\s+/g, ' ').trim() })).filter(item => item.text.toLowerCase().includes(lower));
+
+        let html = '';
+        if (!lastMatches.length) {
+          html = '<div class="search-empty">没有找到相关内容，换个关键词试试。</div>';
+        } else {
+          html = lastMatches
+            .slice(0, 20)
+            .map((m, idx) => {
+              ensureAnchor(m.el, idx);
+              const pos = m.text.toLowerCase().indexOf(lower);
+              const start = Math.max(0, pos - 32);
+              const end = Math.min(m.text.length, pos + q.length + 52);
+              const rawSnippet = `${start > 0 ? '...' : ''}${m.text.slice(start, end)}${end < m.text.length ? '...' : ''}`;
+              const snippet = escapeHTML(rawSnippet).replace(new RegExp(escapeRegExp(escapeHTML(q)), 'gi'), '<mark class="search-hit">$&</mark>');
+              return `<button type="button" class="search-result" data-index="${idx}"><div class="search-result-title">${escapeHTML(nearestTitle(m.el))}</div><div class="search-result-snippet">${snippet}</div></button>`;
+            })
+            .join('');
+          if (lastMatches.length > 20) {
+            html += `<div class="search-empty">还有 ${lastMatches.length - 20} 条结果，建议输入更具体的关键词。</div>`;
+          }
+        }
+        resultPanels.forEach(panel => {
+          panel.innerHTML = html;
+          panel.style.display = 'block';
+        });
+      }
+      function syncSearch(value, source) {
+        searchInputs.forEach(input => {
+          if (input !== source) input.value = value;
+        });
+        renderResults(value.trim());
+      }
+      searchInputs.forEach(input => {
+        input.addEventListener('input', e => syncSearch(e.target.value, e.target));
+        input.addEventListener('focus', e => {
+          if (e.target.value.trim()) renderResults(e.target.value.trim());
+        });
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            jumpToResult(0);
+          }
+          if (e.key === 'Escape') {
+            resultPanels.forEach(panel => (panel.style.display = 'none'));
+            clearActiveTarget();
+          }
+        });
+      });
+      resultPanels.forEach(panel => {
+        panel.addEventListener('click', e => {
+          const item = e.target.closest('.search-result');
+          if (!item) return;
+          jumpToResult(Number(item.dataset.index));
+        });
+      });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.search-box') && !e.target.closest('.side-search')) {
+          resultPanels.forEach(panel => (panel.style.display = 'none'));
         }
       });
-    });
-  });
-}
-highlightImportantTableColumns();
-
-const links = Array.from(document.querySelectorAll('.nav a'));
-const sections = links.map(a => document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)))).filter(Boolean);
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      links.forEach(a => a.style.background = '');
-      const active = links.find(a => a.getAttribute('href') === '#' + entry.target.id);
-      if (active) active.style.background = '#eff6ff';
-    }
-  });
-}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
-sections.forEach(s => obs.observe(s));
-
-const searchInputs = [
-  document.getElementById('globalSearch'),
-  document.getElementById('sideSearch')
-].filter(Boolean);
-const resultPanels = [
-  document.getElementById('searchResults'),
-  document.getElementById('sideSearchResults')
-].filter(Boolean);
-const searchableBlocks = Array.from(document.querySelectorAll('.section h2, .section h3, .section p, .section li, .section td, .section th'));
-let lastMatches = [];
-
-function escapeHTML(text) {
-  return text.replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-}
-function escapeRegExp(text) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-function nearestTitle(el) {
-  const section = el.closest('.section');
-  if (!section) return '正文';
-  const h2 = section.querySelector('h2');
-  return h2 ? h2.textContent.trim() : '正文';
-}
-function ensureAnchor(el, index) {
-  if (!el.id) el.id = `search-hit-${index}`;
-  return el.id;
-}
-function clearActiveTarget() {
-  document.querySelectorAll('.active-search-target').forEach(el => el.classList.remove('active-search-target'));
-}
-function jumpToResult(index) {
-  const item = lastMatches[index];
-  if (!item) return;
-  clearActiveTarget();
-  item.el.classList.add('active-search-target');
-  item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  resultPanels.forEach(panel => panel.style.display = 'none');
-}
-function renderResults(q) {
-  if (!q) {
-    resultPanels.forEach(panel => {
-      panel.innerHTML = '';
-      panel.style.display = 'none';
-    });
-    clearActiveTarget();
-    return;
-  }
-  const lower = q.toLowerCase();
-  lastMatches = searchableBlocks
-    .map((el) => ({ el, text: el.textContent.replace(/\s+/g, ' ').trim() }))
-    .filter((item) => item.text.toLowerCase().includes(lower));
-
-  let html = '';
-  if (!lastMatches.length) {
-    html = '<div class="search-empty">没有找到相关内容，换个关键词试试。</div>';
-  } else {
-    html = lastMatches.slice(0, 20).map((m, idx) => {
-      ensureAnchor(m.el, idx);
-      const pos = m.text.toLowerCase().indexOf(lower);
-      const start = Math.max(0, pos - 32);
-      const end = Math.min(m.text.length, pos + q.length + 52);
-      const rawSnippet = `${start > 0 ? '...' : ''}${m.text.slice(start, end)}${end < m.text.length ? '...' : ''}`;
-      const snippet = escapeHTML(rawSnippet).replace(new RegExp(escapeRegExp(escapeHTML(q)), 'gi'), '<mark class="search-hit">$&</mark>');
-      return `<button type="button" class="search-result" data-index="${idx}"><div class="search-result-title">${escapeHTML(nearestTitle(m.el))}</div><div class="search-result-snippet">${snippet}</div></button>`;
-    }).join('');
-    if (lastMatches.length > 20) {
-      html += `<div class="search-empty">还有 ${lastMatches.length - 20} 条结果，建议输入更具体的关键词。</div>`;
-    }
-  }
-  resultPanels.forEach(panel => {
-    panel.innerHTML = html;
-    panel.style.display = 'block';
-  });
-}
-function syncSearch(value, source) {
-  searchInputs.forEach(input => {
-    if (input !== source) input.value = value;
-  });
-  renderResults(value.trim());
-}
-searchInputs.forEach(input => {
-  input.addEventListener('input', (e) => syncSearch(e.target.value, e.target));
-  input.addEventListener('focus', (e) => {
-    if (e.target.value.trim()) renderResults(e.target.value.trim());
-  });
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      jumpToResult(0);
-    }
-    if (e.key === 'Escape') {
-      resultPanels.forEach(panel => panel.style.display = 'none');
-      clearActiveTarget();
-    }
-  });
-});
-resultPanels.forEach(panel => {
-  panel.addEventListener('click', (e) => {
-    const item = e.target.closest('.search-result');
-    if (!item) return;
-    jumpToResult(Number(item.dataset.index));
-  });
-});
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.search-box') && !e.target.closest('.side-search')) {
-    resultPanels.forEach(panel => panel.style.display = 'none');
-  }
-});
-
-</script>
-</body>
+    </script>
+  </body>
 </html>
