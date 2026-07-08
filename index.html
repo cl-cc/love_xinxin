@@ -128,7 +128,11 @@
         position: sticky;
         top: 14px;
         z-index: 45;
+<<<<<<< HEAD
         max-width: 100%;
+=======
+        max-width: 860px;
+>>>>>>> gh-pages
         margin: -8px 0 22px;
         padding: 10px;
         border: 1px solid rgba(219, 227, 239, 0.95);
@@ -252,7 +256,11 @@
         display: grid;
         grid-template-columns: 1fr auto auto;
         gap: 12px;
+<<<<<<< HEAD
         align-items: center;
+=======
+        align-items: end;
+>>>>>>> gh-pages
       }
       .resume-field label {
         display: block;
@@ -270,6 +278,7 @@
         font: inherit;
         outline: none;
       }
+<<<<<<< HEAD
       .resume-field select {
         width: 100%;
         border: 1px solid #cbd5e1;
@@ -344,6 +353,12 @@
       .resume-file-upload.has-file .resume-file-name {
         display: block;
       }
+=======
+      .resume-field input:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      }
+>>>>>>> gh-pages
       .resume-action {
         border: 0;
         border-radius: 14px;
@@ -353,7 +368,10 @@
         font-weight: 900;
         cursor: pointer;
         box-shadow: 0 12px 24px rgba(37, 99, 235, 0.22);
+<<<<<<< HEAD
         margin-top: -10px;
+=======
+>>>>>>> gh-pages
       }
       .resume-action:disabled {
         opacity: 0.55;
@@ -452,20 +470,28 @@
         color: #64748b;
       }
       .resume-history-item {
+<<<<<<< HEAD
         padding: 11px 10px;
         border-radius: 14px;
       }
       .resume-history-row {
+=======
+>>>>>>> gh-pages
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 10px;
         align-items: center;
+<<<<<<< HEAD
       }
       .resume-history-buttons {
         display: flex;
         gap: 8px;
         align-items: center;
         flex-wrap: wrap;
+=======
+        padding: 11px 10px;
+        border-radius: 14px;
+>>>>>>> gh-pages
       }
       .resume-history-item:hover {
         background: #f8fbff;
@@ -488,6 +514,7 @@
         font-weight: 900;
         cursor: pointer;
       }
+<<<<<<< HEAD
       .resume-history-edit {
         border: 1px solid #fdba74;
         border-radius: 999px;
@@ -539,6 +566,8 @@
         font-weight: 900;
         cursor: pointer;
       }
+=======
+>>>>>>> gh-pages
       .analysis-loading {
         display: none;
         position: fixed;
@@ -1178,12 +1207,15 @@
         .resume-form {
           grid-template-columns: 1fr;
         }
+<<<<<<< HEAD
         .resume-history-row {
           grid-template-columns: 1fr;
         }
         .resume-history-edit-grid {
           grid-template-columns: 1fr;
         }
+=======
+>>>>>>> gh-pages
         .resume-action {
           width: 100%;
         }
@@ -1356,12 +1388,18 @@
             <span class="resume-badge">PDF / DOCX</span>
           </div>
           <div class="resume-form">
+<<<<<<< HEAD
             <div class="resume-field resume-file-field">
               <input id="resumeFile" class="resume-file-input" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
               <label class="resume-file-upload" for="resumeFile">
                 <span class="resume-file-upload-text">上传候选人简历</span>
                 <span id="resumeFileName" class="resume-file-name"></span>
               </label>
+=======
+            <div class="resume-field">
+              <label for="resumeFile">候选人简历</label>
+              <input id="resumeFile" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+>>>>>>> gh-pages
             </div>
             <button id="analyzeResumeBtn" class="resume-action" type="button">开始分析</button>
           </div>
@@ -2143,8 +2181,11 @@
       const DEEPSEEK_API_BASE = 'https://api.deepseek.com';
       const DEEPSEEK_MODEL = 'deepseek-chat';
       const resumeFileInput = document.getElementById('resumeFile');
+<<<<<<< HEAD
       const resumeFileName = document.getElementById('resumeFileName');
       const resumeFileUploadLabel = document.querySelector('.resume-file-upload');
+=======
+>>>>>>> gh-pages
       const analyzeResumeBtn = document.getElementById('analyzeResumeBtn');
       const clearAllCacheBtn = document.getElementById('clearAllCacheBtn');
       const exportExcelBtn = document.getElementById('exportExcelBtn');
@@ -2246,21 +2287,38 @@
         if (analysisCandidate) analysisCandidate.textContent = `候选人：${displayName}`;
       }
 
+<<<<<<< HEAD
       function createAnalysisRecord(analysis, resumeText = '', fileName = '', manualFields = {}) {
+=======
+      function createAnalysisRecord(analysis, resumeText = '', fileName = '') {
+>>>>>>> gh-pages
         return {
           id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
           savedAt: new Date().toISOString(),
           fileName,
+<<<<<<< HEAD
           manualFields,
+=======
+>>>>>>> gh-pages
           analysis,
           resumeText: limitText(resumeText, 50000),
         };
       }
 
+<<<<<<< HEAD
       function saveAnalysisCache(analysis, resumeText = '', fileName = '', manualFields = {}) {
         const record = createAnalysisRecord(analysis, resumeText, fileName, manualFields);
         try {
           localStorage.setItem(RESUME_ANALYSIS_CACHE_KEY, JSON.stringify(record));
+=======
+      function saveAnalysisCache(analysis, resumeText = '', fileName = '') {
+        const record = createAnalysisRecord(analysis, resumeText, fileName);
+        try {
+          localStorage.setItem(
+            RESUME_ANALYSIS_CACHE_KEY,
+            JSON.stringify(record),
+          );
+>>>>>>> gh-pages
           addAnalysisHistoryRecord(record);
           currentAnalysisId = record.id;
           renderResumeHistory();
@@ -2325,7 +2383,11 @@
       function updateHistoryReport(analysisId, summary, report) {
         if (!analysisId) return;
         const records = loadAnalysisHistory();
+<<<<<<< HEAD
         const nextRecords = records.map(item => (item.id === analysisId ? { ...item, interviewSummary: summary, interviewReport: report } : item));
+=======
+        const nextRecords = records.map(item => item.id === analysisId ? { ...item, interviewSummary: summary, interviewReport: report } : item);
+>>>>>>> gh-pages
         saveAnalysisHistory(nextRecords);
         renderResumeHistory();
       }
@@ -2366,6 +2428,7 @@
           resumeHistoryList.innerHTML = '<div class="resume-history-empty">暂无本地分析记录。每次完成 AI 简历分析后会自动保存到这里。</div>';
           return;
         }
+<<<<<<< HEAD
         resumeHistoryList.innerHTML = records
           .map(record => {
             const name = record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : '候选人';
@@ -2401,6 +2464,22 @@
           `;
           })
           .join('');
+=======
+        resumeHistoryList.innerHTML = records.map(record => {
+          const name = record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : '候选人';
+          const position = getTopPositionName(record.analysis);
+          const reportText = record.interviewReport ? '｜已生成纪要' : '';
+          return `
+            <div class="resume-history-item">
+              <div>
+                <div class="resume-history-name">${escapeHTML(name)}｜${escapeHTML(position)}</div>
+                <div class="resume-history-meta">${escapeHTML(record.fileName || '未记录文件名')}｜${escapeHTML(formatHistoryTime(record.savedAt))}${reportText}</div>
+              </div>
+              <button class="resume-history-open" type="button" data-history-id="${escapeHTML(record.id)}">查看</button>
+            </div>
+          `;
+        }).join('');
+>>>>>>> gh-pages
       }
 
       function openAnalysisRecord(record) {
@@ -2424,6 +2503,7 @@
         setResumeStatus('已打开本地缓存的简历分析记录。', 'success');
       }
 
+<<<<<<< HEAD
       function toggleHistoryEditPanel(recordId) {
         const panel = resumeHistoryList?.querySelector(`[data-edit-panel="${CSS.escape(recordId)}"]`);
         if (panel) panel.classList.toggle('active');
@@ -2455,6 +2535,8 @@
         setResumeStatus('导出信息已保存，重新导出 Excel 会使用最新内容。', 'success');
       }
 
+=======
+>>>>>>> gh-pages
       function clearAllLocalCache() {
         try {
           localStorage.removeItem(RESUME_ANALYSIS_CACHE_KEY);
@@ -2486,7 +2568,16 @@
 
       function getAnalysisText(record) {
         const analysis = record.analysis || {};
+<<<<<<< HEAD
         return [JSON.stringify(analysis), record.resumeText || '', record.interviewSummary || '', record.interviewReport || ''].join('\n');
+=======
+        return [
+          JSON.stringify(analysis),
+          record.resumeText || '',
+          record.interviewSummary || '',
+          record.interviewReport || '',
+        ].join('\n');
+>>>>>>> gh-pages
       }
 
       function inferEducation(record) {
@@ -2499,11 +2590,24 @@
       }
 
       function inferSchool(record) {
+<<<<<<< HEAD
         return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [/([\u4e00-\u9fa5A-Za-z]{2,30}(?:大学|学院|职业技术学院|职业学院))/]));
       }
 
       function inferMajor(record) {
         return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [/专业[:：\s]*([\u4e00-\u9fa5A-Za-z0-9（）()]{2,30})/, /([\u4e00-\u9fa5A-Za-z0-9]{2,20}(?:专业))/]));
+=======
+        return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [
+          /([\u4e00-\u9fa5A-Za-z]{2,30}(?:大学|学院|职业技术学院|职业学院))/,
+        ]));
+      }
+
+      function inferMajor(record) {
+        return fallback(findTextByPatterns(record.resumeText || record.interviewReport || '', [
+          /专业[:：\s]*([\u4e00-\u9fa5A-Za-z0-9（）()]{2,30})/,
+          /([\u4e00-\u9fa5A-Za-z0-9]{2,20}(?:专业))/,
+        ]));
+>>>>>>> gh-pages
       }
 
       function inferConclusion(record) {
@@ -2521,6 +2625,7 @@
 
       function buildInterviewSummaryForExcel(record) {
         const analysis = record.analysis || {};
+<<<<<<< HEAD
         const strengths = asArray(analysis.strengths)
           .map(item => item.item || item.evidence)
           .filter(Boolean)
@@ -2533,6 +2638,11 @@
           .map(item => item.question)
           .filter(Boolean)
           .slice(0, 3);
+=======
+        const strengths = asArray(analysis.strengths).map(item => item.item || item.evidence).filter(Boolean).slice(0, 3);
+        const weaknesses = asArray(analysis.weaknesses).map(item => item.item || item.evidence).filter(Boolean).slice(0, 3);
+        const questions = asArray(analysis.interviewQuestions).map(item => item.question).filter(Boolean).slice(0, 3);
+>>>>>>> gh-pages
         const recommendation = analysis.recommendation?.reason || '';
         const lines = [];
         if (strengths.length) lines.push(`优势：${strengths.join('；')}`);
@@ -2544,6 +2654,7 @@
 
       function buildExcelRows(records) {
         return records.map(record => ({
+<<<<<<< HEAD
           姓名: fallback(record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : ''),
           学历: inferEducation(record),
           学校: inferSchool(record),
@@ -2561,6 +2672,25 @@
           面试记录表格: buildInterviewSummaryForExcel(record),
           备注: fallback(record.interviewReport || record.analysis?.recommendation?.reason),
           面试类型: fallback(record.manualFields?.interviewType || '线上一面'),
+=======
+          '姓名': fallback(record.analysis?.candidateName && record.analysis.candidateName !== '未知' ? record.analysis.candidateName : ''),
+          '学历': inferEducation(record),
+          '学校': inferSchool(record),
+          '专业': inferMajor(record),
+          '应聘部门': '/',
+          '应聘岗位': inferPosition(record),
+          '测试': '/',
+          '面试': '/',
+          '终审结果': inferConclusion(record),
+          '招聘渠道': '/',
+          '人事专员': '/',
+          '人才等级': fallback(record.analysis?.matchedPositions?.[0]?.matchLevel),
+          '意向程度': '/',
+          '可入职': '/',
+          '面试记录表格': buildInterviewSummaryForExcel(record),
+          '备注': fallback(record.interviewReport || record.analysis?.recommendation?.reason),
+          '面试类型': '线上一面',
+>>>>>>> gh-pages
         }));
       }
 
@@ -3023,7 +3153,13 @@ ${limitText(interviewSummary, 6000)}`;
         const copyBtn = document.getElementById('copyInterviewReportBtn');
         const reportStatus = document.getElementById('interviewReportStatus');
         const reportOutput = document.getElementById('interviewReportOutput');
+<<<<<<< HEAD
         const cached = record?.interviewReport ? { summary: record.interviewSummary || '', report: record.interviewReport } : loadInterviewReportCache();
+=======
+        const cached = record?.interviewReport
+          ? { summary: record.interviewSummary || '', report: record.interviewReport }
+          : loadInterviewReportCache();
+>>>>>>> gh-pages
         if (cached?.analysisId && currentAnalysisId && cached.analysisId !== currentAnalysisId) return;
         if (!cached?.report || !reportOutput) return;
 
@@ -3143,6 +3279,7 @@ ${limitText(interviewSummary, 6000)}`;
         resumeFileInput.addEventListener('change', () => {
           clearInterviewReportCache();
           clearResumeStatus();
+<<<<<<< HEAD
           const file = resumeFileInput.files?.[0];
           if (resumeFileName) {
             resumeFileName.textContent = file ? file.name : '';
@@ -3150,11 +3287,14 @@ ${limitText(interviewSummary, 6000)}`;
           if (resumeFileUploadLabel) {
             resumeFileUploadLabel.classList.toggle('has-file', Boolean(file));
           }
+=======
+>>>>>>> gh-pages
         });
       }
 
       if (resumeHistoryList) {
         resumeHistoryList.addEventListener('click', event => {
+<<<<<<< HEAD
           const openButton = event.target.closest('.resume-history-open');
           if (openButton) {
             const record = loadAnalysisHistory().find(item => item.id === openButton.dataset.historyId);
@@ -3172,6 +3312,12 @@ ${limitText(interviewSummary, 6000)}`;
           if (saveButton) {
             saveHistoryManualFields(saveButton.dataset.historyId);
           }
+=======
+          const button = event.target.closest('.resume-history-open');
+          if (!button) return;
+          const record = loadAnalysisHistory().find(item => item.id === button.dataset.historyId);
+          if (record) openAnalysisRecord(record);
+>>>>>>> gh-pages
         });
       }
 
