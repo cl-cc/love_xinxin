@@ -750,6 +750,25 @@
       .analysis-question b {
         color: #1e40af;
       }
+      .analysis-score-breakdown {
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+      .analysis-score-breakdown h4 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        color: #334155;
+      }
+      .analysis-score-breakdown ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      .analysis-score-breakdown li {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 4px 0;
+      }
       .analysis-collapse {
         margin-top: 14px;
         border: 1px solid var(--line);
@@ -2231,6 +2250,91 @@
         }
       }
 
+      function formatAnalysisScore(value) {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return null;
+        return Math.round(Math.max(0, Math.min(100, num)) * 100) / 100;
+      }
+
+      function formatScoreText(value) {
+        const score = formatAnalysisScore(value);
+        return score === null ? '' : score.toFixed(2);
+      }
+
+      function inferMatchLevel(score) {
+        const normalized = formatAnalysisScore(score);
+        if (normalized === null) return '待判断';
+        if (normalized >= 80) return '高';
+        if (normalized >= 60) return '中';
+        return '低';
+      }
+
+      function normalizeAnalysisScores(analysis) {
+        if (!analysis || typeof analysis !== 'object') return analysis;
+
+        asArray(analysis.matchedPositions).forEach(position => {
+          const breakdown = position.scoreBreakdown;
+          if (breakdown && typeof breakdown === 'object') {
+            Object.values(breakdown).forEach(dimension => {
+              if (dimension && typeof dimension === 'object' && 'score' in dimension) {
+                dimension.score = formatAnalysisScore(dimension.score);
+              }
+            });
+
+            const weightedDimensions = Object.values(breakdown).filter(
+              dimension => dimension && typeof dimension === 'object' && Number.isFinite(Number(dimension.score)),
+            );
+            if (weightedDimensions.length) {
+              const totalWeight = weightedDimensions.reduce((sum, dimension) => sum + (Number(dimension.weight) > 0 ? Number(dimension.weight) : 0), 0);
+              if (totalWeight > 0) {
+                const composite = weightedDimensions.reduce(
+                  (sum, dimension) => sum + Number(dimension.score) * Number(dimension.weight),
+                  0,
+                ) / totalWeight;
+                position.score = formatAnalysisScore(composite);
+              }
+            }
+          }
+
+          position.score = formatAnalysisScore(position.score);
+          if (position.score !== null) {
+            position.matchLevel = inferMatchLevel(position.score);
+          }
+        });
+
+        const charts = analysis.charts || {};
+        ['positionScores', 'abilityScores'].forEach(key => {
+          asArray(charts[key]).forEach(item => {
+            if (item) item.score = formatAnalysisScore(item.score);
+          });
+        });
+        asArray(charts.riskSignals).forEach(item => {
+          if (item) item.level = formatAnalysisScore(item.level);
+        });
+
+        return analysis;
+      }
+
+      function renderScoreBreakdown(breakdown) {
+        if (!breakdown || typeof breakdown !== 'object') return '';
+        const items = Object.values(breakdown).filter(item => item && typeof item === 'object');
+        if (!items.length) return '';
+        return `
+          <div class="analysis-score-breakdown">
+            <h4>评分明细</h4>
+            <ul>
+              ${items
+                .map(item => {
+                  const weightText = Number(item.weight) > 0 ? `（权重 ${Math.round(Number(item.weight) * 100)}%）` : '';
+                  const reasonText = item.reason ? ` — ${escapeHTML(item.reason)}` : '';
+                  return `<li><b>${escapeHTML(item.label || '评分维度')}</b> ${formatScoreText(item.score)} 分${weightText}${reasonText}</li>`;
+                })
+                .join('')}
+            </ul>
+          </div>
+        `;
+      }
+
       function asArray(value) {
         return Array.isArray(value) ? value : [];
       }
@@ -2648,7 +2752,39 @@ JSON 结构必须如下：
     {
       "position": "匹配岗位名称，必须来自面试手册里的岗位",
       "matchLevel": "高/中/低",
-      "score": 0-100,
+      "score": 73.25,
+      "scoreBreakdown": {
+        "positionFit": {
+          "label": "岗位匹配",
+          "weight": 0.30,
+          "score": 78.50,
+          "reason": "平台、站点、品类、职责与目标岗位的匹配说明"
+        },
+        "experience": {
+          "label": "工作经验",
+          "weight": 0.25,
+          "score": 71.00,
+          "reason": "年限、职级、项目连续性、相关平台经验说明"
+        },
+        "salaryFit": {
+          "label": "薪资匹配",
+          "weight": 0.15,
+          "score": 65.25,
+          "reason": "期望薪资、历史薪资区间与岗位档位的匹配说明；简历未写则给 55-68 并说明缺失"
+        },
+        "dataEvidence": {
+          "label": "数据佐证",
+          "weight": 0.20,
+          "score": 80.00,
+          "reason": "GMV、SKU、ROI、广告费、团队规模等可验证数据是否充分"
+        },
+        "ownership": {
+          "label": "职责清晰度",
+          "weight": 0.10,
+          "score": 72.50,
+          "reason": "是否说清本人负责范围，而非只说团队成果"
+        }
+      },
       "reasons": ["匹配理由，引用简历具体经历、平台、品类、数据或职责"]
     }
   ],
@@ -2667,23 +2803,41 @@ JSON 结构必须如下：
   },
   "charts": {
     "positionScores": [
-      { "name": "岗位名", "score": 0-100 }
+      { "name": "岗位名", "score": 73.25 }
     ],
     "abilityScores": [
-      { "name": "平台经验/广告能力/数据复盘/库存意识/团队管理/风险意识/内容营销/独立站转化", "score": 0-100 }
+      { "name": "平台经验", "score": 76.50 },
+      { "name": "广告能力", "score": 68.25 },
+      { "name": "数据复盘", "score": 71.80 },
+      { "name": "库存意识", "score": 63.40 },
+      { "name": "团队管理", "score": 58.00 },
+      { "name": "风险意识", "score": 66.75 },
+      { "name": "内容营销", "score": 0 },
+      { "name": "独立站转化", "score": 0 }
     ],
     "riskSignals": [
-      { "name": "风险名", "level": 0-100 }
+      { "name": "风险名", "level": 42.50 }
     ]
   }
 }
 
-要求：
-- matchedPositions 给 1-3 个。
+评分规则（必须严格执行）：
+1. 所有 score、level 必须是 0-100 的数字，保留两位小数，禁止全部写成整数，禁止大多数候选人都给 85、80、90。
+2. matchedPositions[].score 必须等于 scoreBreakdown 各维度按 weight 加权后的综合分，公式：score = Σ(维度score × weight)。
+3. matchLevel 必须与综合分一致：高 >= 80.00；中 60.00-79.99；低 < 60.00。
+4. 岗位匹配（30%）：看平台、站点、品类、岗位职责是否贴近手册岗位；完全不对口可低于 50。
+5. 工作经验（25%）：看年限、职级、项目连续性、是否做过同类型业务；经验浅或跳岗频繁要扣分。
+6. 薪资匹配（15%）：结合岗位常见薪资带判断；简历没写期望薪资时给 55-68，并说明“薪资信息缺失”；明显离谱要低于 55。
+7. 数据佐证（20%）：有 GMV、SKU、ROI、广告预算、团队规模等具体数字可给 75+；只有空话没有数据应低于 65。
+8. 职责清晰度（10%）：能说清本人负责事项可给 75+；只说“我们团队”说不清个人贡献应低于 60。
+9. charts.positionScores 必须与 matchedPositions 的岗位和分数一致；charts.abilityScores 只保留与简历相关的 4-8 项，不相关维度可省略或给 0；各项分数要有差异，不能全部相同。
+10. charts.riskSignals.level 表示风险强度，越高风险越大；没有明显风险也要给有区分度的值，不要全部 85。
+
+其他要求：
+- matchedPositions 给 1-3 个，多个岗位的综合分必须有差异。
 - strengths 给 3-6 个。
 - weaknesses 给 3-6 个。
 - interviewQuestions 给 8-12 个，必须结合简历具体经历。
-- charts.positionScores、charts.abilityScores、charts.riskSignals 必须适合直接画图。
 - 如果简历缺少关键数据，请在 weaknesses 里指出缺少平台、站点、品类、SKU、销售额/GMV、广告预算、权限、案例等哪一类。
 
 【面试手册】
@@ -2743,6 +2897,7 @@ ${limitText(resumeText, 18000)}`;
       function renderAnalysisModal(analysis, record = null) {
         if (!analysisModal || !analysisModalBody) return;
 
+        analysis = normalizeAnalysisScores(analysis || {});
         currentAnalysisId = record?.id || currentAnalysisId;
         updateCandidateName(analysis.candidateName);
         const recommendation = analysis.recommendation || {};
@@ -2761,7 +2916,8 @@ ${limitText(resumeText, 18000)}`;
       <div class="analysis-card analysis-highlight-card analysis-match-card">
         <h3>最匹配岗位</h3>
         <p><b>${escapeHTML(topPosition?.position || '暂无明确岗位')}</b></p>
-        <p><span class="analysis-score-pill">匹配度：${escapeHTML(topPosition?.matchLevel || '待判断')} ${Number.isFinite(Number(topPosition?.score)) ? ` / ${Number(topPosition.score)} 分` : ''}</span></p>
+        <p><span class="analysis-score-pill">匹配度：${escapeHTML(topPosition?.matchLevel || '待判断')}${topPosition?.score !== undefined && topPosition?.score !== null ? ` / ${formatScoreText(topPosition.score)} 分` : ''}</span></p>
+        ${renderScoreBreakdown(topPosition?.scoreBreakdown)}
       </div>
       <div class="analysis-card analysis-highlight-card analysis-decision-card">
         <h3>复试建议</h3>
@@ -2792,7 +2948,7 @@ ${limitText(resumeText, 18000)}`;
 
     <div class="analysis-section">
       <h3>匹配岗位</h3>
-      ${renderList(matchedPositions, item => `<b>${escapeHTML(item.position || '未知岗位')}</b>（${escapeHTML(item.matchLevel || '待判断')}，${Number(item.score || 0)} 分）${renderList(item.reasons, reason => escapeHTML(reason))}`)}
+      ${renderList(matchedPositions, item => `<b>${escapeHTML(item.position || '未知岗位')}</b>（${escapeHTML(item.matchLevel || '待判断')}，${formatScoreText(item.score) || '0.00'} 分）${renderList(item.reasons, reason => escapeHTML(reason))}`)}
     </div>
 
     <div class="analysis-summary-grid">
@@ -2863,8 +3019,11 @@ ${limitText(resumeText, 18000)}`;
             grid: { left: 48, right: 18, top: 20, bottom: 48 },
             xAxis: { type: 'category', data: positionScores.map(item => item.name), axisLabel: { interval: 0, rotate: 25 } },
             yAxis: { type: 'value', min: 0, max: 100 },
-            series: [{ type: 'bar', data: positionScores.map(item => Number(item.score) || 0), itemStyle: { borderRadius: [8, 8, 0, 0] } }],
-            tooltip: { trigger: 'axis' },
+            series: [{ type: 'bar', data: positionScores.map(item => formatAnalysisScore(item.score) || 0), itemStyle: { borderRadius: [8, 8, 0, 0] } }],
+            tooltip: {
+              trigger: 'axis',
+              valueFormatter: value => `${formatScoreText(value) || '0.00'} 分`,
+            },
           });
         }
 
@@ -2876,8 +3035,10 @@ ${limitText(resumeText, 18000)}`;
               indicator: abilityScores.map(item => ({ name: item.name, max: 100 })),
               radius: '62%',
             },
-            series: [{ type: 'radar', areaStyle: {}, data: [{ value: abilityScores.map(item => Number(item.score) || 0), name: '能力分' }] }],
-            tooltip: {},
+            series: [{ type: 'radar', areaStyle: {}, data: [{ value: abilityScores.map(item => formatAnalysisScore(item.score) || 0), name: '能力分' }] }],
+            tooltip: {
+              valueFormatter: value => `${formatScoreText(value) || '0.00'} 分`,
+            },
           });
         }
 
@@ -2890,8 +3051,11 @@ ${limitText(resumeText, 18000)}`;
               {
                 type: 'pie',
                 radius: ['42%', '70%'],
-                data: riskSignals.map(item => ({ name: item.name, value: Number(item.level) || 0 })),
+                data: riskSignals.map(item => ({ name: item.name, value: formatAnalysisScore(item.level) || 0 })),
                 label: { formatter: '{b}\n{d}%' },
+                tooltip: {
+                  valueFormatter: value => `${formatScoreText(value) || '0.00'}`,
+                },
               },
             ],
           });
@@ -3119,9 +3283,12 @@ ${limitText(interviewSummary, 6000)}`;
           setAnalysisProgress(45, '正在整理页面面试手册内容...');
           const prompt = buildResumeAnalysisPrompt(resumeText, getHandbookText());
           setAnalysisProgress(62, '正在调用 DeepSeek 分析匹配岗位...');
-          const result = await callDeepSeek(apiKey, prompt);
+          const result = await callDeepSeek(apiKey, prompt, {
+            system: '你是严谨的跨境电商 HR 初面分析助手。评分必须基于简历证据差异化，禁止对大多数候选人都给 85、80、90 等雷同分数。所有分数字段保留两位小数，并按提示词中的权重公式计算综合分。',
+            temperature: 0.35,
+          });
           setAnalysisProgress(90, '正在生成弹窗和图表...');
-          const analysis = parseAnalysisJson(result);
+          const analysis = normalizeAnalysisScores(parseAnalysisJson(result));
           const record = saveAnalysisCache(analysis, resumeText, file.name);
           renderAnalysisModal(analysis, record);
           finishAnalysisLoading();
