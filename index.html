@@ -2353,6 +2353,7 @@
         <div id="analysisModalBody" class="analysis-modal-body"></div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
@@ -2794,6 +2795,18 @@
         if (analysisModal) analysisModal.classList.remove('active');
         renderResumeHistory();
         setResumeStatus('本地缓存已清理。', 'success');
+      }
+
+      function playClearCacheConfetti() {
+        if (typeof confetti !== 'function') return;
+
+        const colors = ['#e11d48', '#f59e0b', '#84cc16', '#06b6d4', '#8b5cf6', '#f97316', '#ec4899', '#2563eb', '#fbbf24'];
+        const defaults = { origin: { y: 0.65 }, zIndex: 1200, colors };
+
+        confetti(Object.assign({}, defaults, { particleCount: 90, spread: 60, startVelocity: 50 }));
+        confetti(Object.assign({}, defaults, { particleCount: 70, spread: 110, decay: 0.9, scalar: 0.95 }));
+        confetti(Object.assign({}, defaults, { particleCount: 50, spread: 130, startVelocity: 32, scalar: 1.1, origin: { x: 0.15, y: 0.7 } }));
+        confetti(Object.assign({}, defaults, { particleCount: 50, spread: 130, startVelocity: 32, scalar: 1.1, origin: { x: 0.85, y: 0.7 } }));
       }
 
       function fallback(value) {
@@ -3760,7 +3773,10 @@ ${limitText(interviewSummary, 6000)}`;
       }
 
       if (clearAllCacheBtn) {
-        clearAllCacheBtn.addEventListener('click', clearAllLocalCache);
+        clearAllCacheBtn.addEventListener('click', () => {
+          clearAllLocalCache();
+          playClearCacheConfetti();
+        });
       }
 
       if (exportExcelBtn) {
