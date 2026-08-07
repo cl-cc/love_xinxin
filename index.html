@@ -835,6 +835,60 @@
         flex-wrap: wrap;
         margin-top: 12px;
       }
+      .interview-attach-field {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+      .interview-attach-input {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+      }
+      .interview-attach-btn {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 2px;
+        border: 1px dashed #93c5fd;
+        border-radius: 14px;
+        background: #f8fbff;
+        color: #1d4ed8;
+        padding: 10px 14px;
+        font-weight: 800;
+        cursor: pointer;
+        min-width: 118px;
+        max-width: 220px;
+      }
+      .interview-attach-field:hover .interview-attach-btn,
+      .interview-attach-field:focus-within .interview-attach-btn {
+        background: #eff6ff;
+        border-color: #60a5fa;
+      }
+      .interview-attach-btn.has-file {
+        border-style: solid;
+        border-color: #86efac;
+        background: #f0fdf4;
+        color: #166534;
+      }
+      .interview-attach-name {
+        display: none;
+        color: #64748b;
+        font-size: 12px;
+        font-weight: 600;
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .interview-attach-btn.has-file .interview-attach-name {
+        display: block;
+      }
       .interview-report-copy {
         display: none;
         border: 1px solid #86efac;
@@ -1268,8 +1322,11 @@
         .backtop,
         .toolbar,
         .search-box,
-        .resume-tool {
-          display: none;
+        .resume-tool,
+        #oml2d-stage,
+        .oml2d-stage,
+        [id^='oml2d'] {
+          display: none !important;
         }
         .hero,
         .section {
@@ -1371,7 +1428,9 @@
         <header class="hero" id="top">
           <h1>鑫鑫的秘密面试手册</h1>
           <p style="margin: -4px 0 12px; color: rgba(255, 255, 255, 0.92); font-size: 18px">跨境电商运营岗位 HR 面试题与参考答案</p>
-          <div class="desc">适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok 运营专员、独立站运营专员、Wayfair 运营专员、Coupang 运营专员。<br />使用目标：帮助 HR 在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。</div>
+          <div class="desc">
+            适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok 运营专员、独立站运营专员、Wayfair 运营专员、Coupang 运营专员。<br />使用目标：帮助 HR 在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。
+          </div>
           <div class="toolbar">
             <button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
             <a class="btn" href="#1-HR-初面整体流程">查看面试流程</a>
@@ -2353,6 +2412,7 @@
         <div id="analysisModalBody" class="analysis-modal-body"></div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/mammoth@1.8.0/mammoth.browser.min.js"></script>
@@ -2504,16 +2564,11 @@
               }
             });
 
-            const weightedDimensions = Object.values(breakdown).filter(
-              dimension => dimension && typeof dimension === 'object' && Number.isFinite(Number(dimension.score)),
-            );
+            const weightedDimensions = Object.values(breakdown).filter(dimension => dimension && typeof dimension === 'object' && Number.isFinite(Number(dimension.score)));
             if (weightedDimensions.length) {
               const totalWeight = weightedDimensions.reduce((sum, dimension) => sum + (Number(dimension.weight) > 0 ? Number(dimension.weight) : 0), 0);
               if (totalWeight > 0) {
-                const composite = weightedDimensions.reduce(
-                  (sum, dimension) => sum + Number(dimension.score) * Number(dimension.weight),
-                  0,
-                ) / totalWeight;
+                const composite = weightedDimensions.reduce((sum, dimension) => sum + Number(dimension.score) * Number(dimension.weight), 0) / totalWeight;
                 position.score = formatAnalysisScore(composite);
               }
             }
@@ -2969,6 +3024,55 @@
         throw new Error('暂时只支持 PDF 和 Word .docx 简历。');
       }
 
+      async function extractAttachmentText(file, onProgress) {
+        const fileName = file.name.toLowerCase();
+        const isImage = file.type.startsWith('image/') || fileName.endsWith('.png') || fileName.endsWith('.jpg') || fileName.endsWith('.jpeg') || fileName.endsWith('.webp') || fileName.endsWith('.gif') || fileName.endsWith('.bmp');
+
+        if (file.type.startsWith('text/') || fileName.endsWith('.txt')) {
+          return normalizeText(await file.text());
+        }
+        if (file.type === 'application/pdf' || fileName.endsWith('.pdf')) {
+          return extractPdfText(file);
+        }
+        if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || fileName.endsWith('.docx')) {
+          return extractDocxText(file);
+        }
+        if (isImage) {
+          return extractImageText(file, onProgress);
+        }
+        throw new Error('附件暂时只支持 PDF、Word .docx、TXT、PNG、JPG。');
+      }
+
+      async function extractImageText(file, onProgress) {
+        if (!window.Tesseract) {
+          throw new Error('图片识别库加载失败，请刷新页面后重试。');
+        }
+
+        if (typeof onProgress === 'function') {
+          onProgress('正在识别图片文字，首次可能需要下载中文识别包...');
+        }
+
+        const result = await window.Tesseract.recognize(file, 'chi_sim+eng', {
+          logger: message => {
+            if (typeof onProgress !== 'function') return;
+            if (message.status === 'loading language traineddata') {
+              onProgress('正在加载中文识别包...');
+              return;
+            }
+            if (message.status === 'initializing api' || message.status === 'loading tesseract core') {
+              onProgress('正在初始化图片识别...');
+              return;
+            }
+            if (message.status === 'recognizing text') {
+              const percent = Math.round((message.progress || 0) * 100);
+              onProgress(`正在识别图片文字 ${percent}%...`);
+            }
+          },
+        });
+
+        return normalizeText(result?.data?.text || '');
+      }
+
       function getHandbookText() {
         return Array.from(document.querySelectorAll('.section'))
           .map(section => normalizeText(section.textContent))
@@ -2976,16 +3080,7 @@
           .join('\n\n');
       }
 
-      const HANDBOOK_POSITIONS = [
-        '亚马逊运营专员',
-        '亚马逊运营主管',
-        '沃尔玛运营专员',
-        '沃尔玛运营主管',
-        'TikTok 运营专员',
-        '独立站运营专员',
-        'Wayfair 运营专员',
-        'Coupang 运营专员',
-      ];
+      const HANDBOOK_POSITIONS = ['亚马逊运营专员', '亚马逊运营主管', '沃尔玛运营专员', '沃尔玛运营主管', 'TikTok 运营专员', '独立站运营专员', 'Wayfair 运营专员', 'Coupang 运营专员'];
 
       const POSITION_SECTION_MAP = {
         亚马逊运营专员: ['5-亚马逊运营专员', '13-1-亚马逊'],
@@ -2998,14 +3093,7 @@
         'Coupang 运营专员': ['12-Coupang-运营专员', '13-6-Coupang'],
       };
 
-      const COMMON_HANDBOOK_IDS = [
-        '1-HR-初面整体流程',
-        '2-面试前-10-分钟必须问清楚',
-        '3-简历筛选重点',
-        '4-推荐给部门时怎么写',
-        '14-HR-追问专业词的通用话术',
-        '15-常见红旗信号',
-      ];
+      const COMMON_HANDBOOK_IDS = ['1-HR-初面整体流程', '2-面试前-10-分钟必须问清楚', '3-简历筛选重点', '4-推荐给部门时怎么写', '14-HR-追问专业词的通用话术', '15-常见红旗信号'];
 
       const POSITION_SCOPE = {
         亚马逊运营专员: {
@@ -3056,10 +3144,7 @@
             .flat()
             .forEach(id => sectionIds.add(id));
         }
-        return Array.from(sectionIds)
-          .map(getSectionTextById)
-          .filter(Boolean)
-          .join('\n\n');
+        return Array.from(sectionIds).map(getSectionTextById).filter(Boolean).join('\n\n');
       }
 
       function inferTargetPositionFromResume(resumeText = '') {
@@ -3407,9 +3492,16 @@ ${limitText(resumeText, 18000)}`;
     </details>
     <div class="interview-report-box">
       <h3>生成部门面试纪要</h3>
-      <p>把你对这个人的面试总结、通过情况、意向、离职原因、待确认点写在下面，AI 会结合简历分析生成固定格式纪要。</p>
+      <p>把你对这个人的面试总结写在下面，可再上传面试记录/评分表等附件（支持 PDF、Word、TXT、PNG、JPG）。AI 会结合简历分析、文字总结和附件内容生成固定格式纪要。</p>
       <textarea id="interviewSummaryInput" placeholder="例如：部门一面通过，建议按沃尔玛运营专员推进；候选人在成都，需要确认来杭州意向；离职原因是公司业务调整..."></textarea>
       <div class="interview-report-actions">
+        <div class="interview-attach-field">
+          <input id="interviewAttachFile" class="interview-attach-input" type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" />
+          <div class="interview-attach-btn" id="interviewAttachBtn">
+            <span>上传附件</span>
+            <span id="interviewAttachName" class="interview-attach-name"></span>
+          </div>
+        </div>
         <button id="generateInterviewReportBtn" class="resume-action" type="button">生成面试纪要</button>
         <button id="copyInterviewReportBtn" class="interview-report-copy" type="button">一键复制</button>
         <span id="interviewReportStatus" class="resume-note"></span>
@@ -3481,68 +3573,137 @@ ${limitText(resumeText, 18000)}`;
         }
       }
 
-      function buildInterviewReportPrompt(analysis, resumeText, interviewSummary) {
-        return `你是 HR 面试纪要助手。请结合候选人简历信息、AI 简历分析结果、以及面试官输入的面试总结，生成一份部门一面纪要。
+      function buildInterviewFactAnchor(analysis = {}, record = {}) {
+        const candidateName = analysis.candidateName && analysis.candidateName !== '未知' ? analysis.candidateName : '未知/需从简历确认';
+        const targetPosition = record.targetPosition || analysis.primaryTargetPosition || asArray(analysis.matchedPositions)[0]?.position || '未知岗位';
+        const topMatch = asArray(analysis.matchedPositions)[0] || {};
+        const strengths = asArray(analysis.strengths)
+          .slice(0, 6)
+          .map(item => `- ${item.item || item}${item.evidence ? `｜证据：${item.evidence}` : ''}`)
+          .join('\n');
+        const weaknesses = asArray(analysis.weaknesses)
+          .slice(0, 6)
+          .map(item => `- ${item.item || item}${item.evidence ? `｜证据：${item.evidence}` : ''}`)
+          .join('\n');
+        const reasons = asArray(topMatch.reasons)
+          .slice(0, 5)
+          .map(item => `- ${item}`)
+          .join('\n');
+        const recommendation = analysis.recommendation ? `建议：${analysis.recommendation.decision || analysis.recommendation.result || ''}；原因：${analysis.recommendation.reason || ''}` : '无';
 
-要求：
-- 只输出纪要正文，不要输出解释、不要 Markdown 代码块。
-- 语言风格参考下面模板，简洁、自然、偏大白话，适合 HR 发给业务部门。
-- 不要写得像 AI 生成，不要空泛，不要拔高，不要使用“赋能、沉淀、抓手、闭环、优秀、卓越、较强综合能力、具备较大发展潜力”等套话。
-- 多用短句。每条信息尽量一句话，不要写长段。
-- 只写事实和判断，优先采用面试官输入的原话和简历里的具体数据。
-- 面试官输入的内容只能作为判断依据，不能直接照抄到纪要里。
-- 特别是“此人不合适”“不行”“一般”“pass 掉”等口语或负面原话，必须改写成正式表述。
-- 综合评价要写成业务可接受的话术，例如“候选人与当前岗位方向匹配度不足，建议暂不推进后续流程。”不要写“面试官反馈xxx”。
-- 优势和不足每条控制在 20-35 个字左右。
-- 如果信息不确定，就写“需进一步确认”，不要替候选人美化。
-- 标题格式：姓名——岗位名称部门一面。
-- 如果姓名未知，用“候选人”。
-- 如果岗位无法确定，用 AI 分析里最匹配岗位。
-- 不要编造没有依据的数据；缺失信息可以不写。
-- 必须包含这些部分：
-面试结论：
-一、候选人情况
-二、优势
-三、不足
-四、离职原因
-五、综合评价
+        return `候选人姓名：${candidateName}
+应聘/锚定岗位：${targetPosition}
+匹配度：${topMatch.matchLevel || '未知'}｜综合分：${formatScoreText(topMatch.score) || '无'}
+匹配理由：
+${reasons || '- 无'}
+AI已识别优势：
+${strengths || '- 无'}
+AI已识别不足：
+${weaknesses || '- 无'}
+AI初步建议：
+${recommendation}
+手工补充字段：
+部门：${record.manualFields?.department || '无'}
+意向程度：${record.manualFields?.intent || '无'}
+可入职时间：${record.manualFields?.availableDate || '无'}
+面试类型：${record.manualFields?.interviewType || '无'}`;
+      }
+
+      function buildInterviewReportPrompt(analysis, resumeText, interviewSummary, attachmentText = '', attachmentName = '', record = {}) {
+        const factAnchor = buildInterviewFactAnchor(analysis, record);
+        return `你是资深跨境电商 HR，负责把面试结果写成高精准度纪要。必须严格依据材料，禁止编造。
+
+【精准度铁律】
+1. 只输出纪要正文，不要解释、不要 Markdown、不要加粗、不要“一、二、三”编号。
+2. 事实来源优先级（冲突时按此取舍）：
+   A. 面试官文字总结（结论、通过/未通过、离职原因口径、意向、待确认点）
+   B. 面试附件（面试记录/评分表里的事实与评价）
+   C. 候选人简历原文（学校、专业、公司、站点、品类、业绩数字）
+   D. AI 简历分析事实锚点（仅作辅助，不可覆盖 A/B/C）
+3. 绝对禁止编造：学校、专业、毕业时间、公司名、站点、模式、品类、GMV、销量、ACOS、ROI、薪资、离职原因。材料没有就写“需进一步确认”或省略该细节，不要补全。
+4. 数字必须能在简历或附件中找到原文依据；找不到就不要写这个数字。
+5. 若附件是 OCR 图片识别结果，可能有错字/乱码；只采用语义通顺、能与简历交叉验证的信息，忽略明显乱码。
+6. 通过/未通过必须以面试官总结或附件结论为准，不得自行改判。面试官说不合适/pass/一般不推进，就必须写未通过。
+7. 面试轮次：明确 HR 面写“HR一面”；明确部门二面写“部门二面”；其余默认“部门一面”。
+8. 标题岗位优先用应聘/锚定岗位；若面试总结明确写了站点/方向（如英国站、美区），括号补上。
+9. 姓名优先用事实锚点/简历；无法确认写“候选人”。
+10. 优势/不足必须具体到平台、站点、品类、职责或数据，禁止空话。每条尽量对应简历或面试中的真实点。
+11. 面试评价、综合评价、部门反馈三者结论必须一致（都通过或都未通过），原因口径一致。
+12. 相关业绩优先写 2-4 条“可验证短句”，有数据就写数据，没有就写职责事实，不要写虚词。
+13. 离职原因：面试总结/附件有就转写正式表述；没有就写“需进一步确认”，不要臆造。
+14. 语言正式、短句、像 HR 手写存档，不要 AI 套话（赋能/闭环/抓手/沉淀/卓越/较大发展潜力等）。
+
+【必须输出结构】
+姓名｜岗位名称（站点/方向，如有）｜面试轮次（通过/未通过）
+基本情况
+毕业院校：
+专业：
+毕业时间：
+最近任职公司：
+负责站点/模式：
+主营品类：
+相关业绩：
+（2-4 条，分号结尾）
+离职原因：
+面试评价
+（一段：先匹配点，后短板/风险，结论清晰）
+优势
+（3 条左右，每条一行）
+不足
+（3 条左右，每条一行）
+综合评价
+（一段：是否推进，理由与上文一致）
+部门反馈
+（1-2 句：直接写结论+核心原因）
 
 参考格式：
-柳敏——沃尔玛运营岗位部门一面
+张璇｜亚马逊运营专员（英国站）｜HR一面（未通过）
+基本情况
+毕业院校：华中师范大学
+专业：朝鲜语、心理学（双学位本科）
+毕业时间：2023年
+最近任职公司：杭州巨星科技有限公司
+负责站点/模式：亚马逊英国站，VC模式
+主营品类：巨星科技负责五金、户外灯具等多个类目；上一家公司杭州小简网络科技有限公司负责袜子类目。
+相关业绩：
+独立负责精品运营全流程，从选品、打样、备货到推广及库存管理；
+打造季节性产品，黑五期间单日销量突破2万件（6双装约12万双），长期稳定在小类前三；
+在职期间整体GMV约900万美元，黑五项目单链接销售额突破100万美元，核心链接ACOS稳定控制在20%左右。
+离职原因：最近一份工作因公司为传统制造企业，个人发展及晋升空间有限，希望寻求更大的成长平台。
+面试评价
+候选人具备精品运营经验，能够独立负责产品运营全流程，对英国站VC模式较为熟悉，运营基础较扎实。但整体经历以多类目、多站点运营为主，岗位匹配度一般。
+优势
+具备精品运营全流程经验，熟悉选品、推广、广告优化及库存管理。
+有打造爆款及大型促销项目经验，数据表现较好。
+本科双学位背景，学习能力及综合素质较好，沟通表达能力不错。
+不足
+过往负责多个站点及多个类目运营，精细化运营深度不足。
+缺少持续深耕单一类目、单一站点的运营成果，与公司当前岗位要求存在一定差距。
+最近工作为VC模式运营，与公司现有业务模式匹配度一般。
+综合评价
+候选人运营基础较好，具备一定精品运营能力和项目经验，但由于长期以多站点、多类目运营为主，在精细化运营方面优势不够突出，与当前岗位需求匹配度一般，因此不建议进入下一轮。
+部门反馈
+HR一面未通过。 候选人以多站点、多类目运营经验为主，缺乏单一站点、单一类目的精细化运营经验，与公司岗位需求存在一定差距，因此不予推进后续面试。
 
-面试结论：部门一面通过，建议作为运营专员岗位推进，待安排部门二面。
-一、候选人情况
-2024年电子商务本科毕业。
-具备2年沃尔玛美国站服饰类目运营经验。
-2024年3月至2025年6月担任运营专员，独立负责约20条链接，小组3人。
-个人负责产品客单价约13.54美金，订单占店铺总订单约42%，GMV占店铺约40%，ROI约1:3.66。
-2025年6月晋升管理岗，负责整个店铺运营工作，团队GMV约510万美元，运营模式为精品+精铺。
-二、优势
-具备沃尔玛美国站服饰运营经验，运营基础扎实。
-个人业绩表现较好，数据贡献度较高。
-具备一定店铺管理经验，沟通表达较好。
-三、不足
-管理经验时间较短，仍需进一步积累。
-目前人在成都，仍处于了解机会阶段，入职意向需进一步确认。
-四、离职原因
-公司业务调整，团队进行了较大规模人员优化，岗位职责持续增加，个人希望寻找更加稳定的发展平台，并计划长期来杭州发展。
+【事实锚点（辅助，勿编造）】
+${limitText(factAnchor, 4000)}
 
-五、综合评价
+【AI 简历分析结果 JSON（辅助）】
+${limitText(JSON.stringify(analysis, null, 2), 10000)}
 
-候选人与岗位整体匹配度较高，部门一面建议作为运营专员岗位推进。目前候选人在成都，表示需要再考虑一下，待其确定来杭州后安排部门二面及后续流程。
+【候选人简历文本（事实主来源之一）】
+${limitText(resumeText || '无缓存简历文本。', 16000)}
 
-【AI 简历分析结果】
-${limitText(JSON.stringify(analysis, null, 2), 12000)}
+【面试官输入的面试总结（结论主来源）】
+${limitText(interviewSummary, 6000)}
 
-【候选人简历文本】
-${limitText(resumeText || '无缓存简历文本，请主要依据 AI 简历分析结果。', 14000)}
-
-【面试官输入的面试总结】
-${limitText(interviewSummary, 6000)}`;
+【面试附件内容${attachmentName ? `（文件名：${attachmentName}）` : ''}】
+${limitText(attachmentText || '未上传附件。', 16000)}`;
       }
 
       async function handleGenerateInterviewReport() {
         const summaryInput = document.getElementById('interviewSummaryInput');
+        const attachInput = document.getElementById('interviewAttachFile');
         const reportBtn = document.getElementById('generateInterviewReportBtn');
         const copyBtn = document.getElementById('copyInterviewReportBtn');
         const reportStatus = document.getElementById('interviewReportStatus');
@@ -3552,6 +3713,7 @@ ${limitText(interviewSummary, 6000)}`;
         const interviewSummary = summaryInput.value.trim();
         const apiKey = getDeepSeekKeyFromUrl();
         const cached = loadAnalysisCache();
+        const attachFile = attachInput?.files?.[0] || null;
 
         reportOutput.classList.remove('active');
         reportOutput.textContent = '';
@@ -3572,20 +3734,31 @@ ${limitText(interviewSummary, 6000)}`;
 
         reportBtn.disabled = true;
         reportBtn.textContent = '生成中...';
-        reportStatus.textContent = '正在结合简历和面试总结生成纪要...';
+        reportStatus.textContent = attachFile ? `正在读取附件「${attachFile.name}」，并结合简历和面试总结生成纪要...` : '正在高精准结合简历和面试总结生成纪要...';
 
         try {
-          const prompt = buildInterviewReportPrompt(cached.analysis, cached.resumeText || '', interviewSummary);
+          let attachmentText = '';
+          if (attachFile) {
+            attachmentText = await extractAttachmentText(attachFile, message => {
+              reportStatus.textContent = message;
+            });
+            if (!attachmentText) {
+              throw new Error('附件内容为空，请换一份可提取文字的 PDF / Word / TXT / 清晰图片。');
+            }
+            reportStatus.textContent = '附件已读取，正在高精准生成面试纪要...';
+          }
+
+          const prompt = buildInterviewReportPrompt(cached.analysis, cached.resumeText || '', interviewSummary, attachmentText, attachFile?.name || '', cached);
           const report = await callDeepSeek(apiKey, prompt, {
             json: false,
-            temperature: 0.15,
-            system: '你是公司内部 HR，写面试纪要要像真人手写记录。用大白话、短句、事实和判断，不要 AI 味，不要套话，不要夸大。面试官原话只能转成正式结论，不能照抄。',
+            temperature: 0.05,
+            system: '你是公司内部资深 HR。任务是输出高精准面试纪要：只写有材料依据的事实和判断；禁止编造学校、公司、站点、业绩数字、离职原因；通过/未通过严格服从面试官结论；面试评价、综合评价、部门反馈三者结论必须一致；严格按指定结构输出，不要 AI 套话。',
           });
           reportOutput.textContent = report;
           reportOutput.classList.add('active');
           if (copyBtn) copyBtn.classList.add('active');
           saveInterviewReportCache(interviewSummary, report);
-          reportStatus.textContent = '纪要已生成。';
+          reportStatus.textContent = attachFile ? `纪要已生成（已参考附件：${attachFile.name}）。` : '纪要已生成。';
         } catch (error) {
           reportStatus.textContent = formatResumeError(error);
         } finally {
@@ -3597,8 +3770,23 @@ ${limitText(interviewSummary, 6000)}`;
       function bindInterviewReportGenerator() {
         const reportBtn = document.getElementById('generateInterviewReportBtn');
         const copyBtn = document.getElementById('copyInterviewReportBtn');
+        const attachInput = document.getElementById('interviewAttachFile');
+        const attachBtn = document.getElementById('interviewAttachBtn');
+        const attachName = document.getElementById('interviewAttachName');
+
         if (reportBtn) reportBtn.addEventListener('click', handleGenerateInterviewReport);
         if (copyBtn) copyBtn.addEventListener('click', copyInterviewReport);
+        if (attachInput) {
+          attachInput.addEventListener('change', () => {
+            const file = attachInput.files?.[0];
+            if (attachName) attachName.textContent = file ? file.name : '';
+            if (attachBtn) attachBtn.classList.toggle('has-file', Boolean(file));
+            const reportStatus = document.getElementById('interviewReportStatus');
+            if (reportStatus) {
+              reportStatus.textContent = file ? `已选择附件：${file.name}` : '已清除附件。';
+            }
+          });
+        }
       }
 
       function restoreInterviewReportCache(record = null) {
@@ -3715,10 +3903,7 @@ ${limitText(interviewSummary, 6000)}`;
           });
           setAnalysisProgress(90, '正在生成弹窗和图表...');
           let analysis = normalizeAnalysisScores(parseAnalysisJson(result));
-          analysis = scopeAnalysisToTargetPosition(
-            analysis,
-            resolveTargetPosition(selectedTargetPosition, resumeText, analysis),
-          );
+          analysis = scopeAnalysisToTargetPosition(analysis, resolveTargetPosition(selectedTargetPosition, resumeText, analysis));
           const record = saveAnalysisCache(analysis, resumeText, file.name, {}, analysis.primaryTargetPosition || effectiveTargetPosition);
           renderAnalysisModal(analysis, record);
           finishAnalysisLoading();
@@ -3914,6 +4099,240 @@ ${limitText(interviewSummary, 6000)}`;
           resultPanels.forEach(panel => (panel.style.display = 'none'));
         }
       });
+    </script>
+    <script src="https://unpkg.com/oh-my-live2d@latest"></script>
+    <style>
+      .oml2d-menus,
+      .oml2d-statusBar,
+      .oml2d-status-bar,
+      #oml2d-menus,
+      #oml2d-statusBar {
+        display: none !important;
+        pointer-events: none !important;
+      }
+      .oml2d-tips,
+      #oml2d-tips,
+      [class*='oml2d-tips'] {
+        background: #fff8f1 !important;
+        color: #6b4f3a !important;
+        border: 1px solid #f0d7c2 !important;
+        border-radius: 18px !important;
+        box-shadow: 0 10px 28px rgba(120, 80, 50, 0.12) !important;
+        padding: 10px 14px !important;
+        font-size: 14px !important;
+        line-height: 1.55 !important;
+        font-weight: 600 !important;
+      }
+      .oml2d-stage,
+      #oml2d-stage {
+        overflow: visible !important;
+        cursor: grab !important;
+        touch-action: none;
+        z-index: 40;
+        will-change: transform;
+      }
+      .oml2d-stage canvas,
+      #oml2d-stage canvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        pointer-events: auto !important;
+      }
+      .oml2d-stage.is-dragging,
+      #oml2d-stage.is-dragging {
+        cursor: grabbing !important;
+        transition: none !important;
+      }
+    </style>
+    <script>
+      (function initCuteLive2d() {
+        if (!window.OML2D?.loadOml2d) return;
+
+        const hoverMessages = [
+          '好好上班，团子在陪着你～',
+          '团子说：今天也要元气满满哦',
+          '别着急，慢慢来，团子给你加油',
+          '看完这份简历，记得喝口水呀',
+          '团子在旁边看着你认真工作呢',
+          '累了就歇一会儿，团子不会催你的',
+          '今天也要好好招人，团子为你打气！',
+          '面试纪要写清楚一点，团子给你比心',
+          '上传附件能让反馈更准哦～',
+          '团子说：找到合适的人就超级棒',
+          '你已经很努力啦，团子抱抱',
+          '好好上班，团子在家等你回来～',
+          '这一份也认真看，团子陪着你',
+          '工作再忙，也别忘了对自己好一点',
+          '团子小声说：你是最棒的招聘官',
+        ];
+        let hoverIndex = 0;
+
+        try {
+          const oml2d = window.OML2D.loadOml2d({
+            mobileDisplay: true,
+            primaryColor: '#f4c9a8',
+            dockedPosition: 'left',
+            menus: {
+              disable: true,
+            },
+            statusBar: {
+              disable: true,
+            },
+            models: [
+              {
+                name: '仙狐小姐',
+                path: 'https://cdn.jsdelivr.net/npm/oml2d-models/models/Senko_Normals/senko.model3.json',
+                position: [0, 90],
+                scale: 0.1,
+                stageStyle: {
+                  width: 380,
+                  height: 520,
+                  left: '0px',
+                  overflow: 'visible',
+                },
+                mobileScale: 0.07,
+                mobilePosition: [0, 50],
+                mobileStageStyle: {
+                  width: 240,
+                  height: 340,
+                  left: '0px',
+                  overflow: 'visible',
+                },
+              },
+            ],
+            tips: {
+              style: {
+                fontSize: '14px',
+                minWidth: '170px',
+                maxWidth: '240px',
+                backgroundColor: '#fff8f1',
+                color: '#6b4f3a',
+                border: '1px solid #f0d7c2',
+                borderRadius: '18px',
+                boxShadow: '0 10px 28px rgba(120, 80, 50, 0.12)',
+                padding: '10px 14px',
+              },
+              idleTips: {
+                interval: 10000,
+                message: hoverMessages,
+              },
+              welcomeTips: {
+                message: {
+                  morning: '早上好呀，好好上班，团子在陪着你～',
+                  noon: '中午好，歇一会儿，团子也不会催你',
+                  afternoon: '下午好，团子说今天也要元气满满哦',
+                  evening: '晚上好，辛苦啦，团子给你加油',
+                  night: '这么晚还在忙，团子抱抱你',
+                },
+                duration: 4000,
+              },
+            },
+          });
+
+          const enableStageDrag = stage => {
+            if (!stage || stage.dataset.dragBound === '1') return;
+            stage.dataset.dragBound = '1';
+
+            let dragging = false;
+            let moved = false;
+            let startX = 0;
+            let startY = 0;
+            let baseX = Number(stage.dataset.dragX || 0);
+            let baseY = Number(stage.dataset.dragY || 0);
+
+            const applyTransform = (x, y) => {
+              stage.dataset.dragX = String(x);
+              stage.dataset.dragY = String(y);
+              stage.style.setProperty('transform', `translate3d(${x}px, ${y}px, 0)`, 'important');
+              stage.style.setProperty('transition', 'none', 'important');
+            };
+
+            // 等插件入场动画结束后，清掉它自带的 transform，避免叠加导致飞出屏幕
+            window.setTimeout(() => {
+              if (!stage.dataset.dragReady) {
+                stage.dataset.dragReady = '1';
+                applyTransform(baseX, baseY);
+              }
+            }, 1200);
+
+            const onPointerMove = event => {
+              if (!dragging) return;
+              const dx = event.clientX - startX;
+              const dy = event.clientY - startY;
+              if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+              applyTransform(baseX + dx, baseY + dy);
+            };
+
+            const stopDrag = event => {
+              if (!dragging) return;
+              dragging = false;
+              stage.classList.remove('is-dragging');
+              baseX = Number(stage.dataset.dragX || 0);
+              baseY = Number(stage.dataset.dragY || 0);
+              window.removeEventListener('pointermove', onPointerMove);
+              window.removeEventListener('pointerup', stopDrag);
+              window.removeEventListener('pointercancel', stopDrag);
+
+              // 如果只是点击没怎么移动，不干扰点击反馈
+              if (!moved && event) {
+                // no-op
+              }
+            };
+
+            stage.addEventListener('pointerdown', event => {
+              if (event.button !== undefined && event.button !== 0) return;
+              if (!stage.dataset.dragReady) {
+                stage.dataset.dragReady = '1';
+                applyTransform(baseX, baseY);
+              }
+              dragging = true;
+              moved = false;
+              stage.classList.add('is-dragging');
+              startX = event.clientX;
+              startY = event.clientY;
+              baseX = Number(stage.dataset.dragX || 0);
+              baseY = Number(stage.dataset.dragY || 0);
+              window.addEventListener('pointermove', onPointerMove);
+              window.addEventListener('pointerup', stopDrag);
+              window.addEventListener('pointercancel', stopDrag);
+            });
+          };
+
+          const bindHoverTips = () => {
+            const stage = document.querySelector('.oml2d-stage') || document.querySelector('#oml2d-stage') || document.querySelector('[class*="oml2d"] canvas')?.parentElement;
+            if (!stage) return;
+
+            enableStageDrag(stage);
+
+            if (stage.dataset.hoverTipsBound === '1') return;
+            stage.dataset.hoverTipsBound = '1';
+
+            stage.addEventListener('mouseenter', () => {
+              if (stage.classList.contains('is-dragging')) return;
+              const message = hoverMessages[hoverIndex % hoverMessages.length];
+              hoverIndex += 1;
+              if (typeof oml2d?.tipsMessage === 'function') {
+                oml2d.tipsMessage(message, 3500, 10);
+              } else if (typeof oml2d?.showTipsMessage === 'function') {
+                oml2d.showTipsMessage(message, 3500, 10);
+              }
+            });
+          };
+
+          if (typeof oml2d?.onLoad === 'function') {
+            oml2d.onLoad(status => {
+              if (status === 'success') bindHoverTips();
+            });
+          }
+          if (typeof oml2d?.onStageSlideIn === 'function') {
+            oml2d.onStageSlideIn(bindHoverTips);
+          }
+          window.setTimeout(bindHoverTips, 1500);
+          window.setTimeout(bindHoverTips, 4000);
+        } catch (error) {
+          console.warn('Live2D 看板娘加载失败', error);
+        }
+      })();
     </script>
   </body>
 </html>
