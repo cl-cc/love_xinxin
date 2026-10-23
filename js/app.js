@@ -669,6 +669,7 @@
           .join('\n\n');
       }
 
+      const OTHER_POSITION_VALUE = '其他类';
       const HANDBOOK_POSITIONS = ['亚马逊运营专员', '亚马逊运营主管', '沃尔玛运营专员', '沃尔玛运营主管', 'TikTok运营助理', 'TikTok 运营专员', 'TikTok商务BD', 'TikTok商务BD主管', '独立站运营专员', 'Wayfair 运营专员', 'Coupang 运营专员', '海外社媒推广专员', '海外社媒主管', '亚马逊站外推广专员'];
 
       const POSITION_SECTION_MAP = {
@@ -764,7 +765,13 @@
         亚马逊站外推广专员: '锚定亚马逊站外推广：测评统筹、国外资源开发、美欧 Deals 站/论坛、Reviewer 维护、站外引流打爆款、账号安全与效果复盘。社媒只是辅助渠道。禁止按站内 Listing/FBA/SP 广告、纯社媒内容运营、海外社媒主管标准乱扣分。',
         TikTok商务BD: '锚定 TikTok 达人商务专员执行岗：TikTok/站外达人挖掘建联、分层筛选、商务谈判与合作落地、鞋靴等内容配合与产出把控、曝光/点击/转化/GMV 复盘、达人关系维护与中腰部拓展。禁止按 BD 主管团队管理缺失、TikTok Shop 店铺运营、纯社媒内容剪辑、亚马逊站外测评/Deals 标准乱扣分。',
         TikTok商务BD主管: '锚定 TikTok 海外达人商务管理：美区达人/MCN 拓展、筛选建联谈判、鞋类等品类带货/测评合作、BD 团队目标与绩效、建联率/合作率/视频产出/带货转化复盘、Affiliate 优先。禁止按 TikTok Shop 店铺运营、纯社媒内容剪辑、亚马逊站外测评/Deals 标准乱扣分。',
+        其他类:
+          '本次为非手册通用岗位分析。请从简历识别真实应聘方向（如计算机开发、土木/建筑、财务会计、人力资源、通用运营、市场营销、行政等），用具体岗位名写入 primaryTargetPosition。按该行业通行标准评估专业能力、项目经验、工具技能、数据/成果证据与风险点；禁止硬套跨境电商平台指标（ACOS/FBA/TikTok Shop 等），除非简历本身就是电商方向。',
       };
+
+      function isOtherPositionCategory(position = '') {
+        return String(position || '').trim() === OTHER_POSITION_VALUE;
+      }
 
       function getSectionTextById(id) {
         const section = document.getElementById(id);
@@ -773,7 +780,9 @@
 
       function getHandbookTextForAnalysis(targetPosition = '') {
         const sectionIds = new Set(COMMON_HANDBOOK_IDS);
-        if (targetPosition && POSITION_SECTION_MAP[targetPosition]) {
+        if (isOtherPositionCategory(targetPosition)) {
+          // 其他类只用通用 HR 流程/红旗，不塞跨境电商岗位 JD
+        } else if (targetPosition && POSITION_SECTION_MAP[targetPosition]) {
           POSITION_SECTION_MAP[targetPosition].forEach(id => sectionIds.add(id));
         } else {
           Object.values(POSITION_SECTION_MAP)
@@ -828,6 +837,13 @@
       }
 
       function resolveTargetPosition(selectedPosition = '', resumeText = '', analysis = null) {
+        if (isOtherPositionCategory(selectedPosition)) {
+          return (
+            analysis?.primaryTargetPosition ||
+            asArray(analysis?.matchedPositions)[0]?.position ||
+            OTHER_POSITION_VALUE
+          );
+        }
         if (selectedPosition) return selectedPosition;
         const inferred = inferTargetPositionFromResume(resumeText);
         if (inferred) return inferred;
@@ -880,15 +896,40 @@
 
       function buildResumeAnalysisPrompt(resumeText, handbookText, options = {}) {
         const { targetPosition = '', inferredTargetPosition = '' } = options;
-        const focusPosition = targetPosition || inferredTargetPosition || '';
-        const matchHint = focusPosition && POSITION_MATCH_HINTS[focusPosition] ? POSITION_MATCH_HINTS[focusPosition] : '';
-        const targetInstruction = targetPosition
-          ? `本次分析的唯一目标岗位是：${targetPosition}。primaryTargetPosition 必须写 ${targetPosition}。所有 strengths、weaknesses、interviewQuestions、recommendation、charts.riskSignals、charts.abilityScores 只能围绕该岗位及其对应平台评估。`
-          : inferredTargetPosition
-            ? `请先从简历判断应聘岗位，当前简历倾向：${inferredTargetPosition}。primaryTargetPosition 必须写 ${inferredTargetPosition}，并只围绕该岗位输出分析。`
-            : '请先从简历识别候选人最想应聘的岗位（求职意向/工作经历主导方向），写入 primaryTargetPosition，后续分析只围绕该岗位。';
+        const otherMode = isOtherPositionCategory(targetPosition);
+        const focusPosition = otherMode ? OTHER_POSITION_VALUE : targetPosition || inferredTargetPosition || '';
+        const matchHint =
+          focusPosition && POSITION_MATCH_HINTS[focusPosition]
+            ? POSITION_MATCH_HINTS[focusPosition]
+            : otherMode
+              ? POSITION_MATCH_HINTS[OTHER_POSITION_VALUE]
+              : '';
 
-        const scopeRules = `
+        const targetInstruction = otherMode
+          ? `本次选择了「其他类」。请从简历识别真实应聘岗位（如：Java后端开发、土建工程师、财务会计、HRBP、品牌运营等），primaryTargetPosition 必须写成该具体岗位名，禁止只写“其他类”。所有 strengths、weaknesses、interviewQuestions、recommendation、charts 都只围绕该具体岗位评估；禁止按亚马逊/TikTok 等跨境电商手册岗位硬套。`
+          : targetPosition
+            ? `本次分析的唯一目标岗位是：${targetPosition}。primaryTargetPosition 必须写 ${targetPosition}。所有 strengths、weaknesses、interviewQuestions、recommendation、charts.riskSignals、charts.abilityScores 只能围绕该岗位及其对应平台评估。`
+            : inferredTargetPosition
+              ? `请先从简历判断应聘岗位，当前简历倾向：${inferredTargetPosition}。primaryTargetPosition 必须写 ${inferredTargetPosition}，并只围绕该岗位输出分析。`
+              : '请先从简历识别候选人最想应聘的岗位（求职意向/工作经历主导方向），写入 primaryTargetPosition，后续分析只围绕该岗位。';
+
+        const scopeRules = otherMode
+          ? `
+岗位收窄规则（其他类 / 通用岗，必须严格执行）：
+1. 先识别具体岗位族：计算机/互联网研发、土木建筑、财务税务、人力资源、通用运营、市场/销售、行政综合等，再写具体岗位名。
+2. weaknesses、charts.riskSignals 只能写该具体岗位相关风险；禁止因“没有跨境电商经验”扣分。
+3. interviewQuestions 问该岗位行业通行问题（项目、工具、证书、成果、协作、风险），结合简历经历追问。
+4. charts.abilityScores 按岗位族给 4-8 项，例如：
+   - 计算机：编程语言、系统设计、项目落地、问题解决、协作沟通、风险意识
+   - 土木建筑：专业基础、现场/图纸、项目管理、规范合规、协作沟通、风险意识
+   - 财务：核算能力、报表分析、税务合规、细心度、工具技能、风险意识
+   - 人力：招聘选拔、员工关系、制度流程、沟通协调、数据分析、风险意识
+   - 通用运营：业务理解、执行落地、数据分析、跨部门协作、工具技能、风险意识
+5. matchedPositions 写 1-3 个相近具体岗位名（可用行业通用叫法），不必来自跨境电商手册。
+6. 评分看职责相似度、项目证据、工具/证书、成果数据；空话多、证据少要降分。
+7. ${targetInstruction}
+8. 目标岗位精准锚点：${matchHint}`
+          : `
 岗位收窄规则（必须严格执行）：
 1. weaknesses、charts.riskSignals 只能写“目标岗位”相关的风险。
 2. 禁止把“缺乏其他岗位/平台经验”写成薄弱点。尤其注意边界：
@@ -919,18 +960,30 @@
 8. ${targetInstruction}
 9. 目标岗位精准锚点：${matchHint || '按手册该岗位核心职责与指标评估，禁止跨岗位评价。'}`;
 
-        return `你是跨境电商招聘面试顾问。请只根据“面试手册”和“候选人简历”分析，不要编造简历里没有的信息。
-可选岗位仅限：${HANDBOOK_POSITIONS.join('、')}。
+        const roleIntro = otherMode
+          ? `你是通用行业招聘面试顾问（覆盖计算机、土木、财务、人力、运营等）。请根据“通用面试手册要点”和“候选人简历”分析，不要编造简历里没有的信息。
+本次为其他类分析：primaryTargetPosition 与 matchedPositions[].position 必须写简历对应的具体岗位名，不要写“其他类”，也不必限制在跨境电商手册岗位列表。`
+          : `你是跨境电商招聘面试顾问。请只根据“面试手册”和“候选人简历”分析，不要编造简历里没有的信息。
+可选岗位仅限：${HANDBOOK_POSITIONS.join('、')}。`;
+
+        const primaryPosSchema = otherMode
+          ? '本次分析锚定的具体岗位名（从简历识别，如 Java开发工程师 / 土建工程师 / 财务会计 / HRBP，禁止写“其他类”）'
+          : '本次分析锚定岗位，必须来自面试手册岗位名';
+        const matchedPosSchema = otherMode
+          ? '匹配的具体岗位名称（行业通用叫法即可，不必来自跨境电商手册）'
+          : '匹配岗位名称，必须来自面试手册里的岗位';
+
+        return `${roleIntro}
 
 请只输出一个合法 JSON，不要输出 Markdown，不要用代码块包裹。
 
 JSON 结构必须如下：
 {
   "candidateName": "候选人姓名，无法识别则写未知",
-  "primaryTargetPosition": "本次分析锚定岗位，必须来自面试手册岗位名",
+  "primaryTargetPosition": "${primaryPosSchema}",
   "matchedPositions": [
     {
-      "position": "匹配岗位名称，必须来自面试手册里的岗位",
+      "position": "${matchedPosSchema}",
       "matchLevel": "高/中/低",
       "score": 73.25,
       "scoreBreakdown": {
@@ -1005,21 +1058,21 @@ JSON 结构必须如下：
 1. 所有 score、level 必须是 0-100 的数字，保留两位小数，禁止全部写成整数，禁止大多数候选人都给 85、80、90。
 2. matchedPositions[].score 必须等于 scoreBreakdown 各维度按 weight 加权后的综合分，公式：score = Σ(维度score × weight)。
 3. matchLevel 必须与综合分一致：高 >= 80.00；中 60.00-79.99；低 < 60.00。
-4. 岗位匹配（30%）：看平台、站点、品类、岗位职责是否贴近手册岗位；完全不对口可低于 50。
+4. 岗位匹配（30%）：${otherMode ? '看专业方向、岗位职责、项目类型是否贴近识别出的目标岗位；完全不对口可低于 50。' : '看平台、站点、品类、岗位职责是否贴近手册岗位；完全不对口可低于 50。'}
 5. 工作经验（25%）：看年限、职级、项目连续性、是否做过同类型业务；经验浅或跳岗频繁要扣分。
 6. 薪资匹配（15%）：结合岗位常见薪资带判断；简历没写期望薪资时给 55-68，并说明“薪资信息缺失”；明显离谱要低于 55。
-7. 数据佐证（20%）：有 GMV、SKU、ROI、广告预算、团队规模等具体数字可给 75+；只有空话没有数据应低于 65。
+7. 数据佐证（20%）：${otherMode ? '有项目规模、业绩数字、证书、上线成果、团队规模等具体证据可给 75+；只有空话没有数据应低于 65。' : '有 GMV、SKU、ROI、广告预算、团队规模等具体数字可给 75+；只有空话没有数据应低于 65。'}
 8. 职责清晰度（10%）：能说清本人负责事项可给 75+；只说“我们团队”说不清个人贡献应低于 60。
 9. charts.positionScores 必须与 matchedPositions 的岗位和分数一致；charts.abilityScores 只保留与简历相关的 4-8 项，不相关维度可省略或给 0；各项分数要有差异，不能全部相同。
 10. charts.riskSignals.level 表示风险强度，越高风险越大；没有明显风险也要给有区分度的值，不要全部 85。
 
 其他要求：
-- primaryTargetPosition 必须明确，且与本次分析焦点一致。
+- primaryTargetPosition 必须明确，且与本次分析焦点一致。${otherMode ? '禁止写成“其他类”。' : ''}
 - matchedPositions 给 1-3 个，多个岗位的综合分必须有差异，但薄弱点和风险只围绕 primaryTargetPosition。
 - strengths 给 3-6 个，且要与 primaryTargetPosition 直接相关。
-- weaknesses 给 3-6 个，且只能写 primaryTargetPosition 相关风险，禁止跨平台写无关经验缺失。
+- weaknesses 给 3-6 个，且只能写 primaryTargetPosition 相关风险，${otherMode ? '禁止因缺少跨境电商经验扣分。' : '禁止跨平台写无关经验缺失。'}
 - interviewQuestions 给 8-12 个，必须结合简历具体经历，且只问 primaryTargetPosition 相关问题。
-- 如果简历缺少关键数据，请在 weaknesses 里指出该目标岗位下缺少的平台、站点、品类、SKU、销售额/GMV、广告预算、权限、案例等哪一类。
+- 如果简历缺少关键数据，请在 weaknesses 里指出该目标岗位下缺少的${otherMode ? '项目、工具、证书、成果数据、职责边界' : '平台、站点、品类、SKU、销售额/GMV、广告预算、权限、案例'}等哪一类。
 ${scopeRules}
 
 【面试手册】
@@ -1682,20 +1735,27 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
           setResumeStatus('正在结合面试手册调用 DeepSeek 分析...', 'info');
           setAnalysisProgress(45, '正在整理页面面试手册内容...');
           const selectedTargetPosition = targetPositionInput?.value.trim() || '';
+          const otherMode = isOtherPositionCategory(selectedTargetPosition);
           const inferredTargetPosition = selectedTargetPosition ? '' : inferTargetPositionFromResume(resumeText);
           const effectiveTargetPosition = selectedTargetPosition || inferredTargetPosition;
-          const handbookText = getHandbookTextForAnalysis(effectiveTargetPosition);
+          const handbookText = getHandbookTextForAnalysis(otherMode ? OTHER_POSITION_VALUE : effectiveTargetPosition);
           const prompt = buildResumeAnalysisPrompt(resumeText, handbookText, {
             targetPosition: selectedTargetPosition,
             inferredTargetPosition,
           });
-          setAnalysisProgress(62, '正在调用 DeepSeek 分析匹配岗位...');
+          setAnalysisProgress(62, otherMode ? '正在按其他类通用岗位分析...' : '正在调用 DeepSeek 分析匹配岗位...');
           const result = await callDeepSeek(apiKey, prompt, {
-            system: '你是严谨的跨境电商 HR 初面分析助手。必须围绕 primaryTargetPosition 单岗位精准分析：海外社媒推广专员≠海外社媒主管≠亚马逊站外推广专员(测评/Deals/论坛)≠TikTok运营助理≠TikTok运营专员≠TikTok商务BD≠TikTok商务BD主管≠亚马逊站内运营。禁止把其他岗位经验缺失写成薄弱点或风险。评分必须基于简历证据差异化，所有分数字段保留两位小数。',
+            system: otherMode
+              ? '你是严谨的通用行业 HR 初面分析助手。用户选择了其他类：必须从简历识别具体岗位名写入 primaryTargetPosition（禁止只写“其他类”），可覆盖计算机、土木、财务、人力、运营等。按该岗位行业标准评估；禁止因缺少跨境电商经验扣分；评分基于简历证据差异化，所有分数字段保留两位小数。'
+              : '你是严谨的跨境电商 HR 初面分析助手。必须围绕 primaryTargetPosition 单岗位精准分析：海外社媒推广专员≠海外社媒主管≠亚马逊站外推广专员(测评/Deals/论坛)≠TikTok运营助理≠TikTok运营专员≠TikTok商务BD≠TikTok商务BD主管≠亚马逊站内运营。禁止把其他岗位经验缺失写成薄弱点或风险。评分必须基于简历证据差异化，所有分数字段保留两位小数。',
             temperature: 0.35,
           });
           setAnalysisProgress(90, '正在生成弹窗和图表...');
           let analysis = normalizeAnalysisScores(parseAnalysisJson(result));
+          if (otherMode && (!analysis.primaryTargetPosition || isOtherPositionCategory(analysis.primaryTargetPosition))) {
+            analysis.primaryTargetPosition =
+              asArray(analysis.matchedPositions)[0]?.position || analysis.primaryTargetPosition || '待识别岗位';
+          }
           analysis = scopeAnalysisToTargetPosition(analysis, resolveTargetPosition(selectedTargetPosition, resumeText, analysis));
           const record = saveAnalysisCache(analysis, resumeText, file.name, {}, analysis.primaryTargetPosition || effectiveTargetPosition);
           renderAnalysisModal(analysis, record);
