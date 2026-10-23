@@ -1172,7 +1172,7 @@ ${limitText(resumeText, 18000)}`;
     </details>
     <div class="interview-report-box">
       <h3>生成部门面试反馈</h3>
-      <p>把你对这个人的面试总结写在下面，可再上传面试记录/评分表等附件（支持 PDF、Word、TXT、PNG、JPG）。AI 会结合简历分析、文字总结和附件，按「姓名-岗位-结果 / 基本情况 / 最近任职公司与薪资 / 优势 / 不足 / 岗位匹配情况」生成反馈。</p>
+      <p>把你对这个人的面试总结写在下面，可再上传面试记录/评分表等附件（支持 PDF、Word、TXT、PNG、JPG）。AI 会生成固定格式反馈；「数据对照」单独展示为左右对照表，方便核对简历 / 附件 / 面试总结。一键复制只复制反馈正文。</p>
       <textarea id="interviewSummaryInput" placeholder="例如：许可欣，部门一面未通过；籍贯浙江，期望底薪8k；离职原因是想转正编；优势是细心执行力强，不足是平台经验偏少..."></textarea>
       <div class="interview-report-actions">
         <div class="interview-attach-field">
@@ -1187,6 +1187,13 @@ ${limitText(resumeText, 18000)}`;
         <span id="interviewReportStatus" class="resume-note"></span>
       </div>
       <div id="interviewReportOutput" class="interview-report-output"></div>
+      <div id="interviewEvidencePanel" class="interview-evidence-panel" hidden>
+        <div class="interview-evidence-head">
+          <h4>数据对照</h4>
+          <p>左右对照：反馈写法 ↔ 原文摘录；来源用颜色区分（蓝=简历，紫=附件，绿=面试总结，橙=待复核）。</p>
+        </div>
+        <div id="interviewEvidenceList" class="interview-evidence-list"></div>
+      </div>
     </div>
   `;
 
@@ -1322,27 +1329,40 @@ ${recommendation}
 9. 姓名优先用事实锚点/简历；无法确认写“候选人”。
 10. 基本情况写成一行，用顿号/逗号串联：出生年份、籍贯（如有）、大学名称、毕业年份+专业、相关工作经验年限；有恋爱/结婚等且面试总结明确提及时可写入，无则不要编。
 11. 最近任职公司写成一行，依次覆盖：公司名称、任职岗位、任职年限、关键业务事实（品类/销量等有则写）、离职原因或在职状态；薪资架构；期望底薪。没有的字段写“需进一步确认”。
-12. 优势、不足写成连贯段落（不要列表符号），每段 2-4 句，具体到平台、职责或数据，禁止空话。
-13. 岗位匹配情况写成一段：先写面试结论，再写匹配点与风险（能力/经验/薪资等），口径必须与标题结论一致。
-14. 语言正式、短句、像 HR 手写存档，不要 AI 套话（赋能/闭环/抓手/沉淀/卓越/较大发展潜力等）。
+12. 优势、不足各写一小段即可：各约 100-200 字、抓住大约 3 个点，能力判断可配关键数据，不要铺陈罗列、不要归纳太多条。有数据就点到数据，没有就写职责事实；禁止空话套话。
+13. 岗位匹配情况写成一段：先写面试结论，再写匹配点与风险（能力/经验/薪资等），口径必须与标题结论一致；可比优势/不足略长，但仍要精炼。
+14. 正文写完后，另起一行只写标题「数据对照」，下面按固定行格式输出 5-10 条核对项。每行必须严格使用：【字段名】反馈写法｜来源：简历或面试附件或面试总结｜原文：短摘录。来源只能写「简历」「面试附件」「面试总结」之一；若多处都有，优先写最权威的一个，并在原文里体现。找不到依据时写：【字段名】反馈写法｜来源：待复核｜原文：未找到原文依据，建议人工复核。不要把数据对照混进岗位匹配情况里。
+15. 语言正式、短句、像 HR 手写存档，不要 AI 套话（赋能/闭环/抓手/沉淀/卓越/较大发展潜力等）。
 
 【必须输出结构】
 姓名-岗位名称-面试轮次结果
 基本情况：……
 最近任职公司：……；薪资架构：……，期望底薪……
-优势
-……
-不足
-……
+优势：……
+不足：……
 岗位匹配情况：……
+
+数据对照
+【字段名】反馈写法｜来源：简历｜原文：短摘录
+【字段名】反馈写法｜来源：面试总结｜原文：短摘录
 
 参考格式：
 任佳妮-coupang运营专员-部门二面通过（待确认薪资）
 基本情况：1998年，有男朋友，韩国世宗大学，22年酒店管理本科毕业，1.5年coupang运营经验
 最近任职公司：杭州易博达科技有限公司，coupang运营专员岗位，任职1.5年，目前在职，大件家具类，月销最高9000w韩币；离职原因：coupang平台不盈利转国内抖音，期望深耕coupang平台；薪资架构：10k底薪+绩效，期望底薪12k
-优势：具备Coupang精品店0-1全链路运营经验，可独立完成从产品上架到售后的运营工作。广告投放与优化能力突出，广告花费占比由30%优化至20%以内，曝光提升1000%。有韩国5年留学背景，韩语流利，熟悉韩国消费习惯，可自主对接本土达人并降低合作成本。
-不足：过往运营产品毛利率偏低，扣除广告后毛利率在10%以内，单产品盈利优化能力需进一步验证。底薪要求过高，与公司现有薪资水平存在差距。Coupang运营经验约1.5年，业务体量数据有限，运营规模需进一步确认。
-岗位匹配情况：候选人部门二面通过。具备Coupang平台实操经验，熟悉韩国市场，有站内广告投放、Listing优化、库存物流及站外达人营销等全链路运营能力，岗位匹配度较高。但过往产品毛利率偏低，单产品盈利优化能力有待验证，且底薪要求过高，薪资匹配存在风险，需结合在职人员薪资情况进一步沟通。
+优势：有Coupang精品店0-1全链路经验，能独立做上架到售后；广告优化较强，花费占比可压到20%内、曝光提升明显；韩国留学背景，韩语流利，便于对接本土达人。
+不足：过往产品扣广告后毛利偏低（约10%内），盈利优化能力待验证；期望底薪12k偏高，薪资匹配有风险；Coupang实操约1.5年，业务体量与规模需再确认。
+岗位匹配情况：候选人部门二面通过。具备Coupang实操与韩国市场经验，岗位匹配度较高；但毛利优化与薪资要求仍有风险，需结合在职人员薪资进一步沟通。
+
+数据对照
+【出生年份】1998年｜来源：简历｜原文：1998年出生
+【学校专业】韩国世宗大学，22年酒店管理本科｜来源：简历｜原文：Sejong University / 酒店管理
+【公司岗位年限】杭州易博达，coupang运营专员，1.5年｜来源：简历｜原文：杭州易博达科技有限公司 Coupang运营
+【业绩】月销最高9000w韩币｜来源：简历｜原文：月销最高约9000万韩币
+【广告优化】花费占比压到20%内｜来源：简历｜原文：广告花费占比由30%优化至20%以内
+【毛利】扣广告后约10%内｜来源：面试总结｜原文：扣除广告后毛利率在10%以内
+【薪资】10k+绩效，期望12k｜来源：面试总结｜原文：现薪10k+绩效，期望底薪12k
+【面试结论】部门二面通过（待确认薪资）｜来源：面试总结｜原文：部门二面通过，薪资待确认
 
 【事实锚点（辅助，勿编造）】
 ${limitText(factAnchor, 4000)}
@@ -1358,6 +1378,121 @@ ${limitText(interviewSummary, 6000)}
 
 【面试附件内容${attachmentName ? `（文件名：${attachmentName}）` : ''}】
 ${limitText(attachmentText || '未上传附件。', 16000)}`;
+      }
+
+      function splitInterviewReportAndEvidence(raw = '') {
+        const text = String(raw || '').replace(/\r\n/g, '\n').trim();
+        if (!text) return { body: '', evidenceRaw: '' };
+        // 取最后一次「数据对照」标题，避免正文偶发提到该词时误切
+        const matches = [...text.matchAll(/\n[ \t]*数据对照[ \t]*\n/g)];
+        const match = matches[matches.length - 1];
+        if (match && match.index !== undefined) {
+          return {
+            body: text.slice(0, match.index).trim(),
+            evidenceRaw: text.slice(match.index + match[0].length).trim(),
+          };
+        }
+        const inlineIdx = text.lastIndexOf('\n数据对照');
+        if (inlineIdx > 0) {
+          return {
+            body: text.slice(0, inlineIdx).trim(),
+            evidenceRaw: text.slice(inlineIdx).replace(/^\s*数据对照\s*/, '').trim(),
+          };
+        }
+        if (text.startsWith('数据对照\n')) {
+          return { body: '', evidenceRaw: text.replace(/^数据对照\s*/, '').trim() };
+        }
+        return { body: text, evidenceRaw: '' };
+      }
+
+      function normalizeEvidenceSource(source = '') {
+        const text = String(source || '').trim();
+        if (/待复核|未找到|无依据|人工复核/i.test(text)) return { key: 'missing', label: '待复核' };
+        if (/附件|评分表|面试记录/.test(text)) return { key: 'attach', label: '面试附件' };
+        if (/总结|面试官/.test(text)) return { key: 'summary', label: '面试总结' };
+        if (/简历/.test(text)) return { key: 'resume', label: '简历' };
+        return { key: 'other', label: text || '其他' };
+      }
+
+      function parseInterviewEvidenceItems(evidenceRaw = '') {
+        return String(evidenceRaw || '')
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => {
+            const cleaned = line.replace(/^\d+[\.、．)\s]+/, '').replace(/^[-•]\s*/, '');
+            if (!cleaned || cleaned === '数据对照') return null;
+            const matched = cleaned.match(
+              /^【([^】]+)】\s*(.+?)\s*[｜|]\s*(?:来源|出处)\s*[:：]\s*([^｜|]+)\s*[｜|]\s*原文\s*[:：]\s*[「"“]?(.+?)[」"”]?\s*$/
+            );
+            if (matched) {
+              return {
+                field: matched[1].trim(),
+                value: matched[2].replace(/\s*→\s*$/, '').trim(),
+                source: matched[3].trim(),
+                quote: matched[4].trim(),
+              };
+            }
+            const loose = cleaned.match(/^【([^】]+)】\s*(.+)$/);
+            if (loose) {
+              return { field: loose[1].trim(), value: loose[2].trim(), source: '待复核', quote: '格式未识别完整，建议人工核对' };
+            }
+            return { field: '条目', value: cleaned, source: '待复核', quote: '格式未识别完整，建议人工核对' };
+          })
+          .filter(Boolean);
+      }
+
+      function clearInterviewEvidencePanel() {
+        const panel = document.getElementById('interviewEvidencePanel');
+        const list = document.getElementById('interviewEvidenceList');
+        if (list) list.innerHTML = '';
+        if (panel) panel.hidden = true;
+      }
+
+      function renderInterviewEvidencePanel(evidenceRaw = '') {
+        const panel = document.getElementById('interviewEvidencePanel');
+        const list = document.getElementById('interviewEvidenceList');
+        if (!panel || !list) return;
+        const items = parseInterviewEvidenceItems(evidenceRaw);
+        if (!items.length) {
+          clearInterviewEvidencePanel();
+          return;
+        }
+        list.innerHTML = `
+          <div class="interview-evidence-table" role="table">
+            <div class="interview-evidence-row interview-evidence-row-head" role="row">
+              <div role="columnheader">字段</div>
+              <div role="columnheader">反馈写法</div>
+              <div role="columnheader">来源</div>
+              <div role="columnheader">原文摘录</div>
+            </div>
+            ${items
+              .map(item => {
+                const source = normalizeEvidenceSource(item.source);
+                return `<div class="interview-evidence-row source-${escapeHTML(source.key)}" role="row">
+                  <div class="interview-evidence-field" role="cell">${escapeHTML(item.field)}</div>
+                  <div class="interview-evidence-value" role="cell">${escapeHTML(item.value)}</div>
+                  <div class="interview-evidence-source-cell" role="cell">
+                    <span class="interview-evidence-source source-${escapeHTML(source.key)}">${escapeHTML(source.label)}</span>
+                  </div>
+                  <div class="interview-evidence-quote" role="cell">${escapeHTML(item.quote || '无')}</div>
+                </div>`;
+              })
+              .join('')}
+          </div>`;
+        panel.hidden = false;
+      }
+
+      function renderInterviewReportView(rawReport = '') {
+        const reportOutput = document.getElementById('interviewReportOutput');
+        const copyBtn = document.getElementById('copyInterviewReportBtn');
+        if (!reportOutput) return { body: '', evidenceRaw: '' };
+        const { body, evidenceRaw } = splitInterviewReportAndEvidence(rawReport);
+        reportOutput.textContent = body;
+        reportOutput.classList.toggle('active', Boolean(body));
+        if (copyBtn) copyBtn.classList.toggle('active', Boolean(body));
+        renderInterviewEvidencePanel(evidenceRaw);
+        return { body, evidenceRaw };
       }
 
       async function handleGenerateInterviewReport() {
@@ -1376,6 +1511,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
 
         reportOutput.classList.remove('active');
         reportOutput.textContent = '';
+        clearInterviewEvidencePanel();
         if (copyBtn) copyBtn.classList.remove('active');
 
         if (!interviewSummary) {
@@ -1411,13 +1547,11 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
           const report = await callDeepSeek(apiKey, prompt, {
             json: false,
             temperature: 0.05,
-            system: '你是公司内部资深 HR。任务是输出高精准面试反馈：标题为「姓名-岗位-面试轮次结果」；正文仅含基本情况、最近任职公司（含薪资）、优势、不足、岗位匹配情况。只写有材料依据的事实和判断；禁止编造学校、公司、薪资、业绩数字、离职原因；通过/未通过严格服从面试官结论；岗位匹配情况必须与标题结论一致；严格按指定结构输出，不要 Markdown，不要 AI 套话。',
+            system: '你是公司内部资深 HR。任务是输出高精准面试反馈：标题为「姓名-岗位-面试轮次结果」；正文含基本情况、最近任职公司（含薪资）、优势、不足、岗位匹配情况；正文后另起「数据对照」，每行固定格式【字段】反馈写法｜来源：简历或面试附件或面试总结｜原文：短摘录。优势与不足各约100-200字、大约3个点。只写有材料依据的事实；找不到出处写来源：待复核；严格按指定结构输出，不要 Markdown，不要 AI 套话。',
           });
-          reportOutput.textContent = report;
-          reportOutput.classList.add('active');
-          if (copyBtn) copyBtn.classList.add('active');
+          renderInterviewReportView(report);
           saveInterviewReportCache(interviewSummary, report);
-          reportStatus.textContent = attachFile ? `反馈已生成（已参考附件：${attachFile.name}）。` : '反馈已生成。';
+          reportStatus.textContent = attachFile ? `反馈已生成（已参考附件：${attachFile.name}）。` : '反馈已生成。下方可核对数据对照。';
         } catch (error) {
           reportStatus.textContent = formatResumeError(error);
         } finally {
@@ -1458,9 +1592,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
         if (!cached?.report || !reportOutput) return;
 
         if (summaryInput && cached.summary) summaryInput.value = cached.summary;
-        reportOutput.textContent = cached.report;
-        reportOutput.classList.add('active');
-        if (copyBtn) copyBtn.classList.add('active');
+        renderInterviewReportView(cached.report);
         if (reportStatus) reportStatus.textContent = '已恢复上次生成的面试反馈。';
       }
 

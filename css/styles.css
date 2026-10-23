@@ -1975,6 +1975,218 @@ html[data-theme='dark'] .resume-ink-btn.type--C {
   display: block;
 }
 
+.interview-evidence-panel {
+  margin-top: 16px;
+  border: 1px solid #d7e3f4;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #f7fbff, #eef5ff 55%, #f8fbff);
+  padding: 14px 14px 12px;
+}
+
+.interview-evidence-head h4 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  color: #1e3a5f;
+}
+
+.interview-evidence-head p {
+  margin: 0 0 10px;
+  color: #5b6b7c;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.interview-evidence-list {
+  overflow-x: auto;
+}
+
+.interview-evidence-table {
+  display: grid;
+  gap: 0;
+  min-width: 640px;
+  border: 1px solid #d9e4f2;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.interview-evidence-row {
+  display: grid;
+  grid-template-columns: 108px minmax(0, 1.1fr) 84px minmax(0, 1.2fr);
+  align-items: stretch;
+  border-bottom: 1px solid #e8eef6;
+}
+
+.interview-evidence-row:last-child {
+  border-bottom: 0;
+}
+
+.interview-evidence-row > div {
+  padding: 9px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #334155;
+}
+
+.interview-evidence-row-head {
+  background: #eef4fb;
+}
+
+.interview-evidence-row-head > div {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+}
+
+.interview-evidence-field {
+  font-weight: 800;
+  color: #172033;
+  background: #f8fafc;
+  border-right: 1px solid #e8eef6;
+}
+
+.interview-evidence-value {
+  border-right: 1px dashed #dbe4f0;
+}
+
+.interview-evidence-source-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px dashed #dbe4f0;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.interview-evidence-source {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.interview-evidence-row.source-resume {
+  background: #f8fbff;
+}
+
+.interview-evidence-row.source-attach {
+  background: #faf8ff;
+}
+
+.interview-evidence-row.source-summary {
+  background: #f5fffb;
+}
+
+.interview-evidence-row.source-missing,
+.interview-evidence-row.source-other {
+  background: #fffcf5;
+}
+
+.interview-evidence-source.source-resume {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.interview-evidence-source.source-attach {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.interview-evidence-source.source-summary {
+  color: #0f766e;
+  background: #ccfbf1;
+}
+
+.interview-evidence-source.source-missing,
+.interview-evidence-source.source-other {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.interview-evidence-quote {
+  color: #1f2937;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+html[data-theme='dark'] .interview-evidence-panel {
+  border-color: rgba(148, 163, 184, 0.28);
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.92));
+}
+
+html[data-theme='dark'] .interview-evidence-head h4 {
+  color: #e2e8f0;
+}
+
+html[data-theme='dark'] .interview-evidence-head p {
+  color: #94a3b8;
+}
+
+html[data-theme='dark'] .interview-evidence-table {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.72);
+}
+
+html[data-theme='dark'] .interview-evidence-row {
+  border-bottom-color: rgba(148, 163, 184, 0.16);
+}
+
+html[data-theme='dark'] .interview-evidence-row-head {
+  background: rgba(51, 65, 85, 0.65);
+}
+
+html[data-theme='dark'] .interview-evidence-row-head > div,
+html[data-theme='dark'] .interview-evidence-field,
+html[data-theme='dark'] .interview-evidence-value,
+html[data-theme='dark'] .interview-evidence-quote {
+  color: #e2e8f0;
+}
+
+html[data-theme='dark'] .interview-evidence-field {
+  background: rgba(30, 41, 59, 0.65);
+  border-right-color: rgba(148, 163, 184, 0.16);
+}
+
+html[data-theme='dark'] .interview-evidence-value,
+html[data-theme='dark'] .interview-evidence-source-cell {
+  border-right-color: rgba(148, 163, 184, 0.16);
+}
+
+html[data-theme='dark'] .interview-evidence-row.source-resume,
+html[data-theme='dark'] .interview-evidence-row.source-attach,
+html[data-theme='dark'] .interview-evidence-row.source-summary,
+html[data-theme='dark'] .interview-evidence-row.source-missing,
+html[data-theme='dark'] .interview-evidence-row.source-other {
+  background: transparent;
+}
+
+@media (max-width: 720px) {
+  .interview-evidence-table {
+    min-width: 0;
+  }
+
+  .interview-evidence-row,
+  .interview-evidence-row-head {
+    grid-template-columns: 1fr;
+  }
+
+  .interview-evidence-field,
+  .interview-evidence-value,
+  .interview-evidence-source-cell {
+    border-right: 0;
+    border-bottom: 1px dashed rgba(148, 163, 184, 0.35);
+  }
+
+  .interview-evidence-source-cell {
+    justify-content: flex-start;
+  }
+}
+
 .analysis-raw {
   white-space: pre-wrap;
   font: inherit;
