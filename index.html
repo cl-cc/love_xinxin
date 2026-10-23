@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>鑫鑫的秘密面试手册</title>
     <link rel="stylesheet" href="css/styles.css" />
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('love_xinxin_theme');
+          var dark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div class="mobile-nav">
@@ -18,22 +27,34 @@
         <option value="#6-亚马逊运营主管">6. 亚马逊运营主管</option>
         <option value="#7-沃尔玛运营专员">7. 沃尔玛运营专员</option>
         <option value="#8-沃尔玛运营主管">8. 沃尔玛运营主管</option>
-        <option value="#9-TikTok-运营专员">9. TikTok 运营专员</option>
-        <option value="#10-独立站运营专员">10. 独立站运营专员</option>
-        <option value="#11-Wayfair-运营专员">11. Wayfair 运营专员</option>
-        <option value="#12-Coupang-运营专员">12. Coupang 运营专员</option>
-        <option value="#13-海外社媒推广专员">13. 海外社媒推广专员</option>
-        <option value="#14-海外社媒主管">14. 海外社媒主管</option>
-        <option value="#15-海外推广专员">15. 海外推广专员</option>
-        <option value="#16-专业名词速查表">16. 专业名词速查表</option>
-        <option value="#17-HR-追问专业词的通用话术">17. HR 追问专业词的通用话术</option>
-        <option value="#18-常见红旗信号">18. 常见红旗信号</option>
+        <option value="#9-TikTok运营助理">9. TikTok运营助理</option>
+        <option value="#10-TikTok-运营专员">10. TikTok 运营专员</option>
+        <option value="#11-TikTok商务BD">11. TikTok商务BD</option>
+        <option value="#12-TikTok商务BD主管">12. TikTok商务BD主管</option>
+        <option value="#13-独立站运营专员">13. 独立站运营专员</option>
+        <option value="#14-Wayfair-运营专员">14. Wayfair 运营专员</option>
+        <option value="#15-Coupang-运营专员">15. Coupang 运营专员</option>
+        <option value="#16-海外社媒推广专员">16. 海外社媒推广专员</option>
+        <option value="#17-海外社媒主管">17. 海外社媒主管</option>
+        <option value="#18-亚马逊站外推广专员">18. 亚马逊站外推广专员</option>
+        <option value="#19-专业名词速查表">19. 专业名词速查表</option>
+        <option value="#20-HR-追问专业词的通用话术">20. HR 追问专业词的通用话术</option>
+        <option value="#21-常见红旗信号">21. 常见红旗信号</option>
       </select>
     </div>
     <div class="layout">
       <aside class="sidebar">
-        <div class="nav-title">快捷导航</div>
-        <div class="nav-sub">点击可跳转到对应章节</div>
+        <div class="nav-title-row">
+          <div class="nav-title">快捷导航</div>
+          <div class="nav-fold-actions">
+            <button type="button" id="navFoldToggle" class="nav-fold-btn" aria-expanded="false">展开分类</button>
+          </div>
+        </div>
+        <!-- <div class="nav-sub">点击可跳转到对应章节</div> -->
+        <div class="side-search">
+          <input id="sideSearch" class="side-search-input" type="search" placeholder="筛选导航…" autocomplete="off" />
+          <div id="sideNavEmpty" class="side-nav-empty" hidden>没有匹配的导航项</div>
+        </div>
         <nav class="nav">
           <a class="h2" href="#1-HR-初面整体流程">1. HR 初面整体流程</a>
           <a class="h2" href="#2-面试前-10-分钟必须问清楚">2. 面试前 10 分钟必须问清楚</a>
@@ -57,99 +78,163 @@
           <a class="h2" href="#8-沃尔玛运营主管">8. 沃尔玛运营主管</a>
           <a class="h3" href="#岗位职责-4">岗位职责</a>
           <a class="h3" href="#面试问题与参考答案-4">面试问题与参考答案</a>
-          <a class="h2" href="#9-TikTok-运营专员">9. TikTok 运营专员</a>
+          <a class="h2" href="#9-TikTok运营助理">9. TikTok运营助理</a>
           <a class="h3" href="#岗位职责-5">岗位职责</a>
           <a class="h3" href="#核心能力-4">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-5">面试问题与参考答案</a>
-          <a class="h2" href="#10-独立站运营专员">10. 独立站运营专员</a>
+          <a class="h2" href="#10-TikTok-运营专员">10. TikTok 运营专员</a>
           <a class="h3" href="#岗位职责-6">岗位职责</a>
           <a class="h3" href="#核心能力-5">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-6">面试问题与参考答案</a>
-          <a class="h2" href="#11-Wayfair-运营专员">11. Wayfair 运营专员</a>
+          <a class="h2" href="#11-TikTok商务BD">11. TikTok商务BD</a>
           <a class="h3" href="#岗位职责-7">岗位职责</a>
           <a class="h3" href="#核心能力-6">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-7">面试问题与参考答案</a>
-          <a class="h2" href="#12-Coupang-运营专员">12. Coupang 运营专员</a>
+          <a class="h2" href="#12-TikTok商务BD主管">12. TikTok商务BD主管</a>
           <a class="h3" href="#岗位职责-8">岗位职责</a>
           <a class="h3" href="#核心能力-7">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-8">面试问题与参考答案</a>
-          <a class="h2" href="#13-海外社媒推广专员">13. 海外社媒推广专员</a>
+          <a class="h2" href="#13-独立站运营专员">13. 独立站运营专员</a>
           <a class="h3" href="#岗位职责-9">岗位职责</a>
           <a class="h3" href="#核心能力-8">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-9">面试问题与参考答案</a>
-          <a class="h2" href="#14-海外社媒主管">14. 海外社媒主管</a>
+          <a class="h2" href="#14-Wayfair-运营专员">14. Wayfair 运营专员</a>
           <a class="h3" href="#岗位职责-10">岗位职责</a>
           <a class="h3" href="#核心能力-9">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-10">面试问题与参考答案</a>
-          <a class="h2" href="#15-海外推广专员">15. 海外推广专员</a>
+          <a class="h2" href="#15-Coupang-运营专员">15. Coupang 运营专员</a>
           <a class="h3" href="#岗位职责-11">岗位职责</a>
           <a class="h3" href="#核心能力-10">核心能力</a>
           <a class="h3" href="#面试问题与参考答案-11">面试问题与参考答案</a>
-          <a class="h2" href="#16-专业名词速查表">16. 专业名词速查表</a>
-          <a class="h3" href="#16-1-亚马逊">16.1 亚马逊</a>
-          <a class="h3" href="#16-2-沃尔玛">16.2 沃尔玛</a>
-          <a class="h3" href="#16-3-TikTok">16.3 TikTok</a>
-          <a class="h3" href="#16-4-独立站">16.4 独立站</a>
-          <a class="h3" href="#16-5-Wayfair">16.5 Wayfair</a>
-          <a class="h3" href="#16-6-Coupang">16.6 Coupang</a>
-          <a class="h3" href="#16-7-海外社媒">16.7 海外社媒</a>
-          <a class="h3" href="#16-8-海外推广">16.8 海外推广</a>
-          <a class="h2" href="#17-HR-追问专业词的通用话术">17. HR 追问专业词的通用话术</a>
-          <a class="h2" href="#18-常见红旗信号">18. 常见红旗信号</a>
+          <a class="h2" href="#16-海外社媒推广专员">16. 海外社媒推广专员</a>
+          <a class="h3" href="#岗位职责-12">岗位职责</a>
+          <a class="h3" href="#核心能力-11">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-12">面试问题与参考答案</a>
+          <a class="h2" href="#17-海外社媒主管">17. 海外社媒主管</a>
+          <a class="h3" href="#岗位职责-13">岗位职责</a>
+          <a class="h3" href="#核心能力-12">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-13">面试问题与参考答案</a>
+          <a class="h2" href="#18-亚马逊站外推广专员">18. 亚马逊站外推广专员</a>
+          <a class="h3" href="#岗位职责-14">岗位职责</a>
+          <a class="h3" href="#核心能力-13">核心能力</a>
+          <a class="h3" href="#面试问题与参考答案-14">面试问题与参考答案</a>
+          <a class="h2" href="#19-专业名词速查表">19. 专业名词速查表</a>
+          <a class="h3" href="#19-1-亚马逊">19.1 亚马逊</a>
+          <a class="h3" href="#19-2-沃尔玛">19.2 沃尔玛</a>
+          <a class="h3" href="#19-3-TikTok">19.3 TikTok</a>
+          <a class="h3" href="#19-4-独立站">19.4 独立站</a>
+          <a class="h3" href="#19-5-Wayfair">19.5 Wayfair</a>
+          <a class="h3" href="#19-6-Coupang">19.6 Coupang</a>
+          <a class="h3" href="#19-7-海外社媒">19.7 海外社媒</a>
+          <a class="h3" href="#19-8-亚马逊站外推广">19.8 亚马逊站外推广</a>
+          <a class="h3" href="#19-9-TikTok商务BD">19.9 TikTok商务BD</a>
+          <a class="h2" href="#20-HR-追问专业词的通用话术">20. HR 追问专业词的通用话术</a>
+          <a class="h2" href="#21-常见红旗信号">21. 常见红旗信号</a>
         </nav>
       </aside>
       <main class="content">
-        <header class="hero" id="top">
-          <h1>鑫鑫的秘密面试手册</h1>
-          <p style="margin: -4px 0 12px; color: rgba(255, 255, 255, 0.92); font-size: 18px">跨境电商运营岗位 HR 面试题与参考答案</p>
-          <div class="desc">
-            适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok 运营专员、独立站运营专员、Wayfair 运营专员、Coupang 运营专员、海外社媒推广专员、海外社媒主管、海外推广专员。<br />使用目标：帮助 HR
-            在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。
-          </div>
-          <div class="toolbar">
-            <button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
-            <a class="btn" href="#1-HR-初面整体流程">查看面试流程</a>
-            <a class="btn" href="#16-专业名词速查表">查看专业名词</a>
-          </div>
-        </header>
+        <div class="hero-bar" id="top">
+          <header class="hero">
+            <details class="hero-more">
+              <summary class="hero-top">
+                <h1>鑫鑫的秘密面试手册</h1>
+                <div class="hero-clock" id="heroClock">
+                  <span class="hero-now" id="heroNow">--</span>
+                  <span class="hero-off" id="heroOffCountdown">--</span>
+                </div>
+                <span class="hero-more-toggle">展开简介</span>
+              </summary>
+              <p class="hero-sub">跨境电商运营岗位 HR 面试题与参考答案</p>
+              <div class="desc">
+                适用岗位：亚马逊运营专员、亚马逊运营主管、沃尔玛运营专员、沃尔玛运营主管、TikTok运营助理、TikTok 运营专员、TikTok商务BD、TikTok商务BD主管、独立站运营专员、Wayfair 运营专员、Coupang 运营专员、海外社媒推广专员、海外社媒主管、亚马逊站外推广专员。<br />使用目标：帮助 HR
+                在第一轮面试中问到有效信息，提前筛出平台、站点、品类、数据、权限、案例都比较真实的候选人，再推荐给业务部门复试。
+              </div>
+              <div class="toolbar">
+                <button class="btn" onclick="window.print()">打印 / 另存为 PDF</button>
+                <a class="btn" href="#1-HR-初面整体流程">查看面试流程</a>
+                <a class="btn" href="#19-专业名词速查表">查看专业名词</a>
+              </div>
+            </details>
+          </header>
+          <button type="button" id="themeToggle" class="theme-toggle" aria-label="切换暗黑模式" title="切换暗黑模式">
+            <span class="theme-toggle-icon theme-toggle-moon" aria-hidden="true">☾</span>
+            <span class="theme-toggle-icon theme-toggle-sun" aria-hidden="true">☀</span>
+          </button>
+        </div>
         <div class="search-box">
-          <input id="globalSearch" class="search-input" type="search" placeholder="全局搜索：输入岗位、平台、指标、问题，例如 ACOS / 亚马逊 / GMV / 断货" />
+          <div class="search-field">
+            <input id="globalSearch" class="search-input" type="search" placeholder="" autocomplete="off" aria-label="全局搜索" />
+            <div id="globalSearchHint" class="search-hint" aria-hidden="true">
+              <span class="search-hint-prefix">建议搜索</span>
+              <span class="search-hint-viewport">
+                <span id="globalSearchHintTrack" class="search-hint-track">
+                  <span class="search-hint-item">ACOS 怎么算才合理？</span>
+                  <span class="search-hint-item">亚马逊运营怎么问库存？</span>
+                  <span class="search-hint-item">GMV 和利润怎么追问？</span>
+                  <span class="search-hint-item">断货了候选人怎么说？</span>
+                  <span class="search-hint-item">TikTok Shop 看哪些指标？</span>
+                  <span class="search-hint-item">达人 BD 建联率怎么问？</span>
+                  <span class="search-hint-item">FBA / 头程履约风险</span>
+                  <span class="search-hint-item">ROI / ROAS 差在哪？</span>
+                  <span class="search-hint-item">沃尔玛 Buy Box 怎么判断？</span>
+                  <span class="search-hint-item">海外社媒内容怎么复盘？</span>
+                  <span class="search-hint-item">站外推广 Deals / 测评</span>
+                  <span class="search-hint-item">独立站转化卡在哪一步？</span>
+                </span>
+              </span>
+            </div>
+          </div>
           <div id="searchResults" class="search-results"></div>
         </div>
         <section class="resume-tool" id="AI-简历分析">
           <div class="resume-tool-head">
             <div>
               <h2>AI 简历分析</h2>
-              <p class="resume-tool-desc">上传候选人简历，结合本页面试手册内容，自动分析匹配岗位、擅长点、薄弱点，并生成 HR 初面建议追问。</p>
+              <!-- <p class="resume-tool-desc">上传候选人简历，结合本页面试手册内容，自动分析匹配岗位、擅长点、薄弱点，并生成 HR 初面建议追问。</p> -->
             </div>
             <span class="resume-badge">PDF / DOCX</span>
           </div>
-          <div class="resume-target-field resume-field">
-            <label for="targetPosition">应聘岗位</label>
-            <select id="targetPosition">
-              <option value="">自动识别（可自主选择或从简历判断）</option>
-              <option value="亚马逊运营专员">亚马逊运营专员</option>
-              <option value="亚马逊运营主管">亚马逊运营主管</option>
-              <option value="沃尔玛运营专员">沃尔玛运营专员</option>
-              <option value="沃尔玛运营主管">沃尔玛运营主管</option>
-              <option value="TikTok 运营专员">TikTok 运营专员</option>
-              <option value="独立站运营专员">独立站运营专员</option>
-              <option value="Wayfair 运营专员">Wayfair 运营专员</option>
-              <option value="Coupang 运营专员">Coupang 运营专员</option>
-              <option value="海外社媒推广专员">海外社媒推广专员</option>
-              <option value="海外社媒主管">海外社媒主管</option>
-              <option value="海外推广专员">海外推广专员</option>
-            </select>
-          </div>
           <div class="resume-form">
-            <div class="resume-field resume-file-field">
-              <input id="resumeFile" class="resume-file-input" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-              <label class="resume-file-upload" for="resumeFile">
-                <span class="resume-file-upload-text">上传候选人简历</span>
-                <span id="resumeFileName" class="resume-file-name"></span>
-              </label>
+            <div class="resume-target-field resume-field">
+              <label for="targetPosition">应聘岗位</label>
+              <select id="targetPosition">
+                <option value="">自主识别或从简历判断职位</option>
+                <option value="亚马逊运营专员">亚马逊运营专员</option>
+                <option value="亚马逊运营主管">亚马逊运营主管</option>
+                <option value="沃尔玛运营专员">沃尔玛运营专员</option>
+                <option value="沃尔玛运营主管">沃尔玛运营主管</option>
+                <option value="TikTok运营助理">TikTok运营助理</option>
+                <option value="TikTok 运营专员">TikTok 运营专员</option>
+                <option value="TikTok商务BD">TikTok商务BD</option>
+                <option value="TikTok商务BD主管">TikTok商务BD主管</option>
+                <option value="独立站运营专员">独立站运营专员</option>
+                <option value="Wayfair 运营专员">Wayfair 运营专员</option>
+                <option value="Coupang 运营专员">Coupang 运营专员</option>
+                <option value="海外社媒推广专员">海外社媒推广专员</option>
+                <option value="海外社媒主管">海外社媒主管</option>
+                <option value="亚马逊站外推广专员">亚马逊站外推广专员</option>
+              </select>
             </div>
-            <button id="analyzeResumeBtn" class="resume-action" type="button">开始分析</button>
+            <div class="resume-field resume-file-field">
+              <span class="resume-file-label">上传简历</span>
+              <div class="resume-file-control">
+                <input id="resumeFile" class="resume-file-input" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+                <label class="resume-file-upload" for="resumeFile">
+                  <span class="resume-file-upload-text">上传候选人简历</span>
+                  <span id="resumeFileName" class="resume-file-name"></span>
+                </label>
+              </div>
+            </div>
+            <div class="resume-action-field">
+              <span class="resume-action-label" aria-hidden="true">操作</span>
+              <button id="analyzeResumeBtn" class="resume-action resume-ink-btn type--C" type="button">
+                <span class="button__line" aria-hidden="true"></span>
+                <span class="button__line" aria-hidden="true"></span>
+                <span class="button__text">开始分析</span>
+                <span class="button__drow1" aria-hidden="true"></span>
+                <span class="button__drow2" aria-hidden="true"></span>
+              </button>
+            </div>
           </div>
           <div id="resumeStatus" class="resume-status"></div>
           <div class="resume-history">
@@ -217,7 +302,9 @@
             </tr>
             <tr>
               <td>你上一份主要负责哪个平台？哪些站点？</td>
-              <td class="important-cell">亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚，独立站面向美国/欧洲，Wayfair 美国站，Coupang 韩国站/台湾站，海外社媒（Instagram/Facebook/YouTube 等），海外推广（Meta/Google/TikTok Ads）等</td>
+              <td class="important-cell">
+                亚马逊美国站/欧洲站/日本站，沃尔玛美国站，TikTok 美区/东南亚（含运营专员/运营助理），独立站面向美国/欧洲，Wayfair 美国站，Coupang 韩国站/台湾站，海外社媒（Instagram/Facebook/YouTube 等），亚马逊站外推广（Deals/论坛/测评/Reviewer），TikTok商务BD（美区达人/MCN/Affiliate）等
+              </td>
               <td>“亚马逊美国站，家居类目，FBA 为主”</td>
               <td class="risk-cell">只说“跨境平台都做过”，但说不出最熟站点</td>
             </tr>
@@ -370,6 +457,7 @@
             </tr>
           </table>
         </section>
+
         <section class="section" id="6-亚马逊运营主管">
           <h2>6. 亚马逊运营主管</h2>
           <h3 id="岗位职责-2">岗位职责</h3>
@@ -423,6 +511,7 @@
             </tr>
           </table>
         </section>
+
         <section class="section" id="7-沃尔玛运营专员">
           <h2>7. 沃尔玛运营专员</h2>
           <h3 id="岗位职责-3">岗位职责</h3>
@@ -467,6 +556,7 @@
             </tr>
           </table>
         </section>
+
         <section class="section" id="8-沃尔玛运营主管">
           <h2>8. 沃尔玛运营主管</h2>
           <h3 id="岗位职责-4">岗位职责</h3>
@@ -504,23 +594,79 @@
             </tr>
           </table>
         </section>
-        <section class="section" id="9-TikTok-运营专员">
-          <h2>9. TikTok 运营专员</h2>
+
+        <section class="section" id="9-TikTok运营助理">
+          <h2>9. TikTok运营助理</h2>
+          <p class="tip">助理岗：协助运营与达人团队完成 TikTok Shop 店铺日常运营支持，保证商品卡、内容、数据、物流与售后执行不断档。</p>
           <h3 id="岗位职责-5">岗位职责</h3>
+          <ul>
+            <li>核心职责：TikTok Shop 店铺日常运营支持；协助运营、达人团队完成商品卡维护、内容发布、数据整理与售后跟进，保证店铺基础运营稳定、执行动作不断档。</li>
+            <li>商品卡与店铺维护：协助完成商品上架、标题与主图更新、SKU 与价格维护；跟进库存、物流模板与商品状态，及时处理缺货、下架等异常；整理评价与问答，汇总用户反馈给运营。</li>
+            <li>内容与素材支持：按商品与钩子分类整理素材库，维护素材命名与归档；配合剪辑与投放完成素材排期、发布与数据回填；维护账号日常发布节奏，回复评论与私信。</li>
+            <li>数据整理与报表：每日整理店铺核心数据（曝光、点击、加购、成交、退货）；按周输出基础数据报表并标注异常波动；协助核对广告花费、佣金与结算数据，保证口径一致。</li>
+            <li>物流与备货补货：每日跟进库存水位与在途库存，结合销售节奏与库存周转提出补货建议；对接仓库与物流商，跟进头程发货、入仓上架与尾程派送时效；监控断货、滞销与超卖风险，及时同步运营、采购与供应链；整理物流时效、丢件与退货入库数据，输出异常记录并跟进处理。</li>
+            <li>售后与跨部门协同：跟进订单异常、退款与差评，按流程升级给对应负责人；归纳售后原因，反馈给商品、物流与供应链团队；完成运营、投放、客服、仓储之间的信息同步。</li>
+          </ul>
+          <h3 id="核心能力-4">核心能力</h3>
+          <ul>
+            <li>本科及以上学历，应届生可投；有电商、跨境电商经验者优先，无经验但学习能力强者可培养。</li>
+            <li>熟悉 TikTok、Facebook 等社媒平台，了解电商基本链路。</li>
+            <li>了解跨境电商物流与库存基本流程（头程、入仓、尾程与补货周期），能看懂库存与在途数据。</li>
+            <li>具备基础数据处理能力，熟练使用 Excel（透视表、常用函数）；具备英文读写能力，能看懂平台后台与商品信息。</li>
+            <li>细心、有耐心，执行力强，能承担大量重复性执行工作并按时交付。</li>
+            <li>加分项：有 TikTok Shop 店铺后台操作经验；有备货补货、库存管理或仓储物流对接经验；会用 Excel 搭建库存周转与断货预警表；会基础视频剪辑（剪映 / CapCut）与图文排版；有鞋服类目经验；英语可作为工作语言。</li>
+            <li>区分清楚：本岗位偏「TikTok Shop 运营助理 / 执行支持」，不是 TikTok 运营专员（独立负责增长与策略），也不是达人 BD 商务岗。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-5">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你了解 TikTok Shop 店铺日常要维护哪些基础动作？商品卡、库存、评价你会怎么跟？</td>
+              <td>能说出上架/改图改价、库存与物流模板、缺货下架处理、评价问答汇总，体现执行支持意识。</td>
+            </tr>
+            <tr>
+              <td>素材库怎么整理？发布节奏和评论私信你怎么维护？</td>
+              <td>要讲清分类命名归档、排期发布与数据回填，以及日常互动维护。</td>
+            </tr>
+            <tr>
+              <td>每日/每周你会整理哪些店铺数据？异常波动怎么标？</td>
+              <td>至少覆盖曝光、点击、加购、成交、退货；能说明如何核对广告花费、佣金与结算口径。</td>
+            </tr>
+            <tr>
+              <td>库存水位、在途库存、头程入仓尾程你了解吗？怎么提补货建议？</td>
+              <td>能说清库存与在途、补货周期、断货/滞销/超卖风险，以及和仓配、采购的协同。</td>
+            </tr>
+            <tr>
+              <td>订单异常、退款、差评你怎么跟进升级？跨部门信息怎么同步？</td>
+              <td>要有流程意识：跟进→升级→归纳原因→同步运营/投放/客服/仓储。</td>
+            </tr>
+            <tr>
+              <td>Excel 熟练到什么程度？英文读写能否看懂后台？有没有 TikTok Shop 或剪辑经验？</td>
+              <td>透视表/常用函数是基本要求；有后台、库存表或 CapCut 经验加分，应届生看学习意愿与细心度。</td>
+            </tr>
+          </table>
+        </section>
+
+        <section class="section" id="10-TikTok-运营专员">
+          <h2>10. TikTok 运营专员</h2>
+          <h3 id="岗位职责-6">岗位职责</h3>
           <ul>
             <li>负责 TikTok 短视频、直播、达人合作或 TikTok Shop 商品运营。</li>
             <li>跟进内容选题、脚本、拍摄、剪辑、发布、评论互动和数据复盘。</li>
             <li>筛选达人，沟通寄样、合作方式、发布时间和带货效果。</li>
             <li>关注播放量、完播率、互动率、商品点击率、转化率、<span class="red">GMV（成交总额）</span> 和 <span class="red">ROI（GMV ÷ 投入成本）</span>。</li>
           </ul>
-          <h3 id="核心能力-4">核心能力</h3>
+          <h3 id="核心能力-5">核心能力</h3>
           <ul>
             <li>能说清做的是哪个国家站点：美区、英国、东南亚，还是只做内容账号。</li>
             <li>能说清负责品类、视频数量、达人数量、直播场次、GMV 或转化数据。</li>
             <li>懂内容：前 3 秒钩子、卖点表达、场景化展示、评论区互动。</li>
             <li>懂转化：视频火不等于能卖货，要看商品点击、加购、成交和商品页承接。</li>
           </ul>
-          <h3 id="面试问题与参考答案-5">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-6">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -552,23 +698,133 @@
             </tr>
           </table>
         </section>
-        <section class="section" id="10-独立站运营专员">
-          <h2>10. 独立站运营专员</h2>
-          <h3 id="岗位职责-6">岗位职责</h3>
+
+        <section class="section" id="11-TikTok商务BD">
+          <h2>11. TikTok商务BD</h2>
+          <p class="tip">专员岗：聚焦 TikTok 及站外达人商务拓展与渠道增长，通过短视频与直播为店铺及重点商品获取增量流量与订单。</p>
+          <h3 id="岗位职责-7">岗位职责</h3>
+          <ul>
+            <li>核心职责：达人商务拓展与达人渠道增长；负责 TikTok 及站外达人的挖掘、合作与维护，通过达人短视频与直播为店铺及重点商品获取增量流量与订单。</li>
+            <li>达人资源挖掘与分层：主动挖掘并建联 TikTok 以及站外达人，覆盖短视频与直播两类合作形式；拆解达人账号的粉丝画像、内容风格、互动数据与近 30 天带货表现，判断内容适配度与成长潜力。</li>
+            <li>商务谈判与合作落地：独立跟进达人全周期商务沟通，从初次触达到合作结案；洽谈合作模式、佣金比例、投放费用、内容形式与发布排期等核心条款；推动短视频与直播合作按期执行，完成合作计划与合同条款的落地归档。</li>
+            <li>内容配合与产出把控：结合鞋靴品类输出内容创意、拍摄脚本与直播策划，明确上脚角度、穿着场景与尺码提示；指导达人完成拍摄与直播操盘，把控内容输出质量并跟进修改；拆解优质达人视频，沉淀可复用脚本，持续优化完善话术、手卡等。</li>
+            <li>数据复盘与策略优化：定期复盘合作效果，迭代达人筛选标准、货品匹配与内容投放策略；持续跟踪达人数据，记录曝光、点击、转化、GMV 等核心数据。</li>
+            <li>达人关系维护与资源拓展：维护头部与核心达人客情，争取复投、定向与独家合作；持续拓展高性价比的中腰部潜力达人，扩充优质达人储备池。</li>
+          </ul>
+          <h3 id="核心能力-6">核心能力</h3>
+          <ul>
+            <li>本科及以上学历；2 年以上 TikTok Shop 海外达人 BD、达人营销或内容投放经验，能独立完成达人建联、寄样、出片、复投的完整流程。</li>
+            <li>熟悉 TikTok Shop 达人合作逻辑，了解达人广场、达人联盟、定向计划、佣金与寄样规则。</li>
+            <li>具备数据分析能力，能拆解达人账号数据及优质达人内容，并读懂点击率、转化率、GMV、ROI 等合作数据。</li>
+            <li>熟悉 Kalodata、FastMoss、Echotik 等达人数据工具，能用 Excel 或飞书多维表格搭建达人台账与产出。</li>
+            <li>英语可作为商务沟通语言，沟通与谈判能力强，学习能力强。</li>
+            <li>加分项：有鞋靴类目的达人推广投放经验；自带可复用的优质达人资源池；有海外本地生活或留学经历，了解目标市场穿着习惯；有通过达人合作实现 GMV 增长的成功案例，能提供具体数据。</li>
+            <li>区分清楚：本岗位偏「TikTok 达人 BD 专员 / 执行拓展」，不是 BD 主管管理岗，也不是 TikTok Shop 店铺运营或纯社媒内容剪辑岗。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-7">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你主要做哪个市场的 TikTok / 站外达人 BD？短视频和直播合作各做过哪些？</td>
+              <td>要说清市场、合作形式（短视频/直播）、建联与出片节奏，不能只说“找过达人”。</td>
+            </tr>
+            <tr>
+              <td>达人怎么挖掘和分层？你会看哪些账号数据与近 30 天带货表现？</td>
+              <td>能讲粉丝画像、内容风格、互动、带货数据，以及适配度/成长潜力判断标准。</td>
+            </tr>
+            <tr>
+              <td>从建联到结案你怎么跟？佣金、投放费用、内容形式和排期怎么谈？</td>
+              <td>要有全周期跟进能力：触达→谈判→寄样/出片→发布→结案归档。</td>
+            </tr>
+            <tr>
+              <td>鞋靴类内容你怎么配合？脚本、上脚角度、尺码提示和直播策划做过吗？</td>
+              <td>能结合品类讲内容把控，有脚本/话术/手卡沉淀加分。</td>
+            </tr>
+            <tr>
+              <td>合作复盘你看哪些指标？曝光、点击、转化、GMV 怎么用来迭代策略？</td>
+              <td>至少覆盖曝光→点击→转化→GMV，并能举例如何调整达人筛选或货品匹配。</td>
+            </tr>
+            <tr>
+              <td>用过 Kalodata / FastMoss / Echotik 吗？达人台账怎么建？英语商务沟通怎么样？</td>
+              <td>工具与台账要能说清用途；英语能支撑商务谈判更佳。</td>
+            </tr>
+          </table>
+        </section>
+
+        <section class="section" id="12-TikTok商务BD主管">
+          <h2>12. TikTok商务BD主管</h2>
+          <p class="tip">聚焦 TikTok 海外达人商务：美区达人/MCN 拓展、商务谈判、带货合作与 BD 团队管理，助力鞋类等品类增长。</p>
+          <h3 id="岗位职责-8">岗位职责</h3>
+          <ul>
+            <li>达人拓展：负责 TikTok 海外市场达人 BD，现阶段以美国市场为主，拓展并维护海外达人、MCN 机构等合作资源。</li>
+            <li>商务合作：负责达人筛选、建联、商务谈判及合作跟进，推动鞋类产品的达人测评、短视频内容创作及带货合作。</li>
+            <li>团队管理：负责商务 BD 团队的日常管理、目标拆解、任务分配及绩效考核，推动团队完成业务目标。</li>
+            <li>业务增长：跟进达人建联率、合作率、视频产出及带货转化等核心数据，持续优化达人合作策略，提升合作效果。</li>
+            <li>资源管理：建立并完善海外达人资源库，维护优质达人及机构关系，沉淀长期稳定的合作资源。</li>
+            <li>跨部门协作：与运营、营销等团队协作，推动达人合作项目落地，助力鞋类产品海外业务增长，并为后续欧洲市场拓展做好准备。</li>
+          </ul>
+          <h3 id="核心能力-7">核心能力</h3>
+          <ul>
+            <li>本科及以上学历，市场营销、商务管理、电子商务等相关专业优先；3-5 年 TikTok 海外达人 BD 或商务拓展经验，具备团队管理经验。</li>
+            <li>熟悉 TikTok 美区达人生态及合作模式；有 TikTok Shop 美区达人带货、Affiliate 联盟营销经验优先。</li>
+            <li>具备较强的达人开发、商务谈判、资源整合及团队管理能力，有明确业务目标意识和结果导向。</li>
+            <li>具备良好的数据分析、业务复盘及跨部门协作能力，能根据建联率、合作率、视频产出、带货转化持续优化策略。</li>
+            <li>有鞋服、时尚、消费品类目达人合作经验，或欧洲市场拓展经验者优先。</li>
+            <li>区分清楚：本岗位偏「TikTok 达人 BD / 商务管理」，不是 TikTok Shop 店铺运营，也不是纯社媒内容剪辑岗或海外社媒主管内容策略岗。</li>
+          </ul>
+          <h3 id="面试问题与参考答案-8">面试问题与参考答案</h3>
+          <table>
+            <tr>
+              <th>面试问题</th>
+              <th>参考答案/判断标准</th>
+            </tr>
+            <tr>
+              <td>你主要做哪个市场的 TikTok 达人 BD？美区生态熟到什么程度？</td>
+              <td>要说清市场（尤其美区）、达人层级/垂类、MCN 合作经验，不能只说“找过网红”。</td>
+            </tr>
+            <tr>
+              <td>达人怎么筛选、建联和谈判？鞋类（或你负责类目）怎么谈合作？</td>
+              <td>能讲清筛选标准、建联路径、报价/寄样/佣金结构、合同节点和跟进节奏。</td>
+            </tr>
+            <tr>
+              <td>BD 团队你怎么管？目标怎么拆、怎么考核？</td>
+              <td>要说清团队规模、目标拆解、任务分配、绩效考核和低绩效处理，体现主管深度。</td>
+            </tr>
+            <tr>
+              <td>你看哪些核心数据？建联率、合作率、视频产出、带货转化怎么优化？</td>
+              <td>至少覆盖建联→合作→产出→转化链路，并能给出策略优化例子。</td>
+            </tr>
+            <tr>
+              <td>做过 TikTok Shop Affiliate 或美区带货吗？和纯内容合作有什么不同？</td>
+              <td>能区分内容曝光合作与带货/联盟转化，说清佣金、货盘、转化复盘。</td>
+            </tr>
+            <tr>
+              <td>和运营、营销怎么协作落地？有没有欧洲或其他市场拓展经验？</td>
+              <td>要有跨部门推动案例；有欧区或新品类拓展经验加分。</td>
+            </tr>
+          </table>
+        </section>
+
+        <section class="section" id="13-独立站运营专员">
+          <h2>13. 独立站运营专员</h2>
+          <h3 id="岗位职责-9">岗位职责</h3>
           <ul>
             <li>负责 Shopify 或品牌独立站产品上架、页面维护、活动配置、优惠码、内容更新和数据复盘。</li>
             <li>和广告、设计、客服配合，优化落地页、产品页、购买流程和用户体验。</li>
             <li>关注访问量、加购率、结账率、支付成功率、转化率、客单价、复购率。</li>
             <li>配合节日、上新、清仓、邮件营销和会员活动，提高销售和复购。</li>
           </ul>
-          <h3 id="核心能力-5">核心能力</h3>
+          <h3 id="核心能力-8">核心能力</h3>
           <ul>
             <li>能说清独立站面向哪个市场、什么品类、月销售额、订单量、主要流量来源。</li>
             <li>懂转化链路：用户从广告进站，到浏览、加购、结账、付款，每一步都可能流失。</li>
             <li>会看数据：<span class="red">Shopify（常见独立站建站后台）</span>、<span class="red">GA4（Google Analytics 4）</span>、<span class="red">Pixel（广告追踪代码）</span>、ROAS、转化率。</li>
             <li>懂页面优化：图片、卖点、评价、FAQ、物流说明、支付方式、信任背书。</li>
           </ul>
-          <h3 id="面试问题与参考答案-6">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-9">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -601,9 +857,9 @@
           </table>
         </section>
 
-        <section class="section" id="11-Wayfair-运营专员">
-          <h2>11. Wayfair 运营专员</h2>
-          <h3 id="岗位职责-7">岗位职责</h3>
+        <section class="section" id="14-Wayfair-运营专员">
+          <h2>14. Wayfair 运营专员</h2>
+          <h3 id="岗位职责-10">岗位职责</h3>
           <ul>
             <li>负责 Wayfair 平台店铺日常运营管理，包括产品上架、Listing 优化、价格调整、活动提报及平台后台基础操作。</li>
             <li>负责产品标题、描述、图片、视频、类目、属性、营销内容等优化，提升点击率、浏览率和转化率。</li>
@@ -613,14 +869,14 @@
             <li>跟进库存、订单、发货、售后及纠纷处理，协调采购、客服、物流等部门。</li>
             <li>维护客户咨询与售后质量，确保账号健康及店铺稳定运营。</li>
           </ul>
-          <h3 id="核心能力-6">核心能力</h3>
+          <h3 id="核心能力-9">核心能力</h3>
           <ul>
             <li>能说清负责 Wayfair 什么品类、多少 SKU、月销售额、主要履约模式（如 <span class="red">Castlegate（Wayfair 官方仓储配送）</span> 或自发货）。</li>
             <li>懂 Wayfair 内容要求：标题、类目、属性、图片、视频、卖点描述要完整准确。</li>
             <li>会看数据：流量、转化率、退货率、广告 ROAS、订单履约时效。</li>
             <li>有供应商协同意识：能配合采购、设计、客服处理上架、补货、售后问题。</li>
           </ul>
-          <h3 id="面试问题与参考答案-7">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-10">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -652,9 +908,10 @@
             </tr>
           </table>
         </section>
-        <section class="section" id="12-Coupang-运营专员">
-          <h2>12. Coupang 运营专员</h2>
-          <h3 id="岗位职责-8">岗位职责</h3>
+
+        <section class="section" id="15-Coupang-运营专员">
+          <h2>15. Coupang 运营专员</h2>
+          <h3 id="岗位职责-11">岗位职责</h3>
           <ul>
             <li>负责 Coupang 韩国站/台湾站日常运营管理，包括产品上架、Listing 优化、价格调整、库存维护、活动提报及后台基础操作。</li>
             <li>负责韩国市场趋势及竞品分析，了解消费者偏好、价格区间和竞争格局，制定营销策略。</li>
@@ -664,14 +921,14 @@
             <li>定期复盘订单、点击率、转化率、广告表现、退货率、库存等核心数据，输出运营报告。</li>
             <li>处理售后、Review、Q&A、客户咨询，关注平台政策和账号健康，确保合规运营。</li>
           </ul>
-          <h3 id="核心能力-7">核心能力</h3>
+          <h3 id="核心能力-10">核心能力</h3>
           <ul>
             <li>能说清负责 Coupang 韩国站还是台湾站、什么品类、SKU 数量、月销售额、主要履约方式（如 <span class="red">Rocket Growth（Coupang 火箭配送）</span>）。</li>
             <li>懂韩国市场内容和搜索：标题、Search Tag、详情页、A+ 页面、评价维护。</li>
             <li>会广告投放：关键词、竞价、预算、点击率、转化率、广告 ROI。</li>
             <li>有本地化意识：了解韩国消费习惯、节日大促、物流时效和售后规则。</li>
           </ul>
-          <h3 id="面试问题与参考答案-8">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-11">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -704,16 +961,16 @@
           </table>
         </section>
 
-        <section class="section" id="13-海外社媒推广专员">
-          <h2>13. 海外社媒推广专员</h2>
-          <h3 id="岗位职责-9">岗位职责</h3>
+        <section class="section" id="16-海外社媒推广专员">
+          <h2>16. 海外社媒推广专员</h2>
+          <h3 id="岗位职责-12">岗位职责</h3>
           <ul>
             <li>负责 TikTok、Instagram、Facebook 等海外社媒平台的日常运营，包括账号维护、内容发布、互动管理及运营数据跟踪。</li>
             <li>负责海外社媒内容策划与创作，包括选题规划、文案撰写、短视频脚本、视频剪辑及图片素材制作。</li>
             <li>配合开展海外 KOL/KOC 达人营销，协同商务 BD 推进达人合作项目，跟踪内容发布及推广效果。</li>
             <li>根据业务需求参与海外社媒广告投放、推广素材测试及效果优化，定期进行数据分析与复盘，持续提升运营效果。</li>
           </ul>
-          <h3 id="核心能力-8">核心能力</h3>
+          <h3 id="核心能力-11">核心能力</h3>
           <ul>
             <li>本科及以上，市场营销/广告传媒/电子商务/英语等相关专业优先；1 年及以上海外社媒运营、内容营销或相关经验。</li>
             <li>熟悉 TikTok、Instagram、Facebook 等平台，具备账号运营、内容策划或短视频制作经验。</li>
@@ -721,7 +978,7 @@
             <li>沟通协调与执行力强，英语应用能力良好，对海外社媒趋势和内容热点敏感。</li>
             <li>区分清楚：本岗位偏社媒内容+达人协同+社媒广告辅助，不是 TikTok Shop 店铺运营，也不是亚马逊站外测评/Deals 岗。</li>
           </ul>
-          <h3 id="面试问题与参考答案-9">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-12">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -750,9 +1007,9 @@
           </table>
         </section>
 
-        <section class="section" id="14-海外社媒主管">
-          <h2>14. 海外社媒主管</h2>
-          <h3 id="岗位职责-10">岗位职责</h3>
+        <section class="section" id="17-海外社媒主管">
+          <h2>17. 海外社媒主管</h2>
+          <h3 id="岗位职责-13">岗位职责</h3>
           <ul>
             <li>负责公司海外社媒推广策略的制定与落地，统筹 TikTok、Instagram、Facebook 等平台的账号运营及内容规划，提升品牌曝光与用户触达。</li>
             <li>结合目标市场及业务需求，规划短视频、图文等内容营销方案，指导内容策划、视频制作及推广素材优化。</li>
@@ -760,7 +1017,7 @@
             <li>统筹海外社媒广告推广及数据分析，根据账号增长、内容表现、广告投放及转化数据，持续优化推广策略。</li>
             <li>负责社媒推广团队或项目的日常管理与工作协调，推动工作流程完善及跨部门协作，确保推广目标有效达成。</li>
           </ul>
-          <h3 id="核心能力-9">核心能力</h3>
+          <h3 id="核心能力-12">核心能力</h3>
           <ul>
             <li>本科及以上，市场营销/广告传媒/电子商务/国际贸易等相关专业优先；3 年及以上海外社媒运营、内容营销或相关推广经验。</li>
             <li>熟悉 TikTok、Instagram、Facebook 等平台运营逻辑，有独立负责海外社媒推广项目的经验。</li>
@@ -768,7 +1025,7 @@
             <li>具备团队管理或项目统筹经验，沟通协调、目标管理与问题解决能力强，能对推广效果负责。</li>
             <li>英语应用能力良好，对海外社媒趋势、内容热点及目标市场用户偏好敏感。</li>
           </ul>
-          <h3 id="面试问题与参考答案-10">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-13">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -797,10 +1054,10 @@
           </table>
         </section>
 
-        <section class="section" id="15-海外推广专员">
-          <h2>15. 海外推广专员</h2>
-          <p class="tip">本岗位对齐「亚马逊站外推广」方向：测评统筹、Deals/论坛、Reviewer 维护、社媒辅助引流，目标是配合站内打爆款。</p>
-          <h3 id="岗位职责-11">岗位职责</h3>
+        <section class="section" id="18-亚马逊站外推广专员">
+          <h2>18. 亚马逊站外推广专员</h2>
+          <p class="tip">聚焦亚马逊站外：测评统筹、Deals/论坛、Reviewer 维护、社媒辅助引流，目标是配合站内打爆款。</p>
+          <h3 id="岗位职责-14">岗位职责</h3>
           <ul>
             <li>负责亚马逊站外推广与测评工作统筹，包括测评资源调配、方案制定与落地执行，并开发/联系国外推广资源。</li>
             <li>在确保账号安全的前提下，按时按量完成测评任务；可协同 Facebook、Twitter、YouTube、Instagram、TikTok 等社媒做品牌露出与引流。</li>
@@ -809,7 +1066,7 @@
             <li>从营销角度参与主推产品打爆款，提高销量与品牌形象。</li>
             <li>熟悉海外推广渠道、美欧各大 Deals 站及论坛特性，能做活动策划与帖子运营；及时回复收件箱与评论，提供有效客户服务。</li>
           </ul>
-          <h3 id="核心能力-10">核心能力</h3>
+          <h3 id="核心能力-13">核心能力</h3>
           <ul>
             <li>一年以上亚马逊站外推广经验更匹配；熟悉美国、欧洲主流 Deals 站规则与论坛推广技巧。</li>
             <li>有 Reviewer/测评资源或成功对接经验优先；能说清资源从哪里来、怎么筛、怎么控风险。</li>
@@ -817,7 +1074,7 @@
             <li>有账号安全与合规意识：测评节奏、评价真实性、平台规则红线说得清楚。</li>
             <li>区分清楚：本岗位偏“亚马逊站外推广/测评/Deals”，不是亚马逊站内 Listing/SP 广告岗，也不是纯社媒内容岗或纯 Meta/Google 信息流投放岗。</li>
           </ul>
-          <h3 id="面试问题与参考答案-11">面试问题与参考答案</h3>
+          <h3 id="面试问题与参考答案-14">面试问题与参考答案</h3>
           <table>
             <tr>
               <th>面试问题</th>
@@ -850,9 +1107,9 @@
           </table>
         </section>
 
-        <section class="section" id="16-专业名词速查表">
-          <h2>16. 专业名词速查表</h2>
-          <h3 id="16-1-亚马逊">16.1 亚马逊</h3>
+        <section class="section" id="19-专业名词速查表">
+          <h2>19. 专业名词速查表</h2>
+          <h3 id="19-1-亚马逊">19.1 亚马逊</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -921,7 +1178,7 @@
               <td>补货、旺季备货</td>
             </tr>
           </table>
-          <h3 id="16-2-沃尔玛">16.2 沃尔玛</h3>
+          <h3 id="19-2-沃尔玛">19.2 沃尔玛</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -966,7 +1223,7 @@
               <td>履约监控</td>
             </tr>
           </table>
-          <h3 id="16-3-TikTok">16.3 TikTok</h3>
+          <h3 id="19-3-TikTok">19.3 TikTok</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1017,7 +1274,7 @@
               <td>商品有数据后放量</td>
             </tr>
           </table>
-          <h3 id="16-4-独立站">16.4 独立站</h3>
+          <h3 id="19-4-独立站">19.4 独立站</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1081,7 +1338,7 @@
             </tr>
           </table>
 
-          <h3 id="16-5-Wayfair">16.5 Wayfair</h3>
+          <h3 id="19-5-Wayfair">19.5 Wayfair</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1120,7 +1377,7 @@
               <td>Listing 与价格优化</td>
             </tr>
           </table>
-          <h3 id="16-6-Coupang">16.6 Coupang</h3>
+          <h3 id="19-6-Coupang">19.6 Coupang</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1159,7 +1416,7 @@
               <td>售后与店铺健康</td>
             </tr>
           </table>
-          <h3 id="16-7-海外社媒">16.7 海外社媒</h3>
+          <h3 id="19-7-海外社媒">19.7 海外社媒</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1198,7 +1455,7 @@
               <td>日常社媒运营计划</td>
             </tr>
           </table>
-          <h3 id="16-8-海外推广">16.8 海外推广（亚马逊站外）</h3>
+          <h3 id="19-8-亚马逊站外推广">19.8 亚马逊站外推广</h3>
           <table>
             <tr>
               <th>名词</th>
@@ -1244,8 +1501,55 @@
             </tr>
           </table>
         </section>
-        <section class="section" id="17-HR-追问专业词的通用话术">
-          <h2>17. HR 追问专业词的通用话术</h2>
+
+        <h3 id="19-9-TikTok商务BD">19.9 TikTok商务BD</h3>
+        <table>
+          <tr>
+            <th>名词</th>
+            <th>大白话解释</th>
+            <th>计算方式/判断方式</th>
+            <th>使用节点</th>
+          </tr>
+          <tr>
+            <td><span class="red">达人 BD</span></td>
+            <td>开拓并维护 TikTok 达人/机构合作</td>
+            <td>看建联量、有效对话、合作落地数</td>
+            <td>资源拓展与商务推进</td>
+          </tr>
+          <tr>
+            <td><span class="red">MCN</span></td>
+            <td>多频道网络/达人经纪机构</td>
+            <td>机构资源质量、合作效率、履约稳定性</td>
+            <td>批量建联与长期合作</td>
+          </tr>
+          <tr>
+            <td><span class="red">建联率</span></td>
+            <td>触达后成功建立有效联系的比例</td>
+            <td>有效建联数 ÷ 触达数</td>
+            <td>BD 过程指标</td>
+          </tr>
+          <tr>
+            <td><span class="red">合作率</span></td>
+            <td>建联后最终达成合作的比例</td>
+            <td>成交合作数 ÷ 有效建联数</td>
+            <td>商务转化效率</td>
+          </tr>
+          <tr>
+            <td><span class="red">Affiliate</span></td>
+            <td>联盟带货：达人靠佣金推品</td>
+            <td>看佣金、GMV、ROI、达人产出稳定性</td>
+            <td>TikTok Shop 美区带货</td>
+          </tr>
+          <tr>
+            <td><span class="red">带货转化</span></td>
+            <td>内容发布后实际成交效果</td>
+            <td>观看/点击 → 加购/下单 → GMV</td>
+            <td>合作复盘与策略优化</td>
+          </tr>
+        </table>
+
+        <section class="section" id="20-HR-追问专业词的通用话术">
+          <h2>20. HR 追问专业词的通用话术</h2>
           <table>
             <tr>
               <th>候选人说法</th>
@@ -1288,8 +1592,20 @@
               <td>策略怎么定？团队几个人怎么分工？达人策略和广告数据你怎么看结果？</td>
             </tr>
             <tr>
-              <td>我做过海外推广/站外推广</td>
+              <td>我做过亚马逊站外推广/站外推广</td>
               <td>你做亚马逊站外吗？熟哪些 Deals 站或论坛？测评怎么统筹？Reviewer 资源怎么维护？如何保证账号安全？</td>
+            </tr>
+            <tr>
+              <td>我做过 TikTok 运营助理 / 店铺助理</td>
+              <td>你主要协助哪些动作？商品卡、素材发布、日报周报、库存补货、售后跟进做过哪些？Excel 和英文读写怎么样？</td>
+            </tr>
+            <tr>
+              <td>我做过 TikTok 达人 BD / 商务专员</td>
+              <td>你做哪个市场？怎么挖达人、分层和谈判？建联→寄样→出片→复投流程熟吗？曝光/点击/转化/GMV 怎么复盘？用过哪些达人数据工具？</td>
+            </tr>
+            <tr>
+              <td>我做过 TikTok 达人 BD / 商务主管</td>
+              <td>你做美区吗？怎么拓展达人/MCN？建联率和合作率大概多少？带货看哪些转化数据？带过几个人的 BD 团队？</td>
             </tr>
             <tr>
               <td>我带过团队</td>
@@ -1297,8 +1613,8 @@
             </tr>
           </table>
         </section>
-        <section class="section" id="18-常见红旗信号">
-          <h2>18. 常见红旗信号</h2>
+        <section class="section" id="21-常见红旗信号">
+          <h2>21. 常见红旗信号</h2>
           <ul>
             <li>一直说“我们团队做的”，但说不清自己负责什么。</li>
             <li>说负责广告，但不知道 ACOS、ROAS、CTR、CVR、CPC 基本指标。</li>
@@ -1309,8 +1625,11 @@
             <li>对平台规则没有敬畏，比如把刷单、违规索评、侵权素材说得很随意。</li>
             <li>说做海外社媒，但说不清平台、内容策划/制作、互动或数据复盘，只会说“发帖涨粉”。</li>
             <li>说做社媒主管，但说不清策略、团队分工、达人策略和结果指标，只会说“带过团队”。</li>
-            <li>说做海外推广/站外，但说不清 Deals 站、论坛、测评统筹或 Reviewer 维护，也不会讲账号安全。</li>
-            <li>把社媒内容、站外测评、TikTok Shop、亚马逊站内广告混为一谈，岗位边界不清。</li>
+            <li>说做亚马逊站外推广/站外，但说不清 Deals 站、论坛、测评统筹或 Reviewer 维护，也不会讲账号安全。</li>
+            <li>说做 TikTok 运营助理，但说不清商品卡维护、数据整理、库存物流跟进或售后升级流程，只会说“打杂帮忙”。</li>
+            <li>说做 TikTok 达人 BD/商务专员，但说不清达人挖掘分层、建联寄样出片复投、合作数据复盘或达人工具使用。</li>
+            <li>说做 TikTok 达人 BD/商务主管，但说不清美区达人生态、建联/合作数据、团队管理或带货转化复盘。</li>
+            <li>把社媒内容、站外测评、TikTok Shop、TikTok 达人 BD、亚马逊站内广告混为一谈，岗位边界不清。</li>
           </ul>
         </section>
       </main>
@@ -1329,7 +1648,10 @@
         <div class="analysis-modal-head">
           <div>
             <h2 id="analysisModalTitle" class="analysis-modal-title">AI 简历分析结果</h2>
-            <div id="analysisCandidate" class="analysis-candidate">候选人：待识别</div>
+            <div class="analysis-candidate-row">
+              <div id="analysisCandidate" class="analysis-candidate">候选人：待识别</div>
+              <div id="analysisMatchBadge" class="analysis-match-badge" hidden>匹配度：待判断</div>
+            </div>
           </div>
           <button id="analysisModalClose" class="analysis-close" type="button">关闭</button>
         </div>

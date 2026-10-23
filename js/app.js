@@ -38,6 +38,7 @@
       const analysisModal = document.getElementById('analysisModal');
       const analysisModalClose = document.getElementById('analysisModalClose');
       const analysisCandidate = document.getElementById('analysisCandidate');
+      const analysisMatchBadge = document.getElementById('analysisMatchBadge');
       const analysisModalBody = document.getElementById('analysisModalBody');
       let analysisProgressTimer = null;
       let currentAnalysisId = null;
@@ -205,6 +206,15 @@
       function updateCandidateName(name) {
         const displayName = name && name !== '未知' ? name : '未能从简历中明确识别';
         if (analysisCandidate) analysisCandidate.textContent = `候选人：${displayName}`;
+      }
+
+      function updateAnalysisMatchBadge(topPosition) {
+        if (!analysisMatchBadge) return;
+        const level = topPosition?.matchLevel || '待判断';
+        const scoreText =
+          topPosition?.score !== undefined && topPosition?.score !== null ? ` / ${formatScoreText(topPosition.score)} 分` : '';
+        analysisMatchBadge.hidden = false;
+        analysisMatchBadge.textContent = `匹配度：${level}${scoreText}`;
       }
 
       function createAnalysisRecord(analysis, resumeText = '', fileName = '', manualFields = {}, targetPosition = '') {
@@ -659,43 +669,46 @@
           .join('\n\n');
       }
 
-      const HANDBOOK_POSITIONS = ['亚马逊运营专员', '亚马逊运营主管', '沃尔玛运营专员', '沃尔玛运营主管', 'TikTok 运营专员', '独立站运营专员', 'Wayfair 运营专员', 'Coupang 运营专员', '海外社媒推广专员', '海外社媒主管', '海外推广专员'];
+      const HANDBOOK_POSITIONS = ['亚马逊运营专员', '亚马逊运营主管', '沃尔玛运营专员', '沃尔玛运营主管', 'TikTok运营助理', 'TikTok 运营专员', 'TikTok商务BD', 'TikTok商务BD主管', '独立站运营专员', 'Wayfair 运营专员', 'Coupang 运营专员', '海外社媒推广专员', '海外社媒主管', '亚马逊站外推广专员'];
 
       const POSITION_SECTION_MAP = {
-        亚马逊运营专员: ['5-亚马逊运营专员', '16-1-亚马逊'],
-        亚马逊运营主管: ['6-亚马逊运营主管', '16-1-亚马逊'],
-        沃尔玛运营专员: ['7-沃尔玛运营专员', '16-2-沃尔玛'],
-        沃尔玛运营主管: ['8-沃尔玛运营主管', '16-2-沃尔玛'],
-        'TikTok 运营专员': ['9-TikTok-运营专员', '16-3-TikTok'],
-        独立站运营专员: ['10-独立站运营专员', '16-4-独立站'],
-        'Wayfair 运营专员': ['11-Wayfair-运营专员', '16-5-Wayfair'],
-        'Coupang 运营专员': ['12-Coupang-运营专员', '16-6-Coupang'],
-        海外社媒推广专员: ['13-海外社媒推广专员', '16-7-海外社媒'],
-        海外社媒主管: ['14-海外社媒主管', '16-7-海外社媒'],
-        海外推广专员: ['15-海外推广专员', '16-8-海外推广'],
+        亚马逊运营专员: ['5-亚马逊运营专员', '19-1-亚马逊'],
+        亚马逊运营主管: ['6-亚马逊运营主管', '19-1-亚马逊'],
+        沃尔玛运营专员: ['7-沃尔玛运营专员', '19-2-沃尔玛'],
+        沃尔玛运营主管: ['8-沃尔玛运营主管', '19-2-沃尔玛'],
+        TikTok运营助理: ['9-TikTok运营助理', '19-3-TikTok'],
+        'TikTok 运营专员': ['10-TikTok-运营专员', '19-3-TikTok'],
+        TikTok商务BD: ['11-TikTok商务BD', '19-9-TikTok商务BD'],
+        TikTok商务BD主管: ['12-TikTok商务BD主管', '19-9-TikTok商务BD'],
+        独立站运营专员: ['13-独立站运营专员', '19-4-独立站'],
+        'Wayfair 运营专员': ['14-Wayfair-运营专员', '19-5-Wayfair'],
+        'Coupang 运营专员': ['15-Coupang-运营专员', '19-6-Coupang'],
+        海外社媒推广专员: ['16-海外社媒推广专员', '19-7-海外社媒'],
+        海外社媒主管: ['17-海外社媒主管', '19-7-海外社媒'],
+        亚马逊站外推广专员: ['18-亚马逊站外推广专员', '19-8-亚马逊站外推广'],
       };
 
-      const COMMON_HANDBOOK_IDS = ['1-HR-初面整体流程', '2-面试前-10-分钟必须问清楚', '3-简历筛选重点', '4-推荐给部门时怎么写', '17-HR-追问专业词的通用话术', '18-常见红旗信号'];
+      const COMMON_HANDBOOK_IDS = ['1-HR-初面整体流程', '2-面试前-10-分钟必须问清楚', '3-简历筛选重点', '4-推荐给部门时怎么写', '20-HR-追问专业词的通用话术', '21-常见红旗信号'];
 
       const POSITION_SCOPE = {
         亚马逊运营专员: {
-          excludeInWeakness: /tiktok shop|抖音小店|短视频|直播|达人带货|沃尔玛|walmart|buy\s*box|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|instagram运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /tiktok shop|抖音小店|短视频|直播|达人带货|沃尔玛|walmart|buy\s*box|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|instagram运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', '广告能力', '数据复盘', '库存意识', 'Listing', '风险意识'],
         },
         亚马逊运营主管: {
-          excludeInWeakness: /tiktok shop|抖音小店|短视频|直播|达人带货|沃尔玛|walmart|buy\s*box|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|instagram运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /tiktok shop|抖音小店|短视频|直播|达人带货|沃尔玛|walmart|buy\s*box|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|instagram运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', '广告能力', '数据复盘', '库存意识', '团队管理', '风险意识'],
         },
         沃尔玛运营专员: {
-          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|tiktok shop|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|tiktok shop|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', '广告能力', '数据复盘', '库存意识', '价格竞争', '风险意识'],
         },
         沃尔玛运营主管: {
-          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|tiktok shop|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|tiktok shop|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒|社媒运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', '广告能力', '数据复盘', '团队管理', '库存意识', '风险意识'],
         },
         'TikTok 运营专员': {
-          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|buy\s*box|独立站|shopify|独立站转化|listing优化|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒推广专员|内容日历|instagram运营|facebook运营|海外推广专员|meta ads|google ads|asa\b/i,
+          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|buy\s*box|独立站|shopify|独立站转化|listing优化|wayfair|castlegate|coupang|酷澎|火箭配送|海外社媒推广专员|内容日历|instagram运营|facebook运营|亚马逊站外推广专员|TikTok运营助理|TikTok商务BD|TikTok商务BD主管|bd团队|meta ads|google ads|asa\b/i,
           abilityNames: ['内容营销', '达人', '直播', '平台经验', '数据复盘', '转化', '风险意识'],
         },
         独立站运营专员: {
@@ -703,24 +716,36 @@
           abilityNames: ['独立站转化', '平台经验', '广告能力', '数据复盘', '落地页', '风险意识'],
         },
         'Wayfair 运营专员': {
-          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|tiktok|抖音|短视频|直播|达人|独立站|shopify|coupang|酷澎|火箭配送|search tag|海外社媒|社媒运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|tiktok|抖音|短视频|直播|达人|独立站|shopify|coupang|酷澎|火箭配送|search tag|海外社媒|社媒运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', 'Listing', '广告能力', '数据复盘', '库存意识', '退货率', '风险意识'],
         },
         'Coupang 运营专员': {
-          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|tiktok|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|海外社媒|社媒运营|内容日历|海外推广专员|meta ads|google ads/i,
+          excludeInWeakness: /亚马逊|amazon|\bacos\b|\bfba\b|沃尔玛|walmart|tiktok|抖音|短视频|直播|达人|独立站|shopify|wayfair|castlegate|海外社媒|社媒运营|内容日历|亚马逊站外推广专员|meta ads|google ads/i,
           abilityNames: ['平台经验', 'Search Tag', '广告能力', '数据复盘', 'Rocket', '履约', 'Review', '风险意识'],
         },
         海外社媒推广专员: {
-          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|海外推广专员|团队管理缺失|主管经验缺失|google ads|asa\b/i,
+          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|亚马逊站外推广专员|TikTok运营助理|TikTok商务BD|TikTok商务BD主管|团队管理缺失|主管经验缺失|google ads|asa\b/i,
           abilityNames: ['内容营销', '社媒', '短视频', '达人', 'KOL', '广告投放', '数据复盘', '英语', '风险意识'],
         },
         海外社媒主管: {
-          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|海外推广专员|google ads|asa\b/i,
+          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|亚马逊站外推广专员|TikTok运营助理|TikTok商务BD|TikTok商务BD主管|affiliate联盟|google ads|asa\b/i,
           abilityNames: ['策略', '内容营销', '社媒', '达人', 'KOL', '广告投放', '数据复盘', '团队管理', '英语', '风险意识'],
         },
-        海外推广专员: {
-          excludeInWeakness: /沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|达人寄样|直播带货|listing五点|a\+|站内sp|站内sb|\bfba\b补货|sku管理|内容日历|粉丝增长|社媒互动率|海外社媒推广专员|海外社媒主管|meta ads结构|google ads出价/i,
+        亚马逊站外推广专员: {
+          excludeInWeakness: /沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|tiktok shop|达人寄样|直播带货|listing五点|a\+|站内sp|站内sb|\bfba\b补货|sku管理|内容日历|粉丝增长|社媒互动率|海外社媒推广专员|海外社媒主管|TikTok运营助理|TikTok商务BD|TikTok商务BD主管|meta ads结构|google ads出价/i,
           abilityNames: ['站外推广', '测评', 'Deals', '论坛', 'Reviewer', '引流', '数据复盘', '风险意识', '账号安全'],
+        },
+        TikTok运营助理: {
+          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|独立站转化|listing优化|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|达人建联谈判|bd团队|团队管理缺失|主管经验缺失|策略缺失|gmv增长责任|亚马逊站外推广专员|TikTok商务BD|meta ads结构|google ads出价/i,
+          abilityNames: ['店铺维护', '商品卡', '素材支持', '数据整理', '库存物流', '售后跟进', 'Excel', '执行力', '英语'],
+        },
+        TikTok商务BD: {
+          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|内容日历|粉丝增长|社媒剪辑|亚马逊站外推广专员|TikTok运营助理|团队管理缺失|主管经验缺失|bd团队|meta ads结构|google ads出价/i,
+          abilityNames: ['达人BD', '商务谈判', '达人挖掘', 'Affiliate', '内容配合', '建联率', '合作率', '带货转化', '数据复盘', '英语'],
+        },
+        TikTok商务BD主管: {
+          excludeInWeakness: /\bacos\b|\bfba\b|沃尔玛|walmart|wayfair|castlegate|coupang|酷澎|火箭配送|独立站转化|listing优化|sku管理|站内广告|sp\/sb|测评统筹|deals站|reviewer资源|内容日历|粉丝增长|社媒剪辑|脚本制作|亚马逊站外推广专员|TikTok运营助理|meta ads结构|google ads出价/i,
+          abilityNames: ['达人BD', '商务谈判', 'MCN', 'Affiliate', '团队管理', '建联率', '合作率', '带货转化', '数据复盘', '跨部门协作'],
         },
       };
 
@@ -730,12 +755,15 @@
         沃尔玛运营专员: '锚定沃尔玛美国站运营：WFS/3P、Buy Box、价格竞争力、站内广告、履约与售后。不要用亚马逊 ACOS/FBA 话术硬套。',
         沃尔玛运营主管: '锚定沃尔玛管理岗：店铺经营、团队分工、活动节奏、利润与库存风险。禁止把亚马逊/TikTok 经验缺失写成弱点。',
         'TikTok 运营专员': '锚定 TikTok Shop / 内容电商：短视频、直播、达人、货盘、转化承接、GMV。区分于纯品牌社媒和纯付费投放；禁止写“缺乏亚马逊经验”。',
+        TikTok运营助理: '锚定 TikTok Shop 运营助理执行支持岗：商品卡维护、素材整理发布、日报周报、库存/物流跟进、售后升级与跨部门同步。应届生可培养，重点看细心度、执行力、Excel与英文读写。禁止按运营专员独立增长责任、达人 BD 谈判、团队管理缺失来扣分。',
         独立站运营专员: '锚定独立站/品牌站：Shopify 等建站、流量承接、落地页、加购/结账转化、邮件短信、站点运营。站外投放可作加分，但不能按纯 Media Buyer 标准苛责。',
         'Wayfair 运营专员': '锚定 Wayfair：家居类目、Castlegate/自发货、Listing 内容质量、退货率、广告 ROAS、供货稳定。禁止跨平台弱点。',
         'Coupang 运营专员': '锚定 Coupang 韩台站点：Rocket Growth、Search Tag、站内广告、发货时效、Review。禁止写 Wayfair/亚马逊缺失。',
         海外社媒推广专员: '锚定海外社媒推广执行岗：TikTok/Instagram/Facebook 账号运营、内容策划创作（选题/文案/脚本/剪辑）、KOL/KOC 协同、社媒广告素材测试与数据复盘。禁止按团队管理缺失、亚马逊站外测评/Deals、TikTok Shop、站内 Listing/SP 缺失来扣分。',
         海外社媒主管: '锚定海外社媒策略与管理岗：社媒推广策略制定落地、多平台内容规划指导、KOL/KOC 策略、社媒广告与数据分析统筹、团队/项目管理和跨部门协作，对曝光、增长、转化结果负责。禁止按基层剪辑执行不足、亚马逊站外测评/Deals、TikTok Shop、站内运营缺失来扣分。',
-        海外推广专员: '锚定亚马逊站外推广：测评统筹、国外资源开发、美欧 Deals 站/论坛、Reviewer 维护、站外引流打爆款、账号安全与效果复盘。社媒只是辅助渠道。禁止按站内 Listing/FBA/SP 广告、纯社媒内容运营、海外社媒主管标准乱扣分。',
+        亚马逊站外推广专员: '锚定亚马逊站外推广：测评统筹、国外资源开发、美欧 Deals 站/论坛、Reviewer 维护、站外引流打爆款、账号安全与效果复盘。社媒只是辅助渠道。禁止按站内 Listing/FBA/SP 广告、纯社媒内容运营、海外社媒主管标准乱扣分。',
+        TikTok商务BD: '锚定 TikTok 达人商务专员执行岗：TikTok/站外达人挖掘建联、分层筛选、商务谈判与合作落地、鞋靴等内容配合与产出把控、曝光/点击/转化/GMV 复盘、达人关系维护与中腰部拓展。禁止按 BD 主管团队管理缺失、TikTok Shop 店铺运营、纯社媒内容剪辑、亚马逊站外测评/Deals 标准乱扣分。',
+        TikTok商务BD主管: '锚定 TikTok 海外达人商务管理：美区达人/MCN 拓展、筛选建联谈判、鞋类等品类带货/测评合作、BD 团队目标与绩效、建联率/合作率/视频产出/带货转化复盘、Affiliate 优先。禁止按 TikTok Shop 店铺运营、纯社媒内容剪辑、亚马逊站外测评/Deals 标准乱扣分。',
       };
 
       function getSectionTextById(id) {
@@ -759,8 +787,16 @@
         const text = resumeText.toLowerCase();
         const rules = [
           {
-            position: '海外推广专员',
-            patterns: [/海外推广/, /站外推广/, /亚马逊站外/, /测评/, /reviewer/i, /deals?\s*站/i, /deal站点/i, /论坛推广/, /vine/i],
+            position: 'TikTok商务BD主管',
+            patterns: [/TikTok商务BD主管/, /tiktok\s*bd\s*主管/i, /达人bd主管/i, /商务bd主管/, /bd主管/, /bd团队/, /tiktok.*达人.*管理/i],
+          },
+          {
+            position: 'TikTok商务BD',
+            patterns: [/TikTok商务BD/, /tiktok\s*bd/i, /达人bd/i, /达人商务/, /商务bd/, /tiktok.*达人拓展/i, /mcn.*达人/, /affiliate.*tiktok/i, /建联率/, /kalodata/i, /fastmoss/i, /echotik/i],
+          },
+          {
+            position: '亚马逊站外推广专员',
+            patterns: [/亚马逊站外推广/, /海外推广/, /站外推广/, /亚马逊站外/, /测评/, /reviewer/i, /deals?\s*站/i, /deal站点/i, /论坛推广/, /vine/i],
           },
           {
             position: '海外社媒主管',
@@ -769,6 +805,10 @@
           {
             position: '海外社媒推广专员',
             patterns: [/海外社媒/, /社媒推广/, /社媒运营/, /social media/i, /instagram/i, /内容策划/, /短视频脚本/, /kol\/koc/i, /koc/, /品牌社媒/, /facebook运营/],
+          },
+          {
+            position: 'TikTok运营助理',
+            patterns: [/TikTok运营助理/, /tiktok\s*运营助理/i, /店铺助理/, /运营助理/, /tiktok\s*assistant/i, /商品卡维护/, /素材库/, /数据整理/, /备货补货/],
           },
           { position: 'TikTok 运营专员', patterns: [/tiktok shop/i, /抖音/, /短视频运营/, /直播运营/, /达人运营/, /tiktok运营/i] },
           { position: 'Coupang 运营专员', patterns: [/coupang/i, /酷澎/, /火箭配送/, /rocket growth/i, /韩国站/, /韩国市场/] },
@@ -852,10 +892,13 @@
 岗位收窄规则（必须严格执行）：
 1. weaknesses、charts.riskSignals 只能写“目标岗位”相关的风险。
 2. 禁止把“缺乏其他岗位/平台经验”写成薄弱点。尤其注意边界：
-   - 海外社媒推广专员 ≠ 海外社媒主管 ≠ 海外推广专员（亚马逊站外/测评/Deals）≠ TikTok Shop
+   - 海外社媒推广专员 ≠ 海外社媒主管 ≠ 亚马逊站外推广专员（测评/Deals/论坛）≠ TikTok运营助理 ≠ TikTok 运营专员 ≠ TikTok商务BD ≠ TikTok商务BD主管
    - 海外社媒推广专员偏执行：内容创作、账号运营、达人协同、社媒广告素材测试
    - 海外社媒主管偏策略与管理：策略制定、团队/项目统筹、结果负责
-   - TikTok 运营专员默认按 TikTok Shop/内容电商评估，不要按品牌社媒标准乱扣分
+   - TikTok运营助理偏店铺日常支持：商品卡、素材整理发布、数据报表、库存物流跟进、售后升级
+   - TikTok 运营专员偏内容电商增长：短视频/直播/达人/货盘/转化/GMV，不要按助理执行或纯 BD 商务标准乱扣分
+   - TikTok商务BD 偏达人商务执行：达人挖掘分层、建联谈判落地、内容配合、曝光/点击/转化/GMV 复盘
+   - TikTok商务BD主管偏达人商务与团队管理：美区达人/MCN 拓展、谈判、带货合作、建联率/合作率/转化、BD 团队管理
 3. 如果候选人在目标岗位能力上经验不足，才写薄弱点；不要评价其未应聘的岗位。
 4. interviewQuestions 必须只问目标岗位手册里的业务问题，不要问无关平台问题。
 5. charts.abilityScores 只保留与目标岗位相关的能力项：
@@ -867,7 +910,10 @@
    - Coupang：Search Tag、站内广告、Rocket 履约、Review、数据复盘
    - 海外社媒推广专员：内容营销、短视频、达人协同、社媒广告、数据复盘、英语
    - 海外社媒主管：策略、内容规划、达人策略、广告与数据统筹、团队管理、英语
-   - 海外推广：站外推广、测评统筹、Deals/论坛、Reviewer 维护、账号安全、站外→站内转化复盘
+   - 亚马逊站外推广专员：站外推广、测评统筹、Deals/论坛、Reviewer 维护、账号安全、站外→站内转化复盘
+   - TikTok运营助理：店铺维护、商品卡、素材支持、数据整理、库存物流、售后跟进、Excel、执行力、英语
+   - TikTok商务BD：达人BD、达人挖掘、商务谈判、Affiliate、内容配合、建联率、合作率、带货转化、数据复盘、英语
+   - TikTok商务BD主管：达人BD、MCN、商务谈判、Affiliate、团队管理、建联率、合作率、带货转化、数据复盘
 6. matchedPositions 可以保留 1-3 个，但综合评分、薄弱点、风险、追问都以 primaryTargetPosition 为准。
 7. 岗位匹配评分要看“职责相似度”而不是关键词堆砌：做过相近能力可给中等分，但岗位边界说不清要降分。
 8. ${targetInstruction}
@@ -1039,7 +1085,6 @@ ${limitText(resumeText, 18000)}`;
           analysis = scopeAnalysisToTargetPosition(analysis, scopedPosition);
         }
         currentAnalysisId = record?.id || currentAnalysisId;
-        updateCandidateName(analysis.candidateName);
         const recommendation = analysis.recommendation || {};
         const matchedPositions = asArray(analysis.matchedPositions);
         const strengths = asArray(analysis.strengths);
@@ -1048,44 +1093,36 @@ ${limitText(resumeText, 18000)}`;
 
         const topPosition = matchedPositions[0];
         const focusPosition = analysis.primaryTargetPosition || record?.targetPosition || topPosition?.position || '暂无明确岗位';
+        updateCandidateName(analysis.candidateName);
+        updateAnalysisMatchBadge(topPosition);
         const riskTags = weaknesses
           .slice(0, 5)
           .map(item => `<span class="analysis-risk-pill">${escapeHTML(item.item || '待追问风险')}</span>`)
           .join('');
         analysisModalBody.innerHTML = `
-    <div class="analysis-summary-grid">
-      <div class="analysis-card analysis-highlight-card analysis-match-card">
-        <h3>最匹配岗位</h3>
-        <p><b>${escapeHTML(topPosition?.position || focusPosition)}</b></p>
-        <p style="color:#64748b;font-size:14px;">分析锚定岗位：${escapeHTML(focusPosition)}</p>
-        <p><span class="analysis-score-pill">匹配度：${escapeHTML(topPosition?.matchLevel || '待判断')}${topPosition?.score !== undefined && topPosition?.score !== null ? ` / ${formatScoreText(topPosition.score)} 分` : ''}</span></p>
-        ${renderScoreBreakdown(topPosition?.scoreBreakdown)}
+    <div class="analysis-preview" data-analysis-preview>
+      <div class="analysis-preview-clip">
+        <div class="analysis-summary-grid analysis-summary-grid-top">
+          <div class="analysis-card analysis-highlight-card analysis-match-card">
+            <h3>最匹配岗位</h3>
+            <p><b>${escapeHTML(topPosition?.position || focusPosition)}</b></p>
+            <p class="analysis-muted">分析锚定岗位：${escapeHTML(focusPosition)}</p>
+            <p><span class="analysis-score-pill">匹配度：${escapeHTML(topPosition?.matchLevel || '待判断')}${topPosition?.score !== undefined && topPosition?.score !== null ? ` / ${formatScoreText(topPosition.score)} 分` : ''}</span></p>
+            ${renderScoreBreakdown(topPosition?.scoreBreakdown)}
+          </div>
+          <div class="analysis-card analysis-highlight-card analysis-decision-card">
+            <h3>复试建议</h3>
+            <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
+            <p>${escapeHTML(recommendation.reason || 'AI 未返回明确建议。')}</p>
+          </div>
+          <div class="analysis-card analysis-highlight-card analysis-risk-card">
+            <h3>薄弱点 / 风险</h3>
+            <div>${riskTags || '<span class="analysis-risk-pill">暂无明确风险</span>'}</div>
+            <p>以下风险仅围绕「${escapeHTML(focusPosition)}」相关项，建议结合该岗位继续确认数据、权限和案例真实性。</p>
+          </div>
+        </div>
       </div>
-      <div class="analysis-card analysis-highlight-card analysis-decision-card">
-        <h3>复试建议</h3>
-        <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
-        <p>${escapeHTML(recommendation.reason || 'AI 未返回明确建议。')}</p>
-      </div>
-      <div class="analysis-card analysis-highlight-card analysis-risk-card">
-        <h3>薄弱点 / 风险</h3>
-        <div>${riskTags || '<span class="analysis-risk-pill">暂无明确风险</span>'}</div>
-        <p>以下风险仅围绕「${escapeHTML(focusPosition)}」相关项，建议结合该岗位继续确认数据、权限和案例真实性。</p>
-      </div>
-    </div>
-
-    <div class="analysis-charts">
-      <div class="analysis-chart-card">
-        <div class="analysis-chart-title">岗位匹配度</div>
-        <div id="positionScoreChart" class="analysis-chart"></div>
-      </div>
-      <div class="analysis-chart-card">
-        <div class="analysis-chart-title">能力画像</div>
-        <div id="abilityScoreChart" class="analysis-chart"></div>
-      </div>
-      <div class="analysis-chart-card">
-        <div class="analysis-chart-title">风险信号</div>
-        <div id="riskSignalChart" class="analysis-chart"></div>
-      </div>
+      <button type="button" class="analysis-preview-toggle" data-collapse-label="收起" data-expand-label="展开查看全部">展开查看全部</button>
     </div>
 
     <div class="analysis-section">
@@ -1093,20 +1130,25 @@ ${limitText(resumeText, 18000)}`;
       ${renderList(matchedPositions, item => `<b>${escapeHTML(item.position || '未知岗位')}</b>（${escapeHTML(item.matchLevel || '待判断')}，${formatScoreText(item.score) || '0.00'} 分）${renderList(item.reasons, reason => escapeHTML(reason))}`)}
     </div>
 
-    <div class="analysis-summary-grid">
-      <div class="analysis-card">
-        <h3>擅长点</h3>
-        ${renderList(strengths, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
+    <div class="analysis-preview" data-analysis-preview>
+      <div class="analysis-preview-clip">
+        <div class="analysis-summary-grid">
+          <div class="analysis-card">
+            <h3>擅长点</h3>
+            ${renderList(strengths, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
+          </div>
+          <div class="analysis-card analysis-risk-card">
+            <h3>薄弱点 / 风险</h3>
+            ${renderList(weaknesses, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
+          </div>
+          <div class="analysis-card analysis-decision-card">
+            <h3>结论</h3>
+            <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
+            <p>${escapeHTML(recommendation.reason || '暂无明确理由。')}</p>
+          </div>
+        </div>
       </div>
-      <div class="analysis-card analysis-risk-card">
-        <h3>薄弱点 / 风险</h3>
-        ${renderList(weaknesses, item => `<b>${escapeHTML(item.item || '')}</b><br>${escapeHTML(item.evidence || '')}`)}
-      </div>
-      <div class="analysis-card analysis-decision-card">
-        <h3>结论</h3>
-        <p><span class="analysis-decision-pill">${escapeHTML(recommendation.decision || '待判断')}</span></p>
-        <p>${escapeHTML(recommendation.reason || '暂无明确理由。')}</p>
-      </div>
+      <button type="button" class="analysis-preview-toggle" data-collapse-label="收起" data-expand-label="展开查看全部">展开查看全部</button>
     </div>
 
     <details class="analysis-collapse">
@@ -1149,9 +1191,22 @@ ${limitText(resumeText, 18000)}`;
   `;
 
         analysisModal.classList.add('active');
-        requestAnimationFrame(() => renderAnalysisCharts(analysis.charts || {}));
+        bindAnalysisPreviewToggles(analysisModalBody);
         bindInterviewReportGenerator();
         restoreInterviewReportCache(record);
+      }
+
+      function bindAnalysisPreviewToggles(root) {
+        if (!root) return;
+        root.querySelectorAll('[data-analysis-preview]').forEach(preview => {
+          const toggle = preview.querySelector('.analysis-preview-toggle');
+          if (!toggle || toggle.dataset.bound === '1') return;
+          toggle.dataset.bound = '1';
+          toggle.addEventListener('click', () => {
+            const expanded = preview.classList.toggle('is-expanded');
+            toggle.textContent = expanded ? toggle.dataset.collapseLabel || '收起' : toggle.dataset.expandLabel || '展开查看全部';
+          });
+        });
       }
 
       function renderAnalysisCharts(charts) {
@@ -1513,7 +1568,9 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
         }
 
         analyzeResumeBtn.disabled = true;
-        analyzeResumeBtn.textContent = '分析中...';
+        const analyzeLabel = analyzeResumeBtn.querySelector('.button__text');
+        if (analyzeLabel) analyzeLabel.textContent = '分析中...';
+        else analyzeResumeBtn.textContent = '分析中...';
         startAnalysisLoading('正在读取简历内容...');
 
         try {
@@ -1536,7 +1593,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
           });
           setAnalysisProgress(62, '正在调用 DeepSeek 分析匹配岗位...');
           const result = await callDeepSeek(apiKey, prompt, {
-            system: '你是严谨的跨境电商 HR 初面分析助手。必须围绕 primaryTargetPosition 单岗位精准分析：海外社媒推广专员≠海外社媒主管≠海外推广(亚马逊站外/测评/Deals)≠TikTok Shop≠亚马逊站内运营。禁止把其他岗位经验缺失写成薄弱点或风险。评分必须基于简历证据差异化，所有分数字段保留两位小数。',
+            system: '你是严谨的跨境电商 HR 初面分析助手。必须围绕 primaryTargetPosition 单岗位精准分析：海外社媒推广专员≠海外社媒主管≠亚马逊站外推广专员(测评/Deals/论坛)≠TikTok运营助理≠TikTok运营专员≠TikTok商务BD≠TikTok商务BD主管≠亚马逊站内运营。禁止把其他岗位经验缺失写成薄弱点或风险。评分必须基于简历证据差异化，所有分数字段保留两位小数。',
             temperature: 0.35,
           });
           setAnalysisProgress(90, '正在生成弹窗和图表...');
@@ -1551,7 +1608,9 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
           setResumeStatus(formatResumeError(error), 'error');
         } finally {
           analyzeResumeBtn.disabled = false;
-          analyzeResumeBtn.textContent = '开始分析';
+          const analyzeLabel = analyzeResumeBtn.querySelector('.button__text');
+          if (analyzeLabel) analyzeLabel.textContent = '开始分析';
+          else analyzeResumeBtn.textContent = '开始分析';
         }
       }
 
@@ -1618,26 +1677,280 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
 
       renderResumeHistory();
 
+      const themeToggle = document.getElementById('themeToggle');
+      const THEME_KEY = 'love_xinxin_theme';
+      function applyTheme(theme) {
+        const dark = theme === 'dark';
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-label', dark ? '切换日间模式' : '切换暗黑模式');
+          themeToggle.title = dark ? '切换日间模式' : '切换暗黑模式';
+        }
+      }
+      function currentTheme() {
+        return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      }
+      applyTheme(currentTheme());
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          const next = currentTheme() === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+          try {
+            localStorage.setItem(THEME_KEY, next);
+          } catch (e) {}
+        });
+      }
+
+      const heroMore = document.querySelector('.hero-more');
+      const heroMoreToggle = document.querySelector('.hero-more-toggle');
+      if (heroMore && heroMoreToggle) {
+        let heroMoreWasOpen = false;
+        const syncHeroToggleLabel = () => {
+          heroMoreToggle.textContent = heroMore.open ? '收起简介' : '展开简介';
+        };
+        syncHeroToggleLabel();
+        heroMore.addEventListener('toggle', syncHeroToggleLabel);
+        window.addEventListener('beforeprint', () => {
+          heroMoreWasOpen = heroMore.open;
+          heroMore.open = true;
+        });
+        window.addEventListener('afterprint', () => {
+          heroMore.open = heroMoreWasOpen;
+          syncHeroToggleLabel();
+        });
+      }
+
+      const heroClock = document.getElementById('heroClock');
+      const heroNow = document.getElementById('heroNow');
+      const heroOffCountdown = document.getElementById('heroOffCountdown');
+      const OFF_WORK_HOUR = 18;
+      const OFF_WORK_MINUTE = 0;
+      function pad2(n) {
+        return String(n).padStart(2, '0');
+      }
+      const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+      function formatHeroNow(date) {
+        return `${date.getFullYear()}年${pad2(date.getMonth() + 1)}月${pad2(date.getDate())}日 ${WEEKDAYS[date.getDay()]} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`;
+      }
+      function getTodayOffWork(date) {
+        const off = new Date(date);
+        off.setHours(OFF_WORK_HOUR, OFF_WORK_MINUTE, 0, 0);
+        return off;
+      }
+      function formatCountdown(ms) {
+        const totalSec = Math.max(0, Math.floor(ms / 1000));
+        const hours = Math.floor(totalSec / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+        if (hours > 0) return `${hours}小时${pad2(minutes)}分${pad2(seconds)}秒`;
+        if (minutes > 0) return `${minutes}分${pad2(seconds)}秒`;
+        return `${seconds}秒`;
+      }
+      function updateHeroClock() {
+        if (!heroNow || !heroOffCountdown) return;
+        const now = new Date();
+        heroNow.textContent = formatHeroNow(now);
+        const off = getTodayOffWork(now);
+        const diff = off.getTime() - now.getTime();
+        if (diff <= 0) {
+          heroOffCountdown.textContent = '已下班，好好休息～';
+          heroOffCountdown.classList.add('is-done');
+        } else {
+          heroOffCountdown.textContent = `距离下班还有 ${formatCountdown(diff)}`;
+          heroOffCountdown.classList.remove('is-done');
+        }
+      }
+      if (heroClock) {
+        heroClock.addEventListener('click', event => {
+          event.preventDefault();
+          event.stopPropagation();
+        });
+      }
+      updateHeroClock();
+      window.setInterval(updateHeroClock, 1000);
+
+      function buildCollapsibleNav() {
+        const nav = document.querySelector('.sidebar .nav');
+        if (!nav || nav.dataset.grouped === '1') return;
+        const items = Array.from(nav.querySelectorAll(':scope > a'));
+        if (!items.length) return;
+        const fragment = document.createDocumentFragment();
+        let i = 0;
+        while (i < items.length) {
+          const link = items[i];
+          if (!link.classList.contains('h2')) {
+            fragment.appendChild(link);
+            i += 1;
+            continue;
+          }
+          const subs = [];
+          let j = i + 1;
+          while (j < items.length && items[j].classList.contains('h3')) {
+            subs.push(items[j]);
+            j += 1;
+          }
+          if (!subs.length) {
+            fragment.appendChild(link);
+            i = j;
+            continue;
+          }
+          const group = document.createElement('div');
+          group.className = 'nav-group';
+          const head = document.createElement('div');
+          head.className = 'nav-group-head';
+          link.classList.add('nav-group-title');
+          const toggle = document.createElement('button');
+          toggle.type = 'button';
+          toggle.className = 'nav-group-toggle';
+          toggle.setAttribute('aria-label', '展开子导航');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const open = !group.classList.contains('is-open');
+            group.classList.toggle('is-open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute('aria-label', open ? '收起子导航' : '展开子导航');
+          });
+          head.appendChild(link);
+          head.appendChild(toggle);
+          const body = document.createElement('div');
+          body.className = 'nav-group-body';
+          subs.forEach(sub => body.appendChild(sub));
+          group.appendChild(head);
+          group.appendChild(body);
+          fragment.appendChild(group);
+          i = j;
+        }
+        nav.innerHTML = '';
+        nav.appendChild(fragment);
+        nav.dataset.grouped = '1';
+      }
+
+      buildCollapsibleNav();
+
       const links = Array.from(document.querySelectorAll('.nav a'));
       const sections = links.map(a => document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)))).filter(Boolean);
+      let activeNavLink = null;
+      let navScrollLockUntil = 0;
+
+      function ensureNavLinkVisible(link) {
+        const sidebar = link?.closest('.sidebar');
+        if (!sidebar || !link) return;
+        const sideRect = sidebar.getBoundingClientRect();
+        const linkRect = link.getBoundingClientRect();
+        const pad = 18;
+        if (linkRect.top >= sideRect.top + pad && linkRect.bottom <= sideRect.bottom - pad) return;
+        const delta =
+          linkRect.top < sideRect.top + pad
+            ? linkRect.top - sideRect.top - pad
+            : linkRect.bottom - sideRect.bottom + pad;
+        sidebar.scrollTo({ top: sidebar.scrollTop + delta, behavior: 'smooth' });
+      }
+
+      function setNavGroupOpen(group, open) {
+        if (!group) return;
+        group.classList.toggle('is-open', open);
+        const toggle = group.querySelector('.nav-group-toggle');
+        if (toggle) {
+          toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          toggle.setAttribute('aria-label', open ? '收起子导航' : '展开子导航');
+        }
+      }
+      function openNavGroup(group) {
+        setNavGroupOpen(group, true);
+      }
+      function closeNavGroup(group) {
+        setNavGroupOpen(group, false);
+      }
+
+      function setActiveNavLink(link, options = {}) {
+        if (!link || link === activeNavLink) return;
+        const { scrollSidebar = true } = options;
+        links.forEach(a => a.classList.remove('is-active'));
+        link.classList.add('is-active');
+        activeNavLink = link;
+        openNavGroup(link.closest('.nav-group'));
+        if (scrollSidebar) ensureNavLinkVisible(link);
+      }
+
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          navScrollLockUntil = Date.now() + 900;
+          setActiveNavLink(link, { scrollSidebar: false });
+        });
+      });
+
       const obs = new IntersectionObserver(
         entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              links.forEach(a => (a.style.background = ''));
-              const active = links.find(a => a.getAttribute('href') === '#' + entry.target.id);
-              if (active) active.style.background = '#f8e9ee';
-            }
-          });
+          if (Date.now() < navScrollLockUntil) return;
+          const visible = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+          if (!visible.length) return;
+          const active = links.find(a => a.getAttribute('href') === '#' + visible[0].target.id);
+          setActiveNavLink(active);
         },
         { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
       );
       sections.forEach(s => obs.observe(s));
 
-      const searchInputs = [document.getElementById('globalSearch'), document.getElementById('sideSearch')].filter(Boolean);
-      const resultPanels = [document.getElementById('searchResults'), document.getElementById('sideSearchResults')].filter(Boolean);
+      const globalSearch = document.getElementById('globalSearch');
+      const globalSearchHint = document.getElementById('globalSearchHint');
+      const globalSearchHintTrack = document.getElementById('globalSearchHintTrack');
+      const resultPanel = document.getElementById('searchResults');
+      const resultPanels = [resultPanel].filter(Boolean);
       const searchableBlocks = Array.from(document.querySelectorAll('.section h2, .section h3, .section p, .section li, .section td, .section th'));
       let lastMatches = [];
+
+      function initGlobalSearchHint() {
+        if (!globalSearch || !globalSearchHint || !globalSearchHintTrack) return;
+        const items = Array.from(globalSearchHintTrack.querySelectorAll('.search-hint-item'));
+        if (!items.length) return;
+
+        let index = 0;
+        let timer = null;
+        const itemHeight = () => items[0].offsetHeight || 21;
+
+        const syncHintVisibility = () => {
+          const hide = Boolean(globalSearch.value.trim()) || document.activeElement === globalSearch;
+          globalSearchHint.classList.toggle('is-hidden', hide);
+          if (hide) {
+            if (timer) {
+              clearInterval(timer);
+              timer = null;
+            }
+          } else if (!timer) {
+            timer = setInterval(tick, 3000);
+          }
+        };
+
+        const renderIndex = (nextIndex, withBounce = true) => {
+          index = ((nextIndex % items.length) + items.length) % items.length;
+          globalSearchHintTrack.style.transform = `translateY(-${index * itemHeight()}px)`;
+          items.forEach((item, i) => item.classList.toggle('is-active', i === index));
+          if (withBounce) {
+            globalSearchHintTrack.classList.remove('is-bounce');
+            void globalSearchHintTrack.offsetWidth;
+            globalSearchHintTrack.classList.add('is-bounce');
+          }
+        };
+
+        const tick = () => {
+          if (globalSearchHint.classList.contains('is-hidden')) return;
+          renderIndex(index + 1, true);
+        };
+
+        renderIndex(0, false);
+        syncHintVisibility();
+
+        globalSearch.addEventListener('input', syncHintVisibility);
+        globalSearch.addEventListener('focus', syncHintVisibility);
+        globalSearch.addEventListener('blur', syncHintVisibility);
+        window.addEventListener('resize', () => renderIndex(index, false));
+      }
+
+      initGlobalSearchHint();
 
       function escapeHTML(text) {
         return text.replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
@@ -1658,20 +1971,24 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
       function clearActiveTarget() {
         document.querySelectorAll('.active-search-target').forEach(el => el.classList.remove('active-search-target'));
       }
+      function hideAllResultPanels() {
+        resultPanels.forEach(panel => {
+          panel.innerHTML = '';
+          panel.style.display = 'none';
+        });
+      }
       function jumpToResult(index) {
         const item = lastMatches[index];
         if (!item) return;
         clearActiveTarget();
         item.el.classList.add('active-search-target');
         item.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        resultPanels.forEach(panel => (panel.style.display = 'none'));
+        hideAllResultPanels();
       }
       function renderResults(q) {
+        if (!resultPanel) return;
         if (!q) {
-          resultPanels.forEach(panel => {
-            panel.innerHTML = '';
-            panel.style.display = 'none';
-          });
+          hideAllResultPanels();
           clearActiveTarget();
           return;
         }
@@ -1698,33 +2015,25 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
             html += `<div class="search-empty">还有 ${lastMatches.length - 20} 条结果，建议输入更具体的关键词。</div>`;
           }
         }
-        resultPanels.forEach(panel => {
-          panel.innerHTML = html;
-          panel.style.display = 'block';
-        });
+        resultPanel.innerHTML = html;
+        resultPanel.style.display = 'block';
       }
-      function syncSearch(value, source) {
-        searchInputs.forEach(input => {
-          if (input !== source) input.value = value;
-        });
-        renderResults(value.trim());
-      }
-      searchInputs.forEach(input => {
-        input.addEventListener('input', e => syncSearch(e.target.value, e.target));
-        input.addEventListener('focus', e => {
+      if (globalSearch) {
+        globalSearch.addEventListener('input', e => renderResults(e.target.value.trim()));
+        globalSearch.addEventListener('focus', e => {
           if (e.target.value.trim()) renderResults(e.target.value.trim());
         });
-        input.addEventListener('keydown', e => {
+        globalSearch.addEventListener('keydown', e => {
           if (e.key === 'Enter') {
             e.preventDefault();
             jumpToResult(0);
           }
           if (e.key === 'Escape') {
-            resultPanels.forEach(panel => (panel.style.display = 'none'));
+            hideAllResultPanels();
             clearActiveTarget();
           }
         });
-      });
+      }
       resultPanels.forEach(panel => {
         panel.addEventListener('click', e => {
           const item = e.target.closest('.search-result');
@@ -1733,7 +2042,89 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
         });
       });
       document.addEventListener('click', e => {
-        if (!e.target.closest('.search-box') && !e.target.closest('.side-search')) {
-          resultPanels.forEach(panel => (panel.style.display = 'none'));
+        if (!e.target.closest('.search-box')) {
+          hideAllResultPanels();
         }
       });
+
+      const sideSearch = document.getElementById('sideSearch');
+      const sideNavEmpty = document.getElementById('sideNavEmpty');
+      const navLinks = Array.from(document.querySelectorAll('.sidebar .nav a'));
+      const navGroups = Array.from(document.querySelectorAll('.sidebar .nav .nav-group'));
+      const navFoldToggleBtn = document.getElementById('navFoldToggle');
+      function areAllNavGroupsOpen() {
+        return navGroups.length > 0 && navGroups.every(group => group.classList.contains('is-open'));
+      }
+      function syncNavFoldToggleLabel() {
+        if (!navFoldToggleBtn) return;
+        const allOpen = areAllNavGroupsOpen();
+        navFoldToggleBtn.textContent = allOpen ? '收起分类' : '展开分类';
+        navFoldToggleBtn.setAttribute('aria-expanded', allOpen ? 'true' : 'false');
+      }
+      function expandAllNavGroups() {
+        navGroups.forEach(group => openNavGroup(group));
+        syncNavFoldToggleLabel();
+      }
+      function collapseAllNavGroups() {
+        navGroups.forEach(group => closeNavGroup(group));
+        syncNavFoldToggleLabel();
+      }
+      if (navFoldToggleBtn) {
+        navFoldToggleBtn.addEventListener('click', () => {
+          if (areAllNavGroupsOpen()) collapseAllNavGroups();
+          else expandAllNavGroups();
+        });
+      }
+      // 单个分组展开/收起时同步按钮文案
+      navGroups.forEach(group => {
+        const toggle = group.querySelector('.nav-group-toggle');
+        if (!toggle) return;
+        toggle.addEventListener('click', () => {
+          window.setTimeout(syncNavFoldToggleLabel, 0);
+        });
+      });
+      syncNavFoldToggleLabel();
+
+      function filterSideNav(q) {
+        const lower = q.trim().toLowerCase();
+        let visible = 0;
+        navLinks.forEach(link => {
+          const match = !lower || link.textContent.toLowerCase().includes(lower);
+          link.classList.toggle('is-nav-hidden', !match);
+          if (match) visible += 1;
+        });
+        navGroups.forEach(group => {
+          const title = group.querySelector('.nav-group-title');
+          const childLinks = Array.from(group.querySelectorAll('.nav-group-body a'));
+          const titleMatch = !lower || (title && title.textContent.toLowerCase().includes(lower));
+          const childMatch = childLinks.some(link => !link.classList.contains('is-nav-hidden'));
+          const groupVisible = !lower || titleMatch || childMatch;
+          group.classList.toggle('is-nav-hidden', !groupVisible);
+          if (!lower) {
+            closeNavGroup(group);
+          } else if (groupVisible) {
+            openNavGroup(group);
+            if (titleMatch && title) title.classList.remove('is-nav-hidden');
+            if (titleMatch) {
+              childLinks.forEach(link => link.classList.remove('is-nav-hidden'));
+            }
+          }
+        });
+        syncNavFoldToggleLabel();
+        if (sideNavEmpty) sideNavEmpty.hidden = !lower || visible > 0;
+      }
+      if (sideSearch) {
+        sideSearch.addEventListener('input', e => filterSideNav(e.target.value));
+        sideSearch.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            sideSearch.value = '';
+            filterSideNav('');
+            sideSearch.blur();
+          }
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            const first = navLinks.find(link => !link.classList.contains('is-nav-hidden'));
+            if (first) first.click();
+          }
+        });
+      }
