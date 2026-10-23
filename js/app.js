@@ -1171,9 +1171,9 @@ ${limitText(resumeText, 18000)}`;
       </div>
     </details>
     <div class="interview-report-box">
-      <h3>生成部门面试纪要</h3>
-      <p>把你对这个人的面试总结写在下面，可再上传面试记录/评分表等附件（支持 PDF、Word、TXT、PNG、JPG）。AI 会结合简历分析、文字总结和附件内容生成固定格式纪要。</p>
-      <textarea id="interviewSummaryInput" placeholder="例如：部门一面通过，建议按沃尔玛运营专员推进；候选人在成都，需要确认来杭州意向；离职原因是公司业务调整..."></textarea>
+      <h3>生成部门面试反馈</h3>
+      <p>把你对这个人的面试总结写在下面，可再上传面试记录/评分表等附件（支持 PDF、Word、TXT、PNG、JPG）。AI 会结合简历分析、文字总结和附件，按「姓名-岗位-结果 / 基本情况 / 最近任职公司与薪资 / 优势 / 不足 / 岗位匹配情况」生成反馈。</p>
+      <textarea id="interviewSummaryInput" placeholder="例如：许可欣，部门一面未通过；籍贯浙江，期望底薪8k；离职原因是想转正编；优势是细心执行力强，不足是平台经验偏少..."></textarea>
       <div class="interview-report-actions">
         <div class="interview-attach-field">
           <input id="interviewAttachFile" class="interview-attach-input" type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain" />
@@ -1182,7 +1182,7 @@ ${limitText(resumeText, 18000)}`;
             <span id="interviewAttachName" class="interview-attach-name"></span>
           </div>
         </div>
-        <button id="generateInterviewReportBtn" class="resume-action" type="button">生成面试纪要</button>
+        <button id="generateInterviewReportBtn" class="resume-action" type="button">生成面试反馈</button>
         <button id="copyInterviewReportBtn" class="interview-report-copy" type="button">一键复制</button>
         <span id="interviewReportStatus" class="resume-note"></span>
       </div>
@@ -1304,79 +1304,45 @@ ${recommendation}
 
       function buildInterviewReportPrompt(analysis, resumeText, interviewSummary, attachmentText = '', attachmentName = '', record = {}) {
         const factAnchor = buildInterviewFactAnchor(analysis, record);
-        return `你是资深跨境电商 HR，负责把面试结果写成高精准度纪要。必须严格依据材料，禁止编造。
+        return `你是资深跨境电商 HR，负责把面试结果写成高精准度面试反馈。必须严格依据材料，禁止编造。
 
 【精准度铁律】
-1. 只输出纪要正文，不要解释、不要 Markdown、不要加粗、不要“一、二、三”编号。
+1. 只输出反馈正文，不要解释、不要 Markdown、不要加粗、不要“一、二、三”编号。
 2. 事实来源优先级（冲突时按此取舍）：
-   A. 面试官文字总结（结论、通过/未通过、离职原因口径、意向、待确认点）
+   A. 面试官文字总结（结论、通过/未通过、离职原因口径、薪资、意向、待确认点）
    B. 面试附件（面试记录/评分表里的事实与评价）
-   C. 候选人简历原文（学校、专业、公司、站点、品类、业绩数字）
+   C. 候选人简历原文（出生年、籍贯、学校、专业、公司、岗位、年限、站点、品类、业绩数字）
    D. AI 简历分析事实锚点（仅作辅助，不可覆盖 A/B/C）
-3. 绝对禁止编造：学校、专业、毕业时间、公司名、站点、模式、品类、GMV、销量、ACOS、ROI、薪资、离职原因。材料没有就写“需进一步确认”或省略该细节，不要补全。
-4. 数字必须能在简历或附件中找到原文依据；找不到就不要写这个数字。
+3. 绝对禁止编造：出生年份、籍贯、学校、专业、毕业时间、公司名、岗位、任职年限、站点、模式、品类、GMV、销量、ACOS、ROI、薪资架构、期望底薪、离职原因、感情状况。材料没有就写“需进一步确认”或自然省略，不要补全。
+4. 数字必须能在简历、面试总结或附件中找到原文依据；找不到就不要写这个数字。
 5. 若附件是 OCR 图片识别结果，可能有错字/乱码；只采用语义通顺、能与简历交叉验证的信息，忽略明显乱码。
-6. 通过/未通过必须以面试官总结或附件结论为准，不得自行改判。面试官说不合适/pass/一般不推进，就必须写未通过。
+6. 通过/未通过必须以面试官总结或附件结论为准，不得自行改判。面试官说不合适/pass/一般不推进，就必须写未通过；有“待确认薪资”等补充说明时，标题里保留。
 7. 面试轮次：明确 HR 面写“HR一面”；明确部门二面写“部门二面”；其余默认“部门一面”。
-8. 标题岗位优先用应聘/锚定岗位；若面试总结明确写了站点/方向（如英国站、美区），括号补上。
+8. 标题格式必须是：姓名-岗位名称-面试轮次结果。岗位优先用应聘/锚定岗位；可按面试习惯简写（如 TikTok运营助理→tk运营助理、Coupang运营专员→coupang运营专员），但含义要准确。
 9. 姓名优先用事实锚点/简历；无法确认写“候选人”。
-10. 优势/不足必须具体到平台、站点、品类、职责或数据，禁止空话。每条尽量对应简历或面试中的真实点。
-11. 面试评价、综合评价、部门反馈三者结论必须一致（都通过或都未通过），原因口径一致。
-12. 相关业绩优先写 2-4 条“可验证短句”，有数据就写数据，没有就写职责事实，不要写虚词。
-13. 离职原因：面试总结/附件有就转写正式表述；没有就写“需进一步确认”，不要臆造。
+10. 基本情况写成一行，用顿号/逗号串联：出生年份、籍贯（如有）、大学名称、毕业年份+专业、相关工作经验年限；有恋爱/结婚等且面试总结明确提及时可写入，无则不要编。
+11. 最近任职公司写成一行，依次覆盖：公司名称、任职岗位、任职年限、关键业务事实（品类/销量等有则写）、离职原因或在职状态；薪资架构；期望底薪。没有的字段写“需进一步确认”。
+12. 优势、不足写成连贯段落（不要列表符号），每段 2-4 句，具体到平台、职责或数据，禁止空话。
+13. 岗位匹配情况写成一段：先写面试结论，再写匹配点与风险（能力/经验/薪资等），口径必须与标题结论一致。
 14. 语言正式、短句、像 HR 手写存档，不要 AI 套话（赋能/闭环/抓手/沉淀/卓越/较大发展潜力等）。
 
 【必须输出结构】
-姓名｜岗位名称（站点/方向，如有）｜面试轮次（通过/未通过）
-基本情况
-毕业院校：
-专业：
-毕业时间：
-最近任职公司：
-负责站点/模式：
-主营品类：
-相关业绩：
-（2-4 条，分号结尾）
-离职原因：
-面试评价
-（一段：先匹配点，后短板/风险，结论清晰）
+姓名-岗位名称-面试轮次结果
+基本情况：……
+最近任职公司：……；薪资架构：……，期望底薪……
 优势
-（3 条左右，每条一行）
+……
 不足
-（3 条左右，每条一行）
-综合评价
-（一段：是否推进，理由与上文一致）
-部门反馈
-（1-2 句：直接写结论+核心原因）
+……
+岗位匹配情况：……
 
 参考格式：
-张璇｜亚马逊运营专员（英国站）｜HR一面（未通过）
-基本情况
-毕业院校：华中师范大学
-专业：朝鲜语、心理学（双学位本科）
-毕业时间：2023年
-最近任职公司：杭州巨星科技有限公司
-负责站点/模式：亚马逊英国站，VC模式
-主营品类：巨星科技负责五金、户外灯具等多个类目；上一家公司杭州小简网络科技有限公司负责袜子类目。
-相关业绩：
-独立负责精品运营全流程，从选品、打样、备货到推广及库存管理；
-打造季节性产品，黑五期间单日销量突破2万件（6双装约12万双），长期稳定在小类前三；
-在职期间整体GMV约900万美元，黑五项目单链接销售额突破100万美元，核心链接ACOS稳定控制在20%左右。
-离职原因：最近一份工作因公司为传统制造企业，个人发展及晋升空间有限，希望寻求更大的成长平台。
-面试评价
-候选人具备精品运营经验，能够独立负责产品运营全流程，对英国站VC模式较为熟悉，运营基础较扎实。但整体经历以多类目、多站点运营为主，岗位匹配度一般。
-优势
-具备精品运营全流程经验，熟悉选品、推广、广告优化及库存管理。
-有打造爆款及大型促销项目经验，数据表现较好。
-本科双学位背景，学习能力及综合素质较好，沟通表达能力不错。
-不足
-过往负责多个站点及多个类目运营，精细化运营深度不足。
-缺少持续深耕单一类目、单一站点的运营成果，与公司当前岗位要求存在一定差距。
-最近工作为VC模式运营，与公司现有业务模式匹配度一般。
-综合评价
-候选人运营基础较好，具备一定精品运营能力和项目经验，但由于长期以多站点、多类目运营为主，在精细化运营方面优势不够突出，与当前岗位需求匹配度一般，因此不建议进入下一轮。
-部门反馈
-HR一面未通过。 候选人以多站点、多类目运营经验为主，缺乏单一站点、单一类目的精细化运营经验，与公司岗位需求存在一定差距，因此不予推进后续面试。
+任佳妮-coupang运营专员-部门二面通过（待确认薪资）
+基本情况：1998年，有男朋友，韩国世宗大学，22年酒店管理本科毕业，1.5年coupang运营经验
+最近任职公司：杭州易博达科技有限公司，coupang运营专员岗位，任职1.5年，目前在职，大件家具类，月销最高9000w韩币；离职原因：coupang平台不盈利转国内抖音，期望深耕coupang平台；薪资架构：10k底薪+绩效，期望底薪12k
+优势：具备Coupang精品店0-1全链路运营经验，可独立完成从产品上架到售后的运营工作。广告投放与优化能力突出，广告花费占比由30%优化至20%以内，曝光提升1000%。有韩国5年留学背景，韩语流利，熟悉韩国消费习惯，可自主对接本土达人并降低合作成本。
+不足：过往运营产品毛利率偏低，扣除广告后毛利率在10%以内，单产品盈利优化能力需进一步验证。底薪要求过高，与公司现有薪资水平存在差距。Coupang运营经验约1.5年，业务体量数据有限，运营规模需进一步确认。
+岗位匹配情况：候选人部门二面通过。具备Coupang平台实操经验，熟悉韩国市场，有站内广告投放、Listing优化、库存物流及站外达人营销等全链路运营能力，岗位匹配度较高。但过往产品毛利率偏低，单产品盈利优化能力有待验证，且底薪要求过高，薪资匹配存在风险，需结合在职人员薪资情况进一步沟通。
 
 【事实锚点（辅助，勿编造）】
 ${limitText(factAnchor, 4000)}
@@ -1417,7 +1383,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
           return;
         }
         if (!apiKey) {
-          reportStatus.textContent = '网址里没有检测到 DeepSeek Key，无法生成纪要。';
+          reportStatus.textContent = '网址里没有检测到 DeepSeek Key，无法生成反馈。';
           return;
         }
         if (!cached?.analysis) {
@@ -1427,7 +1393,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
 
         reportBtn.disabled = true;
         reportBtn.textContent = '生成中...';
-        reportStatus.textContent = attachFile ? `正在读取附件「${attachFile.name}」，并结合简历和面试总结生成纪要...` : '正在高精准结合简历和面试总结生成纪要...';
+        reportStatus.textContent = attachFile ? `正在读取附件「${attachFile.name}」，并结合简历和面试总结生成反馈...` : '正在高精准结合简历和面试总结生成反馈...';
 
         try {
           let attachmentText = '';
@@ -1438,25 +1404,25 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
             if (!attachmentText) {
               throw new Error('附件内容为空，请换一份可提取文字的 PDF / Word / TXT / 清晰图片。');
             }
-            reportStatus.textContent = '附件已读取，正在高精准生成面试纪要...';
+            reportStatus.textContent = '附件已读取，正在高精准生成面试反馈...';
           }
 
           const prompt = buildInterviewReportPrompt(cached.analysis, cached.resumeText || '', interviewSummary, attachmentText, attachFile?.name || '', cached);
           const report = await callDeepSeek(apiKey, prompt, {
             json: false,
             temperature: 0.05,
-            system: '你是公司内部资深 HR。任务是输出高精准面试纪要：只写有材料依据的事实和判断；禁止编造学校、公司、站点、业绩数字、离职原因；通过/未通过严格服从面试官结论；面试评价、综合评价、部门反馈三者结论必须一致；严格按指定结构输出，不要 AI 套话。',
+            system: '你是公司内部资深 HR。任务是输出高精准面试反馈：标题为「姓名-岗位-面试轮次结果」；正文仅含基本情况、最近任职公司（含薪资）、优势、不足、岗位匹配情况。只写有材料依据的事实和判断；禁止编造学校、公司、薪资、业绩数字、离职原因；通过/未通过严格服从面试官结论；岗位匹配情况必须与标题结论一致；严格按指定结构输出，不要 Markdown，不要 AI 套话。',
           });
           reportOutput.textContent = report;
           reportOutput.classList.add('active');
           if (copyBtn) copyBtn.classList.add('active');
           saveInterviewReportCache(interviewSummary, report);
-          reportStatus.textContent = attachFile ? `纪要已生成（已参考附件：${attachFile.name}）。` : '纪要已生成。';
+          reportStatus.textContent = attachFile ? `反馈已生成（已参考附件：${attachFile.name}）。` : '反馈已生成。';
         } catch (error) {
           reportStatus.textContent = formatResumeError(error);
         } finally {
           reportBtn.disabled = false;
-          reportBtn.textContent = '生成面试纪要';
+          reportBtn.textContent = '生成面试反馈';
         }
       }
 
@@ -1495,7 +1461,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
         reportOutput.textContent = cached.report;
         reportOutput.classList.add('active');
         if (copyBtn) copyBtn.classList.add('active');
-        if (reportStatus) reportStatus.textContent = '已恢复上次生成的面试纪要。';
+        if (reportStatus) reportStatus.textContent = '已恢复上次生成的面试反馈。';
       }
 
       async function copyInterviewReport() {
@@ -1504,7 +1470,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
         const reportOutput = document.getElementById('interviewReportOutput');
         const text = reportOutput?.textContent?.trim();
         if (!text) {
-          if (reportStatus) reportStatus.textContent = '还没有可复制的面试纪要。';
+          if (reportStatus) reportStatus.textContent = '还没有可复制的面试反馈。';
           return;
         }
 
@@ -1522,7 +1488,7 @@ ${limitText(attachmentText || '未上传附件。', 16000)}`;
             document.body.removeChild(textarea);
           }
           if (copyBtn) copyBtn.textContent = '已复制';
-          if (reportStatus) reportStatus.textContent = '面试纪要已复制到剪贴板。';
+          if (reportStatus) reportStatus.textContent = '面试反馈已复制到剪贴板。';
           setTimeout(() => {
             if (copyBtn) copyBtn.textContent = '一键复制';
           }, 1600);
